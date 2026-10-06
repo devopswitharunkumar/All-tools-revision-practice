@@ -24,5 +24,5 @@
 
   - name: Another task outside the block
     ansible.builtin.debug:
-      msg: "Back to normal. Current mode is {{ name }}"
-      # OUTPUT: "Back to normal. Current mode is Arun"
+      msg: "Back to normal. Current value is play value{{ name }}"
+      # OUTPUT: "Back to normal. Current value is Arun"
