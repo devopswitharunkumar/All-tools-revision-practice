@@ -1,8 +1,6 @@
 - name: variables from task level 
   hosts: practice
   become: true 
-  vars:
-      package_name: "nginx"
   tasks:
   - name: "Install {{package_name}}"
     vars:
@@ -18,3 +16,5 @@
       name: "{{package_name}}"
       state: started 
       enabled: true 
+  
+#we must define the variable an value for every task if we mentin dynamic variable it wont take even though the same variable name as other task me must specify at task level or we have to defin at play level or others then only it will take 
