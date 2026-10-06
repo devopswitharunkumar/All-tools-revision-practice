@@ -5,6 +5,7 @@
   - name: getting info about user 
     ansible.builtin.shell: id roboshop
     register: result
+    ignore_errors: true
   
   - name: Print info about user 
     ansible.builtin.debug: 
