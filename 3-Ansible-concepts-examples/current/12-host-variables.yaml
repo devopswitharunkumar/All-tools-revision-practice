@@ -1,4 +1,4 @@
-- name: variables from play-level
+- name: variables from host-vars-level
   hosts: practice
   become: true 
   tasks:
