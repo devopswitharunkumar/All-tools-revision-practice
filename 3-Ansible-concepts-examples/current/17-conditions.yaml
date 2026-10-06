@@ -26,20 +26,20 @@
   - name: AND comparision
     ansible.builtin.debug:
       msg: "Hi this is AND comparision"
-    when: stringcomparison == "Arun" and numericcomparison == 5
+    # when: stringcomparison == "Arun" and numericcomparison == 5
     # or 
-    # when:
-    # - stringcomparison == "Arun"  
-    # - numericcomparison == 0
+    when:
+    - stringcomparison == "Arun"  
+    - numericcomparison == 0
 
   - name: OR comparision
     ansible.builtin.debug:
       msg: "Hi this is OR comparision"
-    when: stringcomparison == "Arun" or numericcomparison == 1
+    # when: stringcomparison == "Arun" or numericcomparison == 1
     # or
-    # when >
-    #   stringcomparison == "Arun"
-    #   numericcomparison == 1
+    when: >
+      stringcomparison == "kumar"
+      numericcomparison == 1
 
   - name: Both AND and OR combination
     ansible.builtin.debug:
