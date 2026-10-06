@@ -4,7 +4,7 @@
   vars:
     name: "Arun"
   tasks:
-  - name: general info 
+  - name: general info outside block
     ansible.builtin.debug:
       msg: "Hi My name is {{name}}"
   
@@ -17,11 +17,11 @@
       ansible.builtin.debug:
         msg: "Hi My name is {{name}}"
     
-    - name: general info 
+    - name: general info from block level and task 2
       ansible.builtin.debug:
         msg: "learning {{course}}"
   #end of block variables 
-  
+
   - name: Another task outside the block
     ansible.builtin.debug:
       msg: "Back to normal. Current mode is {{ name }}"
