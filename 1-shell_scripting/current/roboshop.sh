@@ -17,8 +17,8 @@ do
     else
         instance_type= "t2.micro"
     fi
-    ip_address=$(aws ec2 run-instances --image-id $ami_id --instance-type "$instance_type" --security-group-ids "$sg_id" --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=${i}}]' --query 'Instances[0].privateIPAddress' -output text)
-    echo "'$i : $ip_address"
+    ip_address=$(aws ec2 run-instances --image-id $ami_id --instance-type "$instance_type" --security-group-ids "$sg_id" --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=${i}}]' --query 'Instances[0].privateIPAddress' --output text)
+    echo "$i : $ip_address"
 
     aws route53 change-resource-record-sets \
         --hosted-zone-id $ZONE_ID \
@@ -39,8 +39,7 @@ do
                 }
             }
             ]
-        }'
-
-
+        }
+        '
 done 
 
