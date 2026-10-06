@@ -1,4 +1,4 @@
-- name: variables from prompt level 
+- name: variables from inventory file level 
   hosts: practice
   become: true 
   tasks:
