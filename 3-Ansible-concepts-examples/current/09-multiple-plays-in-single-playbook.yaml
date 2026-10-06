@@ -27,11 +27,6 @@
       name: "{{package_name}}"
       state: present
 
-  - name: "Run {{package_name}}"
-    ansible.builtin.service:
-      name: "{{package_name}}"
-      state: started 
-      enabled: true 
 
 - name: variables from play3
   hosts: practice
