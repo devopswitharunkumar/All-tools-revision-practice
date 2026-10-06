@@ -16,7 +16,7 @@
       Cloud: 2
   tasks:
   - name: String type 
-    ansibl.builtin.debug:
+    ansible.builtin.debug:
       msg: "Hi this from String data types {{name}}"
   - name: Numeric and float data-types 
     ansible.builtin.debug:
