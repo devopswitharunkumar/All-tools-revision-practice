@@ -1,0 +1,20 @@
+- name: variables from prompt level 
+  hosts: practice
+  become: true 
+  vars_prompt:
+  - name: package_name
+    prompt: "Pls enter ur packahe name"
+    private: false     #hides the input if we give true 
+  tasks:
+  - name: "Install {{package_name}}"
+    ansible.builtin.dnf:
+      name: "{{package_name}}"
+      state: present
+
+  - name: "Run {{package_name}}"
+    ansible.builtin.service:
+      name: "{{package_name}}"
+      state: started 
+      enabled: true 
+
+#Run : ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 -e package_name=nginx 06-variables-from-prompt-level.yaml
