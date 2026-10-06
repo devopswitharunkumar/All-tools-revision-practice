@@ -11,7 +11,7 @@
 
   - name: "Run {{package_name}}"
     vars:
-      package_name
+      package_name: "nginx"
     ansible.builtin.service:
       name: "{{package_name}}"
       state: started 
