@@ -1,7 +1,7 @@
-- name: variables from task level 
+- name: variables from variables file level 
   hosts: practice
   become: true 
-  vars_file:
+  vars_files:
     variables.yaml
   tasks:
   - name: "Install {{package_name}}"
