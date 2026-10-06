@@ -24,7 +24,7 @@
 # map/dictionary type loop 
   - name: map type loop 
     ansible.builtin.debug:
-      msg: "My name is {{item.name}}"
+      msg: "My name is {{item.name}} ans age is {{item.age}}"
       # msg2: "My age is {{item.age}}"
     loop:
     - {name: 'Arun', age: 23}
