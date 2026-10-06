@@ -1,7 +1,6 @@
 - name: variables from prompt level 
   hosts: practice
   become: true 
-
   tasks:
   - name: "Install {{package_name}}"
     ansible.builtin.dnf:
@@ -14,4 +13,4 @@
       state: started 
       enabled: true 
 
-#Run : ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 -e package_name=nginx 06-variables-from-prompt-level.yaml
+#Run : ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 -e package_name=nginx 07-variables-from-cmd-line-args.yaml
