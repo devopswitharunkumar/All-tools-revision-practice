@@ -4,7 +4,7 @@
   tasks:
   - name: Get the system info
     ansible.builtin.debug:
-      msg: "this server belongs to {{ansible_facts['os_family']}} family"
+      msg: "this server belongs to {{ansible_facts['os_family']}} family and {{ansible_facts['distribution']}} and ansible_facts['hostname'] and {{ansible_facts['env']}} and {{ansible_facts['date_time']}}"
   
   
   
