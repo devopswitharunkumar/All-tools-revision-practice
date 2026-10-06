@@ -14,7 +14,7 @@
   - name: numeric comparision
     ansible.builtin.debug:
       msg: "Hi this is {{numericcomparison}} and from numeric comparision"
-    when: numericcomparison == 0
+    when: numericcomparison == 5
 
 #in numeric comparision we have =, !=, > , < , >= , <= 
 
@@ -26,7 +26,7 @@
   - name: AND comparision
     ansible.builtin.debug:
       msg: "Hi this is AND comparision"
-    when: stringcomparison == "Arun" and numericcomparison == 0
+    when: stringcomparison == "Arun" and numericcomparison == 5
     # or 
     # when:
     # - stringcomparison == "Arun"  
@@ -46,4 +46,4 @@
       msg: "Hi this is AND and OR combination"
     when: 
     - stringcomparison == "Arun"
-    - (numericcomparison == 0 or booleancomparison)
+    - (numericcomparison == 5 or booleancomparison)
