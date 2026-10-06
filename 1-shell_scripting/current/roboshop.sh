@@ -18,17 +18,17 @@ do
         instance_type= "t2.micro"
     fi
     ip_address=$(aws ec2 run-instances --image-id $ami_id --instance-type "$instance_type" --security-group-ids "$sg_id" --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=$i}]' --query 'Instances[0].privateIPAddress' --output text)
-    echo "$i : $ip_address"
+    echo "$i : ${ip_address}"
 
     aws route53 change-resource-record-sets \
-        --hosted-zone-id $ZONE_ID \
+        --hosted-zone-id "$ZONE_ID" \
         --change-batch '{
             "Comment": "Creating an A record for my web server",
             "Changes": [
             {
-                "Action": "UPSERT",             #--ignore already exists or update -- CREATE -- create the record
+                "Action": "UPSERT",
                 "ResourceRecordSet": {
-                "Name": "$i'.'$Domain_name",
+                "Name": "$i.$Domain_name",
                 "Type": "A",
                 "TTL": 1,
                 "ResourceRecords": [
@@ -39,7 +39,7 @@ do
                 }
             }
             ]
-        }
-        '
+        }'
+
 done 
 
