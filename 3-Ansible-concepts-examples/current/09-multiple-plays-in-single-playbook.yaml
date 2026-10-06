@@ -1,0 +1,51 @@
+- name: variables from play1
+  hosts: practice
+  become: true 
+  vars:
+    package_name: "nginx"
+  tasks:
+  - name: "Install {{package_name}}"
+    ansible.builtin.dnf:
+      name: "{{package_name}}"
+      state: present
+
+  - name: "Run {{package_name}}"
+    ansible.builtin.service:
+      name: "{{package_name}}"
+      state: started 
+      enabled: true 
+
+
+- name: variables from play2
+  hosts: practice
+  become: true 
+  vars:
+    package_name: "git"
+  tasks:
+  - name: "Install {{package_name}}"
+    ansible.builtin.dnf:
+      name: "{{package_name}}"
+      state: present
+
+  - name: "Run {{package_name}}"
+    ansible.builtin.service:
+      name: "{{package_name}}"
+      state: started 
+      enabled: true 
+
+- name: variables from play3
+  hosts: practice
+  become: true 
+  vars:
+    package_name: "mysql-server"
+  tasks:
+  - name: "Install {{package_name}}"
+    ansible.builtin.dnf:
+      name: "{{package_name}}"
+      state: present
+
+  - name: "Run {{package_name}}"
+    ansible.builtin.service:
+      name: "{{package_name}}"
+      state: started 
+      enabled: true 
