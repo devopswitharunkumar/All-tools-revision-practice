@@ -14,3 +14,7 @@
       enabled: true 
 
 #Run : ansible-playbook -i inventory.ini -e ansible_user=ec2-user -e ansible_password=DevOps321 08-variables-from-inventory-file.yaml
+
+# [practice:vars]                             #or all by default in place of practice
+# package_name= "nginx"
+#mention the above line in inventory file  --> practice -- host/servername or put all for [all:vars] servers if variables needed 
