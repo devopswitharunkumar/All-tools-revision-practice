@@ -6,7 +6,8 @@
     - chili
     - argentina 
     - asia  
-  tasks:
+  tasks:      # list type loop 
+    #directly giveing loop values in a task is 1 way 
   - name: install packages 
     ansible.builtin.debug:
       msg: " Hi this is {{item}}"
@@ -14,10 +15,16 @@
     - Arun
     - kumar 
     - reddy
-
+    #another way that we can give the list of variable at play level and iterate using that refer name that is 2nd way 
   - name: play level loop 
     ansible.builtin.debug:
       msg: "Hi this is {{item}}"
     loop: "{{packages}}"
 
-
+# map/dictionary type loop 
+  - name: map type loop 
+    ansible.builtin.debug:
+      msg1: "{{item}}"
+    loop:
+    - {name: 'Arun', age: 23}
+    - {name: 'kumar', age: 28"}
