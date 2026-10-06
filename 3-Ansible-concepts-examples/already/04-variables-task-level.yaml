@@ -1,0 +1,25 @@
+- name: nginx with ynamic variables
+  hosts: web 
+  become: true   
+  tasks:
+  - name: "install {{package_name}}"
+    vars:
+      package_name= "nginx"
+      state="present"
+    ansibl.built-in.dnf:
+      name: "{{package_name}}"
+      state: "{{state}}" 
+
+  - name: "run {{package_name}}"
+    ansible.built-in.service:
+      name: "{{package_name}}"
+      state: started 
+      enabled: true 
+      
+  - name: General info msg 
+    vars: 
+      course="DevOps"
+    ansibl.built-in.debug:
+      msg:"Hi Im learning {{course}}"
+
+#Run : ansible-playbook -i inventory.ini -e ansible_user="ec2-user" -e "ansible_password="DevOps321 04-variables-task-level.yaml

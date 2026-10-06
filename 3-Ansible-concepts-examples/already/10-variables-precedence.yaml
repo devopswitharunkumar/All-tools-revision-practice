@@ -1,0 +1,20 @@
+- name: variables precidence 
+  hosts: web 
+  become: yes 
+  vars:             # play level 
+    name= "name from play level"
+    course= "course from play level" 
+  
+  tasks:
+  - name: General message 1
+    ansible.built-in.dnf: 
+      msg: "Hi {{name}}, Learning {{course}}"
+
+  - name: General message 2
+    vars: 
+      name= "name from task level"
+      course="course from task level"
+    ansible.built-in.service:
+      msg: "Hi {{name}}, Learning {{course}}"
+  
+#While running give variables for command line ars and prompt level

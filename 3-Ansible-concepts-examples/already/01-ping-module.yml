@@ -1,0 +1,14 @@
+#To check network connectivity of ur local hosts:
+- name: ping module
+  hosts: localhost 
+  tasks:
+  - name: ping the google
+    ansible.built-in.ping:
+
+#To check network connectivity of outside host from ur hosts:
+- name: ping module
+  hosts: localhost 
+  tasks:
+  - name: ping the google
+    ansible.built-in.command:  ping -c 3 google.com
+      #it will sned 3 request and stop if we dont mention -c 3 it will do ping continuously 

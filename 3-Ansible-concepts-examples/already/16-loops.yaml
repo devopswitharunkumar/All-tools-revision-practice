@@ -1,0 +1,11 @@
+- name: install multiple services
+  hosts: web 
+  become: true 
+  tasks:
+  - name: install packages
+    ansible.builtin.dnf:
+      name: "{{item.name}}"
+      state: "{{item.state}}"
+    loop:
+    - {name: 'nginx', state: 'present'}
+    - {name: 'git', state: 'present'}

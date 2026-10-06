@@ -1,0 +1,19 @@
+- name: variables from inventory 
+  hosts: web 
+  become: true 
+    #no need to mention inventory file where we gave variables values it will pick automatically 
+  tasks:
+  - name: "Install {{package_name}}"
+    ansibl.built-in.dnf:
+      name: "{{package_name}}"
+      state: "{{state}}"
+  - name: run nginx 
+    ansible.built-in.service:
+      name: "{{package_name}}"
+      state: started 
+      enabled: true 
+  - name: General info msg
+    ansibl.built-in.debug:
+      msg: "Hi this is {{name}} and learning {{course}}" 
+
+#Run : ansible-playbook -i inventory.ini -e ansible_user="ec2-user" -e ansible_password="DevOps321" 08-variables-from-inventory-file.yaml
