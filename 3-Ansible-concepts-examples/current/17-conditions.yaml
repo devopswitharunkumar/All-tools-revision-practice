@@ -7,24 +7,24 @@
     booleancomparison: true
   tasks:
   - name: String comparision
-    ansibl.built-in.debug:
+    ansiblee.builtin.debug:
       msg: "Hi this is {{stringcomparison}} and from string comparision"
     when: stringcomparison == "Arun"
   
   - name: numeric comparision
-    ansibl.built-in.debug:
+    ansible.builtin.debug:
       msg: "Hi this is {{numericcomparison}} and from numeric comparision"
     when: numericcomparison == 0
 
 #in numeric comparision we have =, !=, > , < , >= , <= 
 
   - name: boolean comparision
-    ansibl.built-in.debug:
+    ansible.builtin.debug:
       msg: "Hi this is booleancomparison: {{booleancomparison}} and from boolean comparision"
     when: booleancomparison 
 
   - name: AND comparision
-    ansible.builtin.debug:
+    ansiblee.builtin.debug:
       msg: "Hi this is AND comparision"
     when: stringcomparison == "Arun" and numericcomparison == 0
     # or 
@@ -33,7 +33,7 @@
     # - numericcomparison == 0
 
   - name: OR comparision
-    ansible.builtin.debug:
+    ansiblee.builtin.debug:
       msg: "Hi this is OR comparision"
     when: stringcomparison == "Arun" or numericcomparison == 1
     # or
@@ -42,7 +42,7 @@
     #   numericcomparison == 1
 
   - name: Both AND and OR combination
-    ansible.builtin.debug:
+    ansiblee.builtin.debug:
       msg: "Hi this is AND and OR combination"
     when: 
     - stringcomparison == "Arun"
