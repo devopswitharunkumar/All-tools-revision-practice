@@ -11,7 +11,7 @@ Instances=("mongodb" "redis" "mysql" "rabbitmq" "catalogue" "cart" "user" "shipp
 
 for i in "${Instances[@]}"
 do 
-    if [ i == "mongodb" ] || [ i ==shipping ] || [ i = mysql ]
+    if [ $i == "mongodb" ] || [ $i ==shipping ] || [ $i = mysql ]
     then 
         instance_type= "t3.medium"
     else
@@ -28,12 +28,12 @@ do
             {
                 "Action": "UPSERT",             #--ignore already exists or update -- CREATE -- create the record
                 "ResourceRecordSet": {
-                "Name": '$i'.'$Domain_name',
+                "Name": "$i'.'$Domain_name",
                 "Type": "A",
                 "TTL": 1,
                 "ResourceRecords": [
                     {
-                    "Value": "'$ip_address'"
+                    "Value": "$ip_address"
                     }
                 ]
                 }
