@@ -7,7 +7,7 @@
     booleancomparison: true
   tasks:
   - name: String comparision
-    ansiblee.builtin.debug:
+    ansible.builtin.debug:
       msg: "Hi this is {{stringcomparison}} and from string comparision"
     when: stringcomparison == "Arun"
   
