@@ -1,0 +1,22 @@
+- name: loops 
+  hosts: practice
+  become: true
+  vars:
+    packages:
+    - chili
+    - argentina 
+    - asia  
+  tasks:
+  - name: install packages 
+    ansible.builtin.debug:
+      msg: " Hi this is {{item}}"
+    loop:
+    - Arun
+    - kumar 
+    - reddy
+
+  - name: play level loop 
+    ansible.builtin.debug:
+      msg: "Hi this is {{packages}}"
+
+
