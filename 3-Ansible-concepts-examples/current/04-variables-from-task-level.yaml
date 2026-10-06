@@ -1,6 +1,8 @@
 - name: variables from task level 
   hosts: practice
   become: true 
+  vars:
+      package_name: "nginx"
   tasks:
   - name: "Install {{package_name}}"
     vars:
