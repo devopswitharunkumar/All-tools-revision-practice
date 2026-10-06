@@ -1,0 +1,14 @@
+- name: variables from play-level
+  hosts: practice
+  become: true 
+  tasks:
+  - name: "Install {{package_name}}"
+    ansible.builtin.dnf:
+      name: "{{package_name}}"
+      state: present
+
+  - name: "Run {{package_name}}"
+    ansible.builtin.service:
+      name: "{{package_name}}"
+      state: started 
+      enabled: true 
