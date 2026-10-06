@@ -38,7 +38,7 @@
     # when: stringcomparison == "Arun" or numericcomparison == 1
     # or
     when: >
-      stringcomparison == "kumar"
+      stringcomparison == "kumar" or
       numericcomparison == 1
 
   - name: Both AND and OR combination
