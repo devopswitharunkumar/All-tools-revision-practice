@@ -1,0 +1,21 @@
+- name: checking whether user exists or not 
+  hosts: practice
+  become: true 
+  tasks: 
+  - name: getting info about user 
+    ansible.builtin.shell: id roboshop
+    register: result
+  
+  - name: Print info about user 
+    ansible.builtin.debug: 
+      msg: "User info is {{result.rc}}"
+    
+  - nme: Create user if not exists
+    ansible.builtin.user:
+      name: roboshop
+      state: present 
+    when: result.rc == 0
+    
+  
+  
+  

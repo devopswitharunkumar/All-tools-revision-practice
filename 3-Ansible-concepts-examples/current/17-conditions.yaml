@@ -30,7 +30,7 @@
     # or 
     when:
     - stringcomparison == "Arun"  
-    - numericcomparison == 0
+    - numericcomparison == 5
 
   - name: OR comparision
     ansible.builtin.debug:
@@ -38,7 +38,7 @@
     # when: stringcomparison == "Arun" or numericcomparison == 1
     # or
     when: >
-      stringcomparison == "kumar" or
+      stringcomparison == "Arun" or
       numericcomparison == 1
 
   - name: Both AND and OR combination
