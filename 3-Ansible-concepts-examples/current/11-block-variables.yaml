@@ -1,0 +1,28 @@
+- name: block variables
+  hosts: practice
+  become: true 
+  vars:
+    name: "Arun"
+  tasks:
+  - name: general info 
+    ansible.builtin.debug:
+      msg: "Hi My name is {{name}}"
+  
+  - name: starting the block level
+    vars: 
+        name: "Kumar-block-level"
+        course: "DevOps"
+    block: 
+    - name: general info from block level and task 1
+      ansible.builtin.debug:
+        msg: "Hi My name is {{name}}"
+    
+    - name: general info 
+      ansible.builtin.debug:
+        msg: "learning {{course}}"
+  #end of block variables 
+  
+  - name: Another task outside the block
+    ansible.builtin.debug:
+      msg: "Back to normal. Current mode is {{ name }}"
+      # OUTPUT: "Back to normal. Current mode is Arun"
