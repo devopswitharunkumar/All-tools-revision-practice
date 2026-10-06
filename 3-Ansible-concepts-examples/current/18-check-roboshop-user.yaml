@@ -15,7 +15,7 @@
     ansible.builtin.user:
       name: roboshop
       state: present 
-    when: result.rc == 0
+    when: result.rc != 0
 
   
   
