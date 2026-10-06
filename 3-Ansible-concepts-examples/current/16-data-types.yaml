@@ -1,0 +1,29 @@
+- name: data-types playbook
+  hosts: practice
+  become: true 
+  vars: 
+    name: "Arun"
+    relatedExp: 2
+    total: 4.5
+    indian: true 
+    skills:
+    - Java
+    - DevOps
+    - cloud
+    Experience:
+      DevOps: 2
+      Java: 1
+      Cloud: 2
+  tasks:
+  - name: String type 
+    ansibl.builtin.debug:
+      msg: "Hi this from String data types {{name}}"
+  - name: Numeric and float data-types 
+    ansible.builtin.debug:
+      msg: "Arun's total Experience is {{total}} and he has {{relatedExp}} years of Experience in DevOps and he is an indian :{{indian}}"
+  - name: list type 
+    ansible.builtin.debug:
+      msg: "He has skills like {{skills}}"
+  - name: map type 
+    ansible.builtin.debug:
+      msg: "He has Experience in {{Experience}}"
