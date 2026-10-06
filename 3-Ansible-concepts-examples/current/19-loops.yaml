@@ -17,6 +17,7 @@
 
   - name: play level loop 
     ansible.builtin.debug:
-      msg: "Hi this is {{packages}}"
+      msg: "Hi this is {{item}}"
+    loop: "{{packages}}"
 
 
