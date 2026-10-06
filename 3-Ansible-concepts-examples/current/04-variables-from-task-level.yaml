@@ -10,8 +10,8 @@
       state: present
 
   - name: "Run {{package_name}}"
-    vars:
-      package_name: "nginx"
+    # vars:
+    #   package_name: "nginx"
     ansible.builtin.service:
       name: "{{package_name}}"
       state: started 
