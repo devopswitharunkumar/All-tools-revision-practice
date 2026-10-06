@@ -24,7 +24,7 @@
     when: booleancomparison 
 
   - name: AND comparision
-    ansiblee.builtin.debug:
+    ansible.builtin.debug:
       msg: "Hi this is AND comparision"
     when: stringcomparison == "Arun" and numericcomparison == 0
     # or 
@@ -33,7 +33,7 @@
     # - numericcomparison == 0
 
   - name: OR comparision
-    ansiblee.builtin.debug:
+    ansible.builtin.debug:
       msg: "Hi this is OR comparision"
     when: stringcomparison == "Arun" or numericcomparison == 1
     # or
@@ -42,7 +42,7 @@
     #   numericcomparison == 1
 
   - name: Both AND and OR combination
-    ansiblee.builtin.debug:
+    ansible.builtin.debug:
       msg: "Hi this is AND and OR combination"
     when: 
     - stringcomparison == "Arun"
