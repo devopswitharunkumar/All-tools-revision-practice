@@ -30,7 +30,7 @@
       dest: /tmp/shipping.zip
   
   - name: unzip the shipping code 
-    ansible.builtin.unarchieve:
+    ansible.builtin.unarchive:
       src: /tmp/shipping.zip
       dest: /app
   
