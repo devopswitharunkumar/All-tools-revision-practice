@@ -1,0 +1,78 @@
+- name: user
+  hosts: user 
+  become: true 
+  tasks: 
+  - name: enable and disable the existing nodejs 
+    ansible.builtin.dnf: dnf module disable nodejs -y; dnf module enable nodejs:18 -y 
+
+  - name: install nodejs 
+    ansible.builtin.package:
+      name: nodejs 
+      state: present
+  
+  - name: create user if not exists
+    ansible.builtin.user:
+      name: roboshop
+      state: present 
+
+  - name: recursively remove a directory
+    ansible.builtin.file:
+      path: /app
+      state: absent
+  
+  - name: create directory
+    ansible.builtin.file: 
+      name: app
+      state: directory
+  
+  - name: download the user code 
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/user.zip
+      dest: /tmp/user.zip 
+  
+  - name: unzip user module 
+    ansible.builtin.unarchive:
+      src: /tmp/user.zip 
+      dest: /app 
+      remote_src: yes 
+  
+  - name: install dependencies
+    ansible.builtin.command: npm install 
+    args:
+      chdir: /app 
+  
+  - name: copy service file 
+    ansible.builtin.copy: 
+      src: user.service 
+      dest: /etc/systemd/system/user.service
+
+  - name: reload daemon 
+    ansible.builtin.systemd_service:
+      daemon_reload: true 
+  
+  - name: copy mongo repo file 
+    ansible.builtin.copy:
+      src: mongo.repo 
+      dest: /etc/yum.repos.d/mongo.repo
+  
+  - name: install mongodb
+    ansible.builtin.package:
+      name: mongodb-org-shell
+      state: present
+  
+  - name: check users count 
+    ansible.builtin.command: mongo --host mongodb.devopswitharun.online --query --eval 'db=db.getSiblings("users").db.users.count()'
+    register: users_count 
+
+  - name: print the count 
+    ansible.builtin.debug: 
+      msg: "users count is {{users_count}}"
+  
+  - name: load the users data 
+    ansibl.builtin.command: mongo --host mongodb.devopswitharun.online < /app/schema/user.js 
+
+  - name: Enable and start the service 
+    ansible.built-in.service:
+      name: user
+      state: restarted 
+      enable: true 

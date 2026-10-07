@@ -1,0 +1,61 @@
+- name: mysql
+  hosts: mysql
+  become: yes
+  tasks:
+  - name: disable mysql default version
+    ansible.builtin.command: dnf module disable mysql -y
+  
+  - name: setup mysql5.7 repo
+    ansible.builtin.copy:
+      src: mysql.repo
+      dest: /etc/yum.repos.d/mysql.repo
+  
+  - name: install yum utils
+    ansible.builtin.package:
+      name: yum-utils
+      state: present
+
+  - name: remove old downloaded rpm files
+    ansible.builtin.shell: rm -f *.rpm
+
+  - name: download mysql x86_64 rpms only
+    ansible.builtin.command: yumdownloader --archlist=x86_64 mysql-community-server mysql-community-client mysql-community-common mysql-community-libs
+  
+  - name: install ncurses compatibility libs
+    ansible.builtin.dnf:
+      name: ncurses-compat-libs
+      state: present
+
+  - name: install mysql server ignoring digest
+    ansible.builtin.shell: rpm -Uvh --nodigest --nofiledigest *.x86_64.rpm
+    register: mysql_install
+    failed_when: 
+      - mysql_install.rc != 0
+      - "'already installed' not in mysql_install.stderr"
+
+  - name: Start and enable mysql
+    ansible.builtin.service:
+      name: mysqld
+      state: started
+      enabled: yes
+
+  - name: get mysql temporary password
+    ansible.builtin.shell: grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}'
+    register: mysql_temp_password
+
+  - name: setup mysql root password
+    ansible.builtin.shell: mysql --connect-expired-password -uroot -p'{{mysql_temp_password.stdout}}' -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RoboShop@1';"
+    ignore_errors: yes
+
+  - name: allow remote root connection
+    ansible.builtin.command: mysql -uroot -pRoboShop@1 -e "CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'RoboShop@1';"
+    ignore_errors: yes
+
+  - name: grant permissions
+    ansible.builtin.command: mysql -uroot -pRoboShop@1 -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+    ignore_errors: yes
+
+  - name: restart mysql
+    ansible.builtin.service:
+      name: mysqld
+      state: restarted

@@ -1,0 +1,80 @@
+- name: shipping 
+  hosts: shipping 
+  become: true 
+  vars:
+    mysql_password: RoboShop@1
+  tasks:
+  - name: install maven for shipping module 
+    ansible.builtin.package:
+      name: maven
+      state: present
+  
+  - name: create user if not exists
+    ansible.builtin.user:
+      name: roboshop
+      state: present
+  
+  - name: recursively remove directory 
+    ansible.builtin.file:
+      name: /app
+      state: absent 
+  
+  - name: create app directory
+    ansible.builtin.file:
+      name: app 
+      state: directory
+  
+  - name: download shipping code 
+    ansible.builtin.get_url:
+      url: https://my-roboshop-files.s3.us-east-1.amazonaws.com/shipping.zip
+      dest: /tmp/shipping.zip
+  
+  - name: unzip the shipping code 
+    ansible.builtin.unarchieve:
+      src: /tmp/shipping.zip
+      dest: /app
+  
+  - name: install dependencies 
+    ansible.builtin.comman: mvn clean package 
+    args:
+      chdir: /app 
+
+  - name: moving target file
+    ansible.builtin.command: mv target/shipping-1.0.jar shipping.jar
+    args:   
+      chdir: /app
+
+  - name: copy shipping service file
+    ansible.builtin.copy:
+      src: shipping.service
+      dest: /etc/systemd/system/shipping.service
+
+  - name: Daemon reload
+    ansible.builtin.systemd_service:
+      daemon_reload: true
+
+  - name: install mysql
+    ansible.builtin.dnf:
+      name: mysql
+      state: present
+
+  - name: check cities schema exists or not
+    ansible.builtin.command:  mysql -h mysql.devopswitharun.online -uroot -p{{mysql_password}} -sN -e "SELECT COUNT(*) FROM INFORMATION_SCHEMA.SCHEMATA WHERE SCHEMA_NAME = 'cities'"
+    register: schema
+
+  - name: print output
+    ansible.builtin.debug:
+      msg: "schema output: {{schema}}"
+
+  - name: load cities data
+    ansible.builtin.shell: "mysql -h mysql.devopswitharun.online -p{{mysql_password}}  < /app/schema/shipping.sql"
+    when: schema.stdout != "1"
+
+  - name: start and enable shipping
+    ansible.builtin.service:
+      name: shipping
+      state: restarted
+      enabled: yes
+
+  
+

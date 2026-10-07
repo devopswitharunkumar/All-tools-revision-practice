@@ -1,0 +1,54 @@
+- name: web 
+  hosts: web 
+  tasks:
+  - name: install nginx for web 
+    ansible.builtin.package:
+      name: nginx 
+      state: present
+
+  - name: Enable and restart the service 
+    ansible.builtin.service:
+      name: nginx 
+      state: started 
+      enabled: true 
+  
+  - name: remove default html content 
+    ansible.builtin.find:
+      paths: /usr/share/nginx/html/
+      file_type: any 
+    register: files_to_delete 
+  
+  - name: print the variable
+    ansible.builtin.debug:
+      msg: "files to delete is {{files_to_delete}}"
+
+  - name: Delete the files 
+    ansible.builtin.file:
+      name: "{{item.path}}"
+      state: absent 
+    loop: "{{files_to_delete.files}}"
+
+  - name: print the variable
+    ansible.builtin.debug:
+      msg: "files to delete is {{files_to_delete.files}}"
+
+  - name: Downloading web zip file
+    ansible.builtin.get_url:
+      url: https://roboshop-builds.s3.amazonaws.com/web.zip
+      dest: /tmp/web.zip
+  
+  - name: unarchive web zip file
+    ansible.builtin.unarchive:
+      src: /tmp/web.zip
+      dest: /usr/share/nginx/html/
+      remote_src: yes
+  
+  - name: copying roboshop configuration file 
+    ansible.builtin.copy:
+      src: roboshop.conf
+      dest: /etc/nginx/default.d/roboshop.conf 
+  
+  - name: restart nginx
+    ansible.builtin.service:
+      name: nginx
+      state: restarted
