@@ -69,7 +69,7 @@
       msg: "users count is {{users_count}}"
   
   - name: load the users data 
-    ansibl.builtin.command: mongo --host mongodb.devopswitharun.online < /app/schema/user.js 
+    ansible.builtin.command: mongo --host mongodb.devopswitharun.online < /app/schema/user.js 
 
   - name: Enable and start the service 
     ansible.built-in.service:
