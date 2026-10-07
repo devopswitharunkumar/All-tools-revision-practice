@@ -72,7 +72,7 @@
     ansible.builtin.command: mongo --host mongodb.devopswitharun.online < /app/schema/user.js 
 
   - name: Enable and start the service 
-    ansible.built-in.service:
+    ansible.builtin.service:
       name: user
       state: restarted 
       enable: true 
