@@ -2,7 +2,7 @@
   hosts: catalogue
   become: true 
   tasks:
-  - name: disable existing module and enable particular module version
+  - name: disable existing module and enable particular module
     ansible.builtin.shell: dnf module disable nodejs -y; dnf module enable nodejs:18 -y 
   
   - name: install nodejs 
