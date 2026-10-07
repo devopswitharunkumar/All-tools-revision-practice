@@ -70,6 +70,7 @@
   
   - name: load the users data 
     ansible.builtin.command: mongo --host mongodb.devopswitharun.online < /app/schema/user.js 
+    when: users_count.stdout == "0"
 
   - name: Enable and start the service 
     ansible.builtin.service:
