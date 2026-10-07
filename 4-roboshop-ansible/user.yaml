@@ -61,7 +61,7 @@
       state: present
   
   - name: check users count 
-    ansible.builtin.command: mongo --host mongodb.devopswitharun.online --quiet --eval 'db.getSiblingDB("users"); db.users.count()'
+    ansible.builtin.command: mongo --host mongodb.devopswitharun.online --quiet --eval 'db.getSiblingDB("users").users.count()'
     register: users_count 
 
   - name: print the count 
