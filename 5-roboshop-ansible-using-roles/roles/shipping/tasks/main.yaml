@@ -1,0 +1,29 @@
+# - name: Import role from common nodejs roles
+#   ansible.builtin.import_role:
+#     name: common 
+#     tasks_from: java-setup.yaml
+
+
+# - name: Import role from common app setup roles
+#   ansible.builtin.import_role:
+#     name: common 
+#     tasks_from: mysql-setup.yaml 
+
+# - name: Import role from common app setup roles
+#   ansible.builtin.import_role:
+#     name: common 
+#     tasks_from: systemd-services.yaml 
+
+#or 
+
+- name: Include tasks for Java setup
+  ansible.builtin.include_tasks:
+    file: roles/common/tasks/java-setup.yaml
+
+- name: Include tasks for MySQL setup
+  ansible.builtin.include_tasks:
+    file: roles/common/tasks/mysql-setup.yaml 
+
+- name: Include tasks for Systemd service configuration
+  ansible.builtin.include_tasks:
+    file: roles/common/tasks/systemd-services.yaml

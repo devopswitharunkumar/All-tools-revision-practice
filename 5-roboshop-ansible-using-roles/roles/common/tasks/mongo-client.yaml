@@ -1,0 +1,39 @@
+
+- name: copy mongo repo file 
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: install mongodb 
+  ansible.builtin.dnf:
+    name: mongodb-org-shell 
+    state: present 
+
+- name: check the categories count 
+  ansible.builtin.command: mongo --host {{MONGODB_HOST}} --quiet --eval 'db=db.getSiblingDB("catalogue"); db.products.count()'
+  register: product_count
+  when: component == "catalogue"
+
+- name: print the count 
+  ansible.builtin.debug: 
+    msg: "product_count is : {{product_count}}"
+  when: component == "catalogue"
+
+- name: loading the schema 
+  ansible.builtin.shell: mongo --host {{MONGODB_HOST}} </app/schema/catalogue.js
+  when: component == "catalogue" and product_count.stdout == "0"
+
+
+- name: check users count 
+  ansible.builtin.command: mongo --host {{MONGODB_HOST}} --quiet --eval 'db.getSiblingDB("users").users.count()'
+  register: users_count 
+  when: component == "user"
+
+- name: print the count 
+  ansible.builtin.debug: 
+    msg: "users count is {{users_count}}"
+  when: component == "user"
+
+- name: load the users data 
+  ansible.builtin.command: mongo --host {{MONGODB_HOST}} < /app/schema/user.js 
+  when: component == "user" and users_count.stdout == "0"
