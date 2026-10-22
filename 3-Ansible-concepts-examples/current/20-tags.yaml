@@ -1,0 +1,44 @@
+- name: tags concept
+  hosts: practice
+  become: true 
+  tasks:
+  - name: tag from task 1
+    ansible.builtin.debug:
+      msg: "It will run only when task1 tag called"
+    tags: task1
+
+  - name: tag from task 2
+    ansible.builtin.debug:
+      msg: "It will run only when task2 tag called"
+    tags:
+    - task2
+  
+  - name: tag from task 3
+    ansible.builtin.debug:
+      msg: "It will run only when task3 tag called"
+    tags: 
+    - task3
+    - task33
+  
+  - name: tag from always special keyword 1
+    ansible.builtin.debug:
+      msg: "It will run only when always tag called"
+    tags:
+    - always
+  
+  - name: tag from never special keyword 2
+    ansible.builtin.debug:
+      msg: "It will run only when never tag called"
+    tags:
+    - never
+  
+  #tagged keyword examples above all it will list if we run --tags tagged 
+
+  #now we are writing untagged tasks which doesnt have tags 
+  - name: no tag from untagged special keyword 1
+    ansible.builtin.debug:
+      msg: "It will run only when untagged 1 called"
+  
+  - name: no tag from untagged special keyword 2
+    ansible.builtin.debug:
+      msg: "It will run only when untagged 2 called"
