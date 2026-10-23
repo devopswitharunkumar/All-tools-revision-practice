@@ -9,10 +9,14 @@ module "vpc" {
 
     #public subnet 
     public_subnet_cidr = var.public_subnet_cidr
+    public_subnet_tags = var.public_subnet_tags
     #private subnet 
     private_subnet_cidr = var.private_subnet_cidr
+    private_subnet_tags = var.private_subnet_tags
     #database subnet 
     database_subnet_cidr = var.database_subnet_cidr
+    database_subnet_tags = var.database_subnet_tags
+    database_subnet_group_tags = var.database_subnet_group_tags
 
     #eip and nat gateway 
     eip_tags = var.eip_tags
@@ -29,6 +33,6 @@ module "vpc" {
     #peering related 
     is_peering_required = var.is_peering_required   #u need to give == true == in variables file 
     acceptor_vpc_id = var.acceptor_vpc_id
-    peering_tags = var.peering_tags
+    vpc_peering_tags = var.vpc_peering_tags
   
 }

@@ -68,6 +68,14 @@ variable "database_subnet_tags" {
     }
 }
 
+variable "database_subnet_group_tags" {
+    default = {
+        Project = "roboshop-dev-database-subnet-group"
+        Terraform = true 
+        Environment = "dev"
+    }
+}
+
 #elastic ip related 
 variable "eip_tags" {
     default = {
@@ -124,7 +132,7 @@ variable "destination_cidr_block" {
 #peering related 
 variable "is_peering_required" {
     type = bool 
-    default = true  #if u want peering u need to override as ===> true 
+    default = false  #if u want peering u need to override as ===> true 
 }
 
 variable "acceptor_vpc_id" {
@@ -132,7 +140,7 @@ variable "acceptor_vpc_id" {
     default = ""
 }
 
-variable "peering_tags" {
+variable "vpc_peering_tags" {
     default = {
         Project = "roboshop-dev-vpc-peering"
         Terraform = true 

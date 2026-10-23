@@ -1,4 +1,4 @@
-#mandatory variables 
+#mandatory variables related to name
 variable "project_name" {
     type = string
 }
@@ -40,7 +40,7 @@ variable "public_subnet_cidr" {
     validation {
         condition = length(var.public_subnet_cidr) == 2
         error_message = "Pls give 2 public valid subnet CIDR id's"
-    #if we give more than 2 cidr ip's in list it will throw error 
+            #if we give more than 2 cidr ip's in list it will throw error 
     }
 }
 
@@ -79,6 +79,11 @@ variable "database_subnet_tags" {
     default = {}
 }
 
+variable "database_subnet_group_tags" {
+  type = map 
+  default = {}
+}
+
 #elastic ip related
 variable "eip_tags" {
     default = {}
@@ -107,9 +112,8 @@ variable "database-rt_tags" {
 
 variable "destination_cidr_block" {
   type = string
+  default = "0.0.0.0/0"
 }
-
-
 
 
 #peering related 
@@ -123,7 +127,7 @@ variable "acceptor_vpc_id" {
     default = ""
 }
 
-variable "peering_tags" {
+variable "vpc_peering_tags" {
   type = map 
   default = {}
 }

@@ -65,6 +65,18 @@ resource "aws_subnet" "database-st" {
     })
 }
 
+#database subnet group 
+resource "aws_db_subnet_group" "subnet-group" {
+  name       = "${local.resource_name}-subnet-group"
+  subnet_ids = aws_subnet.database-st[*].id
+
+  tags = merge(var.common_tags, var.database_subnet_group_tags,
+    {
+        Name = "${local.resource_name}-db-subnet-group"
+    })
+}
+
+
 #Create Elastic ip 
 resource "aws_eip" "elastic" {
     domain = "vpc"
