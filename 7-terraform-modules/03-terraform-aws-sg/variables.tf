@@ -14,6 +14,10 @@ variable "sg_description" {
     type = string
 }
 
+variable "vpc_id" {
+    type = string
+}
+
 #until above all are mandatory variables 
 
 #not mandatory 
@@ -23,11 +27,6 @@ variable "sg_tags" {
 }
 variable "common_tags" {
     type = map 
-  default = {}
-}
-
-variable "vpc_id" {
-    type = string
     default = {}
 }
 
