@@ -7,8 +7,8 @@ terraform {
   }
   backend "s3" {
     bucket = "roboshop-remotebucket"
-    key = "practice-remote-backend"
-    region = "value"
+    key = "remote_checkingwithtfstate.tfstate"
+    region = "us-east-1"
     dynamodb_table = "roboshop-remotebucket-lock"
   }
 }
