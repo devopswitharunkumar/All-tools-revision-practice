@@ -246,7 +246,7 @@ module "ansible" {
 
     create_security_group = false
 
-    user_data = file("${path.module}/ec2-provision.sh")
+    user_data = file("${path.module}/ec2-provision-through-ansible.sh")
 
 
     tags = merge(var.common_tags, 
