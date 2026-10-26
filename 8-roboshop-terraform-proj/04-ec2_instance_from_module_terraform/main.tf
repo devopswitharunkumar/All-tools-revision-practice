@@ -226,7 +226,7 @@ resource "aws_route53_record" "roboshop_domain_names" {
     for_each = local.dns_records
   
   zone_id = data.aws_route53_zone.domain_zone_id.id
-  name = "${each.key}-${var.domain_name}"
+  name = "${each.key}-${var.env_name}.${var.domain_name}"
   type = "A"
   ttl = 1
 
@@ -242,7 +242,7 @@ module "ansible" {
     ami = data.aws_ami.redhat-9-ami-id.id
     instance_type = var.instance_type
     vpc_security_group_ids = [ data.aws_ssm_parameter.vpn_sg_id.value ]
-    subnet_id = data.aws_vpc.default_vpc_id.id     #retreive like string
+    subnet_id = data.aws_subnet.default_subnet_from_default_vpc.id     #retreive like string
 
     create_security_group = false
 
