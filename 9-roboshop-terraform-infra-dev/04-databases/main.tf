@@ -31,6 +31,7 @@ resource "null_resource" "mongodb" {
       type = "ssh"
       user = "ec2-user"
       password = "DevOps321"
+      timeout = "2m"
     }
 
     provisioner "remote-exec" {
