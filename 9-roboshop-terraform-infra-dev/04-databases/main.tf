@@ -47,52 +47,52 @@ resource "null_resource" "mongodb" {
 }
 
 
-module "redis" {
-    source = "terraform-aws-modules/ec2-instance/aws"
+# module "redis" {
+#     source = "terraform-aws-modules/ec2-instance/aws"
 
-    name = "${local.ec2_name}-redis"
+#     name = "${local.ec2_name}-redis"
 
-    ami = data.aws_ami.redhat-9-ami-id.id
-    instance_type = "t2.micro"
-    vpc_security_group_ids = [ data.aws_ssm_parameter.redis_sg_id.value ]
-    subnet_id = local.database_subnet_ids      #retreive like string
+#     ami = data.aws_ami.redhat-9-ami-id.id
+#     instance_type = "t2.micro"
+#     vpc_security_group_ids = [ data.aws_ssm_parameter.redis_sg_id.value ]
+#     subnet_id = local.database_subnet_ids      #retreive like string
 
-    create_security_group = false
+#     create_security_group = false
 
 
-    tags = merge(var.common_tags, 
-    {
-        Component = "redis"
-    }, 
-    {
-        Name = "${local.ec2_name}-redis"
-    })
-}
+#     tags = merge(var.common_tags, 
+#     {
+#         Component = "redis"
+#     }, 
+#     {
+#         Name = "${local.ec2_name}-redis"
+#     })
+# }
 
-resource "null_resource" "redis" {
-    triggers = {
-      instance_id = module.redis.id
-    }
+# resource "null_resource" "redis" {
+#     triggers = {
+#       instance_id = module.redis.id
+#     }
 
-    connection {
-      host = module.redis.private_ip
-      type = "ssh"
-      user = "ec2-user"
-      password = "DevOps321"
-    }
+#     connection {
+#       host = module.redis.private_ip
+#       type = "ssh"
+#       user = "ec2-user"
+#       password = "DevOps321"
+#     }
 
-    provisioner "file" {
-        source = "bootstrap.sh" 
-        destination = "/home/ec2-user/tmp/bootstrap.sh"  
-    }
+#     provisioner "file" {
+#         source = "bootstrap.sh" 
+#         destination = "/home/ec2-user/tmp/bootstrap.sh"  
+#     }
 
-    provisioner "remote-exec" {
-        inline = [ 
-            "chmod +x /tmp/bootstrap.sh",
-            "sudo sh /home/ec2-user/tmp/bootstrap.sh redis dev"
-         ]
-    }
-}
+#     provisioner "remote-exec" {
+#         inline = [ 
+#             "chmod +x /tmp/bootstrap.sh",
+#             "sudo sh /home/ec2-user/tmp/bootstrap.sh redis dev"
+#          ]
+#     }
+# }
 
 
 
