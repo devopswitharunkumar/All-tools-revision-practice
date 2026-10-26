@@ -1,5 +1,6 @@
 module "vpn" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_vpc.default_vpc_id.id
@@ -9,7 +10,8 @@ module "vpn" {
 }
 
 module "mongodb" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -19,7 +21,8 @@ module "mongodb" {
 }
 
 module "redis" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -29,7 +32,8 @@ module "redis" {
 }
 
 module "mysql" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -39,7 +43,8 @@ module "mysql" {
 }
 
 module "rabbitmq" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -49,7 +54,8 @@ module "rabbitmq" {
 }
 
 module "catalogue" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -59,7 +65,8 @@ module "catalogue" {
 }
 
 module "user" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -69,7 +76,8 @@ module "user" {
 }
 
 module "cart" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -79,7 +87,8 @@ module "cart" {
 }
 
 module "shipping" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -89,7 +98,8 @@ module "shipping" {
 }
 
 module "payment" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -99,7 +109,8 @@ module "payment" {
 }
 
 module "web" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -109,7 +120,8 @@ module "web" {
 }
 
 module "dispatch" {
-    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    # source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    source = "../../7-terraform-modules/03-terraform-aws-sg"
     project_name = var.project_name
     env_name = var.env_name
     vpc_id = data.aws_ssm_parameter.vpc_id.value
@@ -207,8 +219,8 @@ resource "aws_security_group_rule" "mysql_accept_vpn_traffic" {
 }
 
 #mysql accepting connections from user 
-resource "aws_security_group_rule" "mysql_accept_user_traffic" {
-    source_security_group_id = module.user.sg_id
+resource "aws_security_group_rule" "mysql_accept_shipping_traffic" {
+    source_security_group_id = module.shipping.sg_id
     type = "ingress"
     from_port = 3306
     to_port = 3306

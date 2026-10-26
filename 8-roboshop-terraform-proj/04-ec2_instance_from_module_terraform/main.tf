@@ -11,7 +11,6 @@ module "mongodb" {
 
     create_security_group = false
 
-
     tags = merge(var.common_tags, 
     {
         Component = "mongodb"
@@ -55,7 +54,6 @@ module "mysql" {
 
     create_security_group = false
 
-
     tags = merge(var.common_tags, 
     {
         Component = "mysql"
@@ -76,7 +74,6 @@ module "rabbitmq" {
     subnet_id = local.database_subnet_ids      #retreive like string
 
     create_security_group = false
-
 
     tags = merge(var.common_tags, 
     {
@@ -100,7 +97,6 @@ module "catalogue" {
 
     create_security_group = false
 
-
     tags = merge(var.common_tags, 
     {
         Component = "catalogue"
@@ -121,7 +117,6 @@ module "user" {
     subnet_id = local.private_subnet_ids      #retreive like string
 
     create_security_group = false
-
 
     tags = merge(var.common_tags, 
     {
@@ -144,7 +139,6 @@ module "cart" {
 
     create_security_group = false
 
-
     tags = merge(var.common_tags, 
     {
         Component = "cart"
@@ -165,7 +159,6 @@ module "shipping" {
     subnet_id = local.private_subnet_ids      #retreive like string
 
     create_security_group = false
-
 
     tags = merge(var.common_tags, 
     {
@@ -188,7 +181,6 @@ module "payment" {
 
     create_security_group = false
 
-
     tags = merge(var.common_tags, 
     {
         Component = "payment"
@@ -210,7 +202,6 @@ module "web" {
 
     create_security_group = false
 
-
     tags = merge(var.common_tags, 
     {
         Component = "web"
@@ -226,7 +217,7 @@ resource "aws_route53_record" "roboshop_domain_names" {
     for_each = local.dns_records
   
   zone_id = data.aws_route53_zone.domain_zone_id.id
-  name = "${each.key}-${var.env_name}.${var.domain_name}"
+  name = "${each.key}.${var.domain_name}"
   type = "A"
   ttl = 1
 
@@ -246,7 +237,7 @@ module "ansible" {
 
     create_security_group = false
 
-    user_data = file("${path.module}/ec2-provision-through-ansible.sh")
+    user_data = file("ec2-provision-through-ansible.sh")
 
 
     tags = merge(var.common_tags, 

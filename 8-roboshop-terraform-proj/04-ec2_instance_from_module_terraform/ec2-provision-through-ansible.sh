@@ -1,9 +1,14 @@
 #!/bin/bash
 
-yum install ansible -y
+sudo yum install ansible -y
+cd /home/ec2-user
+mkdir -p /tmp/
 cd /tmp/
 git clone https://github.com/devopswitharunkumar/All-tools-revision-practice.git    
-cd 5-roboshop-ansible-using-roles
+cd All-tools-revision-practice/5-roboshop-ansible-using-roles/
+
+# chown -R ec2-user:ec2-user /home/ec2-user/All-tools-revision-practice
+
 ansible-playbook -e component=mongodb main.yaml
 ansible-playbook -e component=redis main.yaml
 ansible-playbook -e component=mysql main.yaml

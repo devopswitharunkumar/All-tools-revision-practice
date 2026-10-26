@@ -10,7 +10,7 @@ module "vpn" {
 
     create_security_group = false #to not create default sg egress
 
-    user_data = file("open_vpn.sh")
+    user_data = file("${path.module}/open_vpn.sh")
 
 
     tags = merge(var.common_tags, 
