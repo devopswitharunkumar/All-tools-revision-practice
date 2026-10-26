@@ -146,14 +146,14 @@ resource "aws_route" "public-route" {
 resource "aws_route" "private-route" {
     route_table_id = aws_route_table.private-rt.id  
     destination_cidr_block = var.destination_cidr_block
-    gateway_id = aws_nat_gateway.nat_gateway.id 
+    nat_gateway_id = aws_nat_gateway.nat_gateway.id 
 }
 
 #database route adding NAT gateway 
 resource "aws_route" "database-route" {
     route_table_id = aws_route_table.database-rt.id  
     destination_cidr_block = var.destination_cidr_block
-    gateway_id = aws_nat_gateway.nat_gateway.id 
+    nat_gateway_id = aws_nat_gateway.nat_gateway.id 
 }
 
 #Associating route tables with subnets 

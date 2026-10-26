@@ -26,7 +26,6 @@ resource "aws_route" "acceptor_vpc_route" {
     vpc_peering_connection_id = aws_vpc_peering_connection.peering[0].id
 }
 
-#public route adding internet gateway 
 resource "aws_route" "public-rt" {
     count = var.is_peering_required && var.acceptor_vpc_id == "" ? 1 : 0
     route_table_id = aws_route_table.public-rt.id 
@@ -35,7 +34,6 @@ resource "aws_route" "public-rt" {
 
 }
 
-#private route adding NAT gateway 
 resource "aws_route" "private-rt" {
     count = var.is_peering_required && var.acceptor_vpc_id == "" ? 1 : 0
     route_table_id = aws_route_table.private-rt.id  
@@ -43,7 +41,6 @@ resource "aws_route" "private-rt" {
     vpc_peering_connection_id = aws_vpc_peering_connection.peering[0].id
 }
 
-#database route adding NAT gateway 
 resource "aws_route" "database-rt" {
     count = var.is_peering_required && var.acceptor_vpc_id == "" ? 1 : 0
     route_table_id = aws_route_table.database-rt.id  
