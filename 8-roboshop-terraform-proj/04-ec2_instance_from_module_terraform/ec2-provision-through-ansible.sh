@@ -2,8 +2,6 @@
 
 sudo yum install ansible -y
 cd /home/ec2-user
-mkdir -p /tmp/
-cd /tmp/
 git clone https://github.com/devopswitharunkumar/All-tools-revision-practice.git    
 cd All-tools-revision-practice/5-roboshop-ansible-using-roles/
 

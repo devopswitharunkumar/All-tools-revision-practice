@@ -24,7 +24,7 @@ variable "mongodb_tags" {
 
 variable "instance_type" {
     type = string
-    default = "t3.micro"
+    default = "t2.micro"
 }
 
 variable "domain_name" {
