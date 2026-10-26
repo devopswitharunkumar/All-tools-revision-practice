@@ -1,0 +1,15 @@
+- name: Import Common Role where setup tasks present  
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-setup.yaml
+
+
+- name: Import Common Role for golang tasks present  
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: golang-setup.yaml
+
+- name: Import Common Role for systemd_service tasks present  
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: systemd_service.yaml
