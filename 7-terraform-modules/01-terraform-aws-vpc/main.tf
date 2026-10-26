@@ -30,6 +30,7 @@ resource "aws_subnet" "public-st" {
     vpc_id     = aws_vpc.virtual-network.id
     cidr_block = var.public_subnet_cidr[count.index]   
     availability_zone = local.azs_names[count.index]
+    map_public_ip_on_launch = true
 
     tags = merge(var.common_tags, var.public_subnet_tags,
     {
