@@ -198,7 +198,7 @@ module "web" {
     ami = data.aws_ami.redhat-9-ami-id.id
     instance_type = var.instance_type
     vpc_security_group_ids = [ data.aws_ssm_parameter.web_sg_id.value ]
-    subnet_id = local.private_subnet_ids   #retreive like string
+    subnet_id = local.public_subnet_ids #retreive like string
 
     create_security_group = false
     # associate_public_ip_address = true
