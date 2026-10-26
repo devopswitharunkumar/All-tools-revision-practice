@@ -10,8 +10,6 @@ module "mongodb" {
     subnet_id = local.database_subnet_ids      #retreive like string
 
     create_security_group = false
-    key_name               = "devops-sshkey" 
-
 
     tags = merge(var.common_tags, 
     {
@@ -31,10 +29,9 @@ resource "null_resource" "mongodb" {
     host        = module.mongodb.private_ip
     type        = "ssh"
     user        = "ec2-user"
-    private_key = file("D:/softwares/keygeneration/devops-sshkey.pem")
-    timeout     = "2m"
+    password = "DevOps321"
+    # timeout     = "2m"
     }
-
 
     provisioner "remote-exec" {
         inline = [ "mkdir -p /home/ec2-user/tmp" ]
