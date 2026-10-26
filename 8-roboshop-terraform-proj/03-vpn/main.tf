@@ -4,11 +4,11 @@ module "vpn" {
     name = "${local.ec2_name}-vpn"
 
     ami = data.aws_ami.redhat-9-ami-id.id
-    instance_type = var.instance_type
+    instance_type = "t2.small"
     vpc_security_group_ids = [ data.aws_ssm_parameter.vpn_sg_id.value ]
     subnet_id = data.aws_subnet.default_st_from_default_vpc.id
 
-    create_security_group = false #to not create default sg egress
+    create_security_group = false       #to not create default sg egress
 
     user_data = file("${path.module}/open_vpn.sh")
 

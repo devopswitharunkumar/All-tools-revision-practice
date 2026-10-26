@@ -21,8 +21,3 @@ variable "mongodb_tags" {
     type = map 
     default = {}
 }
-
-variable "instance_type" {
-    type = string
-    default = "t2.micro"
-}
