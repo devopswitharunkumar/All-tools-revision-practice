@@ -33,6 +33,10 @@ resource "null_resource" "mongodb" {
       password = "DevOps321"
     }
 
+    provisioner "remote-exec" {
+        inline = [ "mkdir -p /home/ec2-user/tmp" ]
+    }
+
     provisioner "file" {
         source = "bootstrap.sh" 
         destination = "/home/ec2-user/tmp/bootstrap.sh"  
