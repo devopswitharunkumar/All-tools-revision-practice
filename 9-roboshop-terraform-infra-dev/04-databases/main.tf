@@ -93,7 +93,6 @@ resource "null_resource" "redis" {
             "sudo sh /tmp/bootstrap.sh redis dev"
          ]
     }
-  
 }
 
 
