@@ -48,81 +48,55 @@ resource "null_resource" "mongodb" {
 }
 
 
+module "redis" {
+    source = "terraform-aws-modules/ec2-instance/aws"
+
+    name = "${local.ec2_name}-redis"
+
+    ami = data.aws_ami.redhat-9-ami-id.id
+    instance_type = "t2.micro"
+    vpc_security_group_ids = [ data.aws_ssm_parameter.redis_sg_id.value ]
+    subnet_id = local.database_subnet_ids      #retreive like string
+
+    create_security_group = false
 
 
+    tags = merge(var.common_tags, 
+    {
+        Component = "redis"
+    }, 
+    {
+        Name = "${local.ec2_name}-redis"
+    })
+}
+
+resource "null_resource" "redis" {
+    triggers = {
+      instance_id = module.redis.id
+    }
+
+    connection {
+      host = module.redis.private_ip
+      type = "ssh"
+      user = "ec2-user"
+      password = "DevOps321"
+    }
+
+    provisioner "file" {
+        source = "bootstrap.sh"
+        destination = "/tmp/bootstarp.sh"  
+    }
+
+    provisioner "remote-exec" {
+        inline = [ 
+            "chmod +x /tmp/bootstrap.sh",
+            "sudo sh /tmp/bootstrap.sh redis dev"
+         ]
+    }
+  
+}
 
 
-
-
-
-
-
-
-# module "redis" {
-#     source = "terraform-aws-modules/ec2-instance/aws"
-
-#     name = "${local.ec2_name}-redis"
-
-#     ami = data.aws_ami.redhat-9-ami-id.id
-#     instance_type = var.instance_type
-#     vpc_security_group_ids = [ data.aws_ssm_parameter.redis_sg_id.value ]
-#     subnet_id = local.database_subnet_ids      #retreive like string
-
-#     create_security_group = false
-
-
-#     tags = merge(var.common_tags, 
-#     {
-#         Component = "redis"
-#     }, 
-#     {
-#         Name = "${local.ec2_name}-redis"
-#     })
-# }
-
-# module "mysql" {
-#     source = "terraform-aws-modules/ec2-instance/aws"
-
-#     name = "${local.ec2_name}-mysql"
-
-#     ami = data.aws_ami.redhat-9-ami-id.id
-#     instance_type = "t3.small"
-#     vpc_security_group_ids = [ data.aws_ssm_parameter.mysql_sg_id.value ]
-#     subnet_id = local.database_subnet_ids      #retreive like string
-
-#     create_security_group = false
-
-
-#     tags = merge(var.common_tags, 
-#     {
-#         Component = "mysql"
-#     }, 
-#     {
-#         Name = "${local.ec2_name}-mysql"
-#     })
-# }
-
-# module "rabbitmq" {
-#     source = "terraform-aws-modules/ec2-instance/aws"
-
-#     name = "${local.ec2_name}-rabbitmq"
-
-#     ami = data.aws_ami.redhat-9-ami-id.id
-#     instance_type = var.instance_type
-#     vpc_security_group_ids = [ data.aws_ssm_parameter.rabbitmq_sg_id.value ]
-#     subnet_id = local.database_subnet_ids      #retreive like string
-
-#     create_security_group = false
-
-
-#     tags = merge(var.common_tags, 
-#     {
-#         Component = "rabbitmq"
-#     }, 
-#     {
-#         Name = "${local.ec2_name}-rabbitmq"
-#     })
-# }
 
 
 # #creating route53 records for above resources 
