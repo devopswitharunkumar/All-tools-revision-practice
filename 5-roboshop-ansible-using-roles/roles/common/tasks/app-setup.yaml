@@ -15,10 +15,21 @@
     path: /app
     state: directory 
 
-- name: "Download the {{component}} code" 
+# - name: "Download the {{component}} code" 
+#   ansible.builtin.get_url:
+#     url: "https://roboshop-builds.s3.amazonaws.com/{{component}}.zip"
+#     dest: "/tmp/{{component}}.zip"
+
+- name: "Downloading {{ component }} Module Zip"
   ansible.builtin.get_url:
-    url: "https://roboshop-builds.s3.amazonaws.com/{{component}}.zip"
-    dest: "/tmp/{{component}}.zip"
+    url: >-
+      {{
+        'https://shipping-data-sql-file.s3.us-east-1.amazonaws.com/shipping.zip'
+        if component == 'shipping'
+        else
+        'https://roboshop-builds.s3.amazonaws.com/' ~ component ~ '.zip'
+      }}
+    dest: "/tmp/{{ component }}.zip"
 
 - name: "unzip the downloaded {{component}} code" 
   ansible.builtin.unarchive: 
