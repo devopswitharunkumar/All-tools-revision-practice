@@ -6,10 +6,10 @@ terraform {
     }
   }
   backend "s3" {
-      bucket = "roboshop-remotebucket"
-      key = "instance_creation"
+      bucket = "roboshop-infra-remotestate-dev"
+      key = "database/terraform.tfstate"
       region = "us-east-1"
-      dynamodb_table = "roboshop-remotebucket-lock"
+      dynamodb_table = "roboshop-infra-remotelock-dev"
   }
 }
 

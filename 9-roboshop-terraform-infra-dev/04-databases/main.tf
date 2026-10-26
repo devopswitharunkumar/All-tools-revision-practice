@@ -41,112 +41,123 @@ resource "null_resource" "mongodb" {
     provisioner "remote-exec" {
         inline = [ 
             "chmod +x /tmp/bootstrap.sh",
-            "sudo sh /tmp/bootstrap.sh"
+            "sudo sh /tmp/bootstrap.sh mongodb dev"
          ]
     }
   
 }
 
-module "redis" {
-    source = "terraform-aws-modules/ec2-instance/aws"
-
-    name = "${local.ec2_name}-redis"
-
-    ami = data.aws_ami.redhat-9-ami-id.id
-    instance_type = var.instance_type
-    vpc_security_group_ids = [ data.aws_ssm_parameter.redis_sg_id.value ]
-    subnet_id = local.database_subnet_ids      #retreive like string
-
-    create_security_group = false
 
 
-    tags = merge(var.common_tags, 
-    {
-        Component = "redis"
-    }, 
-    {
-        Name = "${local.ec2_name}-redis"
-    })
-}
-
-module "mysql" {
-    source = "terraform-aws-modules/ec2-instance/aws"
-
-    name = "${local.ec2_name}-mysql"
-
-    ami = data.aws_ami.redhat-9-ami-id.id
-    instance_type = "t3.small"
-    vpc_security_group_ids = [ data.aws_ssm_parameter.mysql_sg_id.value ]
-    subnet_id = local.database_subnet_ids      #retreive like string
-
-    create_security_group = false
 
 
-    tags = merge(var.common_tags, 
-    {
-        Component = "mysql"
-    }, 
-    {
-        Name = "${local.ec2_name}-mysql"
-    })
-}
-
-module "rabbitmq" {
-    source = "terraform-aws-modules/ec2-instance/aws"
-
-    name = "${local.ec2_name}-rabbitmq"
-
-    ami = data.aws_ami.redhat-9-ami-id.id
-    instance_type = var.instance_type
-    vpc_security_group_ids = [ data.aws_ssm_parameter.rabbitmq_sg_id.value ]
-    subnet_id = local.database_subnet_ids      #retreive like string
-
-    create_security_group = false
 
 
-    tags = merge(var.common_tags, 
-    {
-        Component = "rabbitmq"
-    }, 
-    {
-        Name = "${local.ec2_name}-rabbitmq"
-    })
-}
 
 
-#creating route53 records for above resources 
-resource "aws_route53_record" "roboshop_domain_names" {
-    for_each = local.dns_records
+
+
+
+# module "redis" {
+#     source = "terraform-aws-modules/ec2-instance/aws"
+
+#     name = "${local.ec2_name}-redis"
+
+#     ami = data.aws_ami.redhat-9-ami-id.id
+#     instance_type = var.instance_type
+#     vpc_security_group_ids = [ data.aws_ssm_parameter.redis_sg_id.value ]
+#     subnet_id = local.database_subnet_ids      #retreive like string
+
+#     create_security_group = false
+
+
+#     tags = merge(var.common_tags, 
+#     {
+#         Component = "redis"
+#     }, 
+#     {
+#         Name = "${local.ec2_name}-redis"
+#     })
+# }
+
+# module "mysql" {
+#     source = "terraform-aws-modules/ec2-instance/aws"
+
+#     name = "${local.ec2_name}-mysql"
+
+#     ami = data.aws_ami.redhat-9-ami-id.id
+#     instance_type = "t3.small"
+#     vpc_security_group_ids = [ data.aws_ssm_parameter.mysql_sg_id.value ]
+#     subnet_id = local.database_subnet_ids      #retreive like string
+
+#     create_security_group = false
+
+
+#     tags = merge(var.common_tags, 
+#     {
+#         Component = "mysql"
+#     }, 
+#     {
+#         Name = "${local.ec2_name}-mysql"
+#     })
+# }
+
+# module "rabbitmq" {
+#     source = "terraform-aws-modules/ec2-instance/aws"
+
+#     name = "${local.ec2_name}-rabbitmq"
+
+#     ami = data.aws_ami.redhat-9-ami-id.id
+#     instance_type = var.instance_type
+#     vpc_security_group_ids = [ data.aws_ssm_parameter.rabbitmq_sg_id.value ]
+#     subnet_id = local.database_subnet_ids      #retreive like string
+
+#     create_security_group = false
+
+
+#     tags = merge(var.common_tags, 
+#     {
+#         Component = "rabbitmq"
+#     }, 
+#     {
+#         Name = "${local.ec2_name}-rabbitmq"
+#     })
+# }
+
+
+# #creating route53 records for above resources 
+# resource "aws_route53_record" "roboshop_domain_names" {
+#     for_each = local.dns_records
   
-  zone_id = data.aws_route53_zone.domain_zone_id.id
-  name = "${each.key}-${var.domain_name}"
-  type = "A"
-  ttl = 1
+#   zone_id = data.aws_route53_zone.domain_zone_id.id
+#   name = "${each.key}-${var.domain_name}"
+#   type = "A"
+#   ttl = 1
 
-  records = [each.value]
-}
+#   records = [each.value]
+# }
 
-#creating Ansible server to do configuration in all servers
-module "ansible" {
-    source = "terraform-aws-modules/ec2-instance/aws"
+# #creating Ansible server to do configuration in all servers
+# module "ansible" {
+#     source = "terraform-aws-modules/ec2-instance/aws"
 
-    name = "${local.ec2_name}-ansible"
+#     name = "${local.ec2_name}-ansible"
 
-    ami = data.aws_ami.redhat-9-ami-id.id
-    instance_type = var.instance_type
-    vpc_security_group_ids = [ data.aws_ssm_parameter.vpn_sg_id.value ]
-    subnet_id = data.aws_vpc.default_vpc_id.id     #retreive like string
+#     ami = data.aws_ami.redhat-9-ami-id.id
+#     instance_type = var.instance_type
+#     vpc_security_group_ids = [ data.aws_ssm_parameter.vpn_sg_id.value ]
+#     subnet_id = data.aws_vpc.default_vpc_id.id     #retreive like string
 
-    create_security_group = false
+#     create_security_group = false
 
-    user_data = file("${path.module}/ec2-provision.sh")
+#     user_data = file("${path.module}/ec2-provision.sh")
 
 
-    tags = merge(var.common_tags, 
-    {
-        Component = "ansible"
-    }, 
-    {
-        Name = "${local.ec2_name}-ansible"
-    })
-}
+#     tags = merge(var.common_tags, 
+#     {
+#         Component = "ansible"
+#     }, 
+#     {
+#         Name = "${local.ec2_name}-ansible"
+#     })
+# }
