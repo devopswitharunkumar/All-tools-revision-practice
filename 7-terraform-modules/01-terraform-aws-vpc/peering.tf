@@ -11,11 +11,11 @@ resource "aws_vpc_peering_connection" "peering" {
 
     #vpc id of target Acceptor VPC 
     peer_vpc_id   = var.acceptor_vpc_id == "" ? data.aws_vpc.default_vpc.id : var.acceptor_vpc_id        
-    auto_accept = data.aws_vpc.default_vpc.default == true ? true : false 
+    auto_accept = var.acceptor_vpc_id == "" ? true : false
 
     tags = merge(var.common_tags, var.vpc_peering_tags,
     {
-        Name = "${local.resource_name}-peering"
+        Name = "${local.resource_name}-vpc-peering"
     })
 }
 
