@@ -844,3 +844,14 @@ resource "aws_security_group_rule" "user_accept_app_alb_traffic" {
   protocol                 = "tcp"
   security_group_id        = module.user.sg_id
 }
+
+
+#APP_ALB should only accept connections from VPN 
+resource "aws_security_group_rule" "app-alb_accept_vpn_traffic" {
+  source_security_group_id = module.vpn.sg_id
+  type                     = "ingress"
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+  security_group_id        = module.app_alb.sg_id
+}

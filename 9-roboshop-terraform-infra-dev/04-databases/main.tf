@@ -149,7 +149,7 @@ module "rabbitmq" {
     name = "${local.ec2_name}-rabbitmq"
 
     ami = data.aws_ami.redhat-9-ami-id.id
-    instance_type = "t3.medium"
+    instance_type = "t3.micro"
     vpc_security_group_ids = [ data.aws_ssm_parameter.rabbitmq_sg_id.value ]
     subnet_id = local.database_subnet_ids      #retreive like string
 
