@@ -73,7 +73,7 @@ resource "aws_lb_target_group" "app-alb-tg" {
 #     }
 # }
 
-#if u want to test above health check
+# #if u want to test above health check
 # resource "aws_security_group_rule" "catalogue_accept_vpn_traffic" {
 #   source_security_group_id = module.vpn.sg_id
 #   type                     = "ingress"
@@ -81,4 +81,12 @@ resource "aws_lb_target_group" "app-alb-tg" {
 #   to_port                  = 8080
 #   protocol                 = "tcp"
 #   security_group_id        = module.catalogue.sg_id
+# }
+
+
+
+# resource "aws_ec2_instance_state" "stop-instance" {
+#   instance_id = module.catalogue.id
+#   state       = "stopped"
+#   depends_on = [ null_resource.catalogue ]
 # }
