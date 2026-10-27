@@ -100,7 +100,7 @@ resource "aws_route53_record" "roboshop_domain_names" {
     for_each = local.dns_records
   
   zone_id = data.aws_route53_zone.domain_zone_id.id
-  name = "${each.key}-${var.domain_name}"
+  name = "${each.key}-${var.env_name}.${var.domain_name}"
   type = "A"
   ttl = 1
 
