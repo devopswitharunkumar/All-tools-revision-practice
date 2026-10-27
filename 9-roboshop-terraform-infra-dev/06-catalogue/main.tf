@@ -1,3 +1,4 @@
+#Creating target Group for APP-ALB
 resource "aws_lb_target_group" "catalogue-app-alb-tg" {
   target_type = "instance"                      #it is default 
   name     = "${local.ec2_name}-${var.tags.Component}"
@@ -18,6 +19,7 @@ resource "aws_lb_target_group" "catalogue-app-alb-tg" {
 }
 #above Target Group is not attached to APP ALB bewlo we do that with listner rule 
 
+#Creating listner rule for tagging Target Group with APP-ALB
 resource "aws_lb_listener_rule" "catalogue_listner_rule" {
   listener_arn = data.aws_ssm_parameter.app_alb_listner_rule.value
   priority     = 10
@@ -35,11 +37,11 @@ resource "aws_lb_listener_rule" "catalogue_listner_rule" {
 }
 
 
-
+#Creating Instance for taking AMI
 module "catalogue" {
     source = "terraform-aws-modules/ec2-instance/aws"
 
-    name = "${local.ec2_name}-catalogue-ami"
+    name = "${local.ec2_name}-${var.tags.Component}-ami"
 
     ami = data.aws_ami.redhat-9-ami-id.id
     instance_type = "t2.micro"
@@ -56,6 +58,7 @@ module "catalogue" {
     })
 }
 
+#Provisioning catalogue Using Ansible in above instance 
 resource "null_resource" "catalogue" {
     triggers = {
       instance_id = module.catalogue.id
@@ -82,20 +85,40 @@ resource "null_resource" "catalogue" {
     }
 }
 
-#if u want to test above health check
-resource "aws_security_group_rule" "catalogue_accept_vpn_traffic" {
-  source_security_group_id = module.vpn.sg_id
-  type                     = "ingress"
-  from_port                = 8080
-  to_port                  = 8080
-  protocol                 = "tcp"
-  security_group_id        = module.catalogue.sg_id
-}
+# #if u want to test above health check
+# resource "aws_security_group_rule" "catalogue_accept_vpn_traffic" {
+#   source_security_group_id = module.vpn.sg_id
+#   type                     = "ingress"
+#   from_port                = 8080
+#   to_port                  = 8080
+#   protocol                 = "tcp"
+#   security_group_id        = module.catalogue.sg_id
+# }
 
 
-
+#Stopping Instance 
 resource "aws_ec2_instance_state" "stop-instance" {
   instance_id = module.catalogue.id
   state       = "stopped"
   depends_on = [ null_resource.catalogue ]
+}
+
+#Taking AMI from Above instance 
+resource "aws_ami_from_instance" "taking-ami-from-instance" {
+  name               = "${local.ec2_name}-${var.tags.Component}-taking-ami-${local.current_timestamp}"
+  source_instance_id = module.catalogue.id 
+  depends_on = [ aws_ec2_instance_state.stop-instance ]
+}
+
+#Provisioning catalogue Using Ansible in above instance 
+resource "null_resource" "terminate_instance" {
+    triggers = {
+      instance_id = aws_ami_from_instance.taking-ami-from-instance.id
+    }
+
+    provisioner "local-exec" {
+        command = "aws ec2 terminate-instances --instance-ids ${module.catalogue.id}"
+    
+    }
+    depends_on = [ aws_ami_from_instance.taking-ami-from-instance ]
 }
