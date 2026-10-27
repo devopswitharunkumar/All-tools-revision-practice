@@ -20,6 +20,10 @@ module "vpn" {
     {
         Name = "${local.ec2_name}-vpn"
     })
-
-  
 }
+
+
+
+#when urnot able to connect to components run below command inside vpn instance after login
+# sudo iptables -I OPENVPN_INSTALL_FORWARD 1 -s 10.8.0.0/24 -d 10.0.0.0/16 -j ACCEPT
+# sudo iptables -S OPENVPN_INSTALL_FORWARD --> it should show Accept for 10.8.....

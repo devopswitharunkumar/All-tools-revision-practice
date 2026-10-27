@@ -21,7 +21,7 @@ data "aws_ami" "redhat-9-ami-id" {
 }
 
 data "aws_ssm_parameter" "app_alb_sg_id" {
-    name = "${var.project_name}/${var.env_name}/app_alb_sg_id"
+    name = "/${var.project_name}/${var.env_name}/app_alb_sg_id"
   
 }
 
