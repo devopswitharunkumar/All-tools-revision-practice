@@ -813,3 +813,34 @@ resource "aws_security_group_rule" "web_accept_internet_traffic" {
   protocol                 = "tcp"
   security_group_id        = module.web.sg_id
 }
+
+
+#SG For APP ALB 
+module "app_alb" {
+    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    project_name = var.project_name
+    env_name = var.env_name
+    vpc_id = data.aws_vpc.default_vpc_id.id
+    sg_name = "app_alb"
+    sg_description = "SG for APP ALB"
+    #sg_ingress_rules = var.vpn_sg_ingress_rules
+}
+
+
+resource "aws_security_group_rule" "catalogue_accept_app_alb_traffic" {
+  source_security_group_id = module.app_alb.sg_id
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = module.catalogue.sg_id
+}
+
+resource "aws_security_group_rule" "user_accept_app_alb_traffic" {
+  source_security_group_id = module.app_alb.sg_id
+  type                     = "ingress"
+  from_port                = 8080
+  to_port                  = 8080
+  protocol                 = "tcp"
+  security_group_id        = module.user.sg_id
+}
