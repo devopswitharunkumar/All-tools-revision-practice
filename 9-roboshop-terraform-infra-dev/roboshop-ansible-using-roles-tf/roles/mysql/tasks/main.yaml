@@ -40,6 +40,11 @@
   ansible.builtin.shell: grep 'temporary password' /var/log/mysqld.log | awk '{print $NF}'
   register: mysql_temp_password
 
+  #we have created manually /roboshop/dev/mysql_root_password  variable with value of RoboShop@1 so here we are importing yjat 
+- name: Read MySQL root password from SSM Paramaeter Store 
+  ansible.builtin.set_fact:
+    mysql_root_password: "{{ lookup('aws_ssm', '/roboshop/' ~ env ~ '/mysql_root_password', region='us-east-1', decrypt=True) }}"
+
 - name: setup mysql root password
   ansible.builtin.shell: mysql --connect-expired-password -uroot -p'{{mysql_temp_password.stdout}}' -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RoboShop@1';"
   ignore_errors: true
