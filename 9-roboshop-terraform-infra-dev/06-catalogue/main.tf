@@ -72,3 +72,13 @@ resource "aws_lb_target_group" "app-alb-tg" {
 #          ]
 #     }
 # }
+
+#if u want to test above health check
+# resource "aws_security_group_rule" "catalogue_accept_vpn_traffic" {
+#   source_security_group_id = module.vpn.sg_id
+#   type                     = "ingress"
+#   from_port                = 8080
+#   to_port                  = 8080
+#   protocol                 = "tcp"
+#   security_group_id        = module.catalogue.sg_id
+# }

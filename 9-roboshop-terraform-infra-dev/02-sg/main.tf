@@ -820,7 +820,7 @@ module "app_alb" {
     source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
     project_name = var.project_name
     env_name = var.env_name
-    vpc_id = data.aws_vpc.default_vpc_id.id
+    vpc_id = data.aws_ssm_parameter.vpc_id.value 
     sg_name = "app_alb"
     sg_description = "SG for APP ALB"
     #sg_ingress_rules = var.vpn_sg_ingress_rules
