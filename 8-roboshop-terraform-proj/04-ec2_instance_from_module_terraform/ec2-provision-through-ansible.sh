@@ -1,6 +1,6 @@
 #!/bin/bash
 
-sudo yum install ansible -y
+sudo dnf install ansible -y
 cd /home/ec2-user
 git clone https://github.com/devopswitharunkumar/All-tools-revision-practice.git    
 cd All-tools-revision-practice/5-roboshop-ansible-using-roles/
