@@ -46,15 +46,15 @@
     mysql_root_password: "{{ lookup('aws_ssm', '/roboshop/' ~ env ~ '/mysql_root_password', region='us-east-1', decrypt=True) }}"
 
 - name: setup mysql root password
-  ansible.builtin.shell: mysql --connect-expired-password -uroot -p'{{mysql_temp_password.stdout}}' -e "ALTER USER 'root'@'localhost' IDENTIFIED BY 'RoboShop@1';"
+  ansible.builtin.shell: mysql --connect-expired-password -uroot -p'{{mysql_temp_password.stdout}}' -e "ALTER USER 'root'@'localhost' IDENTIFIED BY '{{ mysql_root_password }}';"
   ignore_errors: true
 
 - name: allow remote root connection
-  ansible.builtin.command: mysql -uroot -pRoboShop@1 -e "CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY 'RoboShop@1';"
+  ansible.builtin.command: mysql -uroot -p'{{ mysql_root_password }}' -e "CREATE USER IF NOT EXISTS 'root'@'%' IDENTIFIED BY '{{ mysql_root_password }}';"
   ignore_errors: true
 
 - name: grant permissions
-  ansible.builtin.command: mysql -uroot -pRoboShop@1 -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
+  ansible.builtin.command: mysql -uroot -p'{{ mysql_root_password }}' -e "GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' WITH GRANT OPTION; FLUSH PRIVILEGES;"
   ignore_errors: true
 
 - name: restart mysql
