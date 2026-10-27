@@ -16,6 +16,10 @@
 
 #or 
 
+- name: Import Common Role where setup tasks present  
+  ansible.builtin.include_tasks:
+    file: roles/common/tasks/app-setup.yaml
+
 - name: Include tasks for Java setup
   ansible.builtin.include_tasks:
     file: roles/common/tasks/java-setup.yaml

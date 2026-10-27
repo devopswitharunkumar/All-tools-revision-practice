@@ -1,8 +1,61 @@
 variable "project_name" {
   default = "roboshop"
 }
+
 variable "env_name" {
   default = "dev"
+}
+
+variable "vpc_cidr_block" {
+  type = string
+  default = "10.0.0.0/16"
+}
+
+variable "enable_dns_hostnames" {
+  type = bool
+  default = true
+}
+
+#public subnet related
+variable "public_subnet_cidr" {
+    default = ["10.0.1.0/24", "10.0.2.0/24"]
+}
+
+#private subnet related
+variable "private_subnet_cidr" {
+    default = ["10.0.11.0/24", "10.0.12.0/24"]
+}
+
+#database subnet related
+variable "database_subnet_cidr" {
+    default = ["10.0.21.0/24", "10.0.22.0/24"]
+}
+
+#adding routes internet gtw for public rt and NAT gateway for private and database route tables 
+variable "destination_cidr_block" {
+    default = "0.0.0.0/0"
+}
+
+
+
+#VPC peering related 
+#peering related 
+variable "is_peering_required" {
+    type = bool 
+    default = true      #if u want peering u need to override as ===> false 
+}
+
+variable "acceptor_vpc_id" {
+    type = string
+    default = ""
+}
+
+variable "vpc_peering_tags" {
+    default = {
+        Project = "roboshop-dev-vpc-peering"
+        Terraform = true 
+        Environment = "dev"
+    } 
 }
 
 #VPC relates variables 
@@ -30,10 +83,6 @@ variable "igw_tags" {
     }
 }
 
-#public subnet related
-variable "public_subnet_cidr" {
-    default = ["10.0.1.0/24", "10.0.2.0/24"]
-}
 
 variable "public_subnet_tags" {
     default = {
@@ -42,22 +91,12 @@ variable "public_subnet_tags" {
         Environment = "dev"
     }
 }
-#private subnet related
-variable "private_subnet_cidr" {
-    default = ["10.0.11.0/24", "10.0.12.0/24"]
-}
-
 variable "private_subnet_tags" {
     default = {
         Project = "roboshop-dev-private-subnet"
         Terraform = true 
         Environment = "dev"
     }
-}
-
-#database subnet related
-variable "database_subnet_cidr" {
-    default = ["10.0.21.0/24", "10.0.22.0/24"]
 }
 
 variable "database_subnet_tags" {
@@ -119,31 +158,4 @@ variable "database-rt_tags" {
         Terraform = true 
         Environment = "dev"
     }
-}
-
-#adding routes internet gtw for public rt and NAT gateway for private and database route tables 
-variable "destination_cidr_block" {
-    default = "0.0.0.0/0"
-}
-
-
-
-#VPC peering related 
-#peering related 
-variable "is_peering_required" {
-    type = bool 
-    default = true      #if u want peering u need to override as ===> false 
-}
-
-variable "acceptor_vpc_id" {
-    type = string
-    default = ""
-}
-
-variable "vpc_peering_tags" {
-    default = {
-        Project = "roboshop-dev-vpc-peering"
-        Terraform = true 
-        Environment = "dev"
-    } 
 }

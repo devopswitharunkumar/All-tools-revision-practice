@@ -45,16 +45,16 @@ data "aws_ssm_parameter" "database_subnet_id" {
     name = "/${var.project_name}/${var.env_name}/database_subnet_id"
 }
 
-# data "aws_route53_zone" "domain_zone_id" {
-#     name = "devopswitharun.online"
-#     private_zone = false 
-# }
+data "aws_route53_zone" "domain_zone_id" {
+    name = "devopswitharun.online"
+    private_zone = false 
+}
 
-# data "aws_vpc" "default_vpc_id" {
-#   default = true
-# }
+data "aws_vpc" "default_vpc_id" {
+  default = true
+}
 
-# data "aws_subnet" "default_subnet_from_default_vpc" {
-#     vpc_id = data.aws_vpc.default_vpc_id.id
-#     region = "us-east-1a" 
-# }
+data "aws_subnet" "default_subnet_from_default_vpc" {
+    vpc_id = data.aws_vpc.default_vpc_id.id
+    region = "us-east-1a" 
+}

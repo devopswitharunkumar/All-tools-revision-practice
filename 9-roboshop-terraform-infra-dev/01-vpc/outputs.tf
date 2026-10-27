@@ -10,10 +10,6 @@ output "roboshop_vpc_cidr_block" {
   value = module.roboshop_vpc.vpc_cidr_block
 }
 
-output "nat_gateway_id" {
-  value = module.roboshop_vpc.nat_gateway_id
-}
-
 output "public_subnet_id" {
   value = module.roboshop_vpc.public_subnet_id
 }
