@@ -143,6 +143,54 @@ resource "null_resource" "mysql" {
     }
 }
 
+module "rabbitmq" {
+    source = "terraform-aws-modules/ec2-instance/aws"
+
+    name = "${local.ec2_name}-rabbitmq"
+
+    ami = data.aws_ami.redhat-9-ami-id.id
+    instance_type = "t3.medium"
+    vpc_security_group_ids = [ data.aws_ssm_parameter.rabbitmq_sg_id.value ]
+    subnet_id = local.database_subnet_ids      #retreive like string
+
+    iam_instance_profile = "EC2RoleForShellScript"
+    create_security_group = false
+
+
+    tags = merge(var.common_tags, 
+    {
+        Component = "rabbitmq"
+    }, 
+    {
+        Name = "${local.ec2_name}-rabbitmq"
+    })
+}
+
+resource "null_resource" "rabbitmq" {
+    triggers = {
+      instance_id = module.rabbitmq.id
+    }
+
+    connection {
+      host      = module.rabbitmq.private_ip
+      type      = "ssh"
+      user      = "ec2-user"
+      password  = "DevOps321"
+      timeout   = "3m"
+    }
+
+    provisioner "file" {
+        source = "bootstrap.sh" 
+        destination = "/home/ec2-user/bootstrap.sh"  
+    }
+
+    provisioner "remote-exec" {
+        inline = [ 
+            "chmod +x /home/ec2-user/bootstrap.sh",
+            "sudo sh /home/ec2-user/bootstrap.sh rabbitmq dev"
+         ]
+    }
+}
 
 #creating route53 records for above resources 
 resource "aws_route53_record" "roboshop_domain_names" {
