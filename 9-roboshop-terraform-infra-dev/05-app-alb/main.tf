@@ -2,7 +2,7 @@ resource "aws_lb" "app_alb" {
   name               = "${local.ec2_name}-${var.tags.Component}"
   internal           = true
   load_balancer_type = "application"
-  security_groups    = [ data.aws_ssm_parameter.app_alb_sg_id.value ]
+  security_groups    = [data.aws_ssm_parameter.app_alb_sg_id.value]
   subnets            = split(",", data.aws_ssm_parameter.private_subnet_id.value)
 
   enable_deletion_protection = false  
