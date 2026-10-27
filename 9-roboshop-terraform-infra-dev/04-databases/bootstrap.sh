@@ -19,4 +19,9 @@ fi
 
 ###########we are implememting pull based architecture for databases########
 
-ansible-pull -U https://github.com/devopswitharunkumar/All-tools-revision-practice.git -e component=$component -e env=$environment 9-roboshop-terraform-infra-dev/roboshop-ansible-using-roles-tf/main-tf.yaml
+
+ansible-pull -U https://github.com/devopswitharunkumar/All-tools-revision-practice.git \
+  -i "9-roboshop-terraform-infra-dev/roboshop-ansible-using-roles-tf/${environment}/inventory.ini" \
+  -e component=$component \
+  -e env=$environment \
+  9-roboshop-terraform-infra-dev/roboshop-ansible-using-roles-tf/main-tf.yaml
