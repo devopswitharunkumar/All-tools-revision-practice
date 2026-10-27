@@ -2,13 +2,15 @@
   ansible.builtin.import_role:
     name: common 
     tasks_from: app-setup.yaml 
+  
+- name: Import role from common app setup roles
+  ansible.builtin.import_role:
+    name: common 
+    tasks_from: python-setup.yaml 
 
 - name: Import role from common app setup roles
   ansible.builtin.import_role:
     name: common 
     tasks_from: systemd-services.yaml 
 
-- name: Import role from common app setup roles
-  ansible.builtin.import_role:
-    name: common 
-    tasks_from: python-setup.yaml 
+
