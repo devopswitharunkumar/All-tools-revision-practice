@@ -22,7 +22,7 @@ resource "aws_lb_target_group" "web-alb-tg" {
 
 
 resource "aws_lb_listener_rule" "host_based_weighted_routing" {
-  listener_arn = data.aws_ssm_parameter.web_alb_listner_rule.arn
+  listener_arn = data.aws_ssm_parameter.web_alb_listner_rule.value
   priority     = 1
 
   action {
