@@ -8,7 +8,7 @@ resource "aws_lb_target_group" "web-alb-tg" {
 
   # Health Check Configuration Block
   health_check {
-    path                = "/health"
+    path                = "/"
     port                = 80
     protocol            = "HTTPS"
     healthy_threshold   = 2
