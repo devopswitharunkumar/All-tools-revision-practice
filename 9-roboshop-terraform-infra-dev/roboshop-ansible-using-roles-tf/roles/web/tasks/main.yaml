@@ -4,11 +4,11 @@
       name: nginx 
       state: present
 
-  - name: Enable and restart the service 
-    ansible.builtin.service:
-      name: nginx 
-      state: started 
-      enabled: true 
+  # - name: Enable and restart the service 
+  #   ansible.builtin.service:
+  #     name: nginx 
+  #     state: started 
+  #     enabled: true 
   
   - name: remove default html content 
     ansible.builtin.find:
