@@ -855,3 +855,25 @@ resource "aws_security_group_rule" "app-alb_accept_vpn_traffic" {
   protocol                 = "tcp"
   security_group_id        = module.app_alb.sg_id
 }
+
+
+#SG For WEB ALB 
+module "web_alb" {
+    source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//7-terraform-modules/03-terraform-aws-sg?ref=main"
+    project_name = var.project_name
+    env_name = var.env_name
+    vpc_id = data.aws_ssm_parameter.vpc_id.value 
+    sg_name = "web_alb"
+    sg_description = "SG for WEB ALB"
+    #sg_ingress_rules = var.vpn_sg_ingress_rules
+}
+
+#WEB ALB should Accept connections from internet on 443 
+resource "aws_security_group_rule" "web_accept_web_alb_traffic" {
+  security_group_id        = module.web_alb.id
+  type                     = "ingress"
+  from_port                = 443
+  to_port                  = 443
+  protocol                 = "tcp"
+  cidr_blocks = [ "0.0.0.0/0" ]
+}
