@@ -32,7 +32,7 @@ resource "aws_lb_listener_rule" "host_based_weighted_routing" {
 
   condition {
     host_header {
-      values = "web-${var.env_name}.${var.domain_name}"
+      values = ["web-${var.env_name}.${var.domain_name}"]
     }
   }
 }
@@ -151,7 +151,7 @@ resource "aws_autoscaling_group" "web-asg" {
   health_check_type         = "ELB"                     #load balancer will do health check
   
   vpc_zone_identifier       = split(",", data.aws_ssm_parameter.private_subnet_id.value)
-  target_group_arns = [ aws_lb_target_group.web-app-alb-tg.arn ]
+  target_group_arns = [ aws_lb_target_group.web-alb-tg.arn ]
 
    launch_template {
     id      = aws_launch_template.web-launch-tmplt.id
