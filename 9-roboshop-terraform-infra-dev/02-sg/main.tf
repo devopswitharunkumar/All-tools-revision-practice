@@ -878,3 +878,12 @@ resource "aws_security_group_rule" "web_accept_web_alb_traffic" {
   cidr_blocks              = [ "0.0.0.0/0" ]
 }
 
+#APP ALB should accept connections from web 
+resource "aws_security_group_rule" "app-alb_accept_web_traffic" {
+  source_security_group_id = module.web.sg_id
+  type                     = "ingress"
+  from_port                = 80
+  to_port                  = 80
+  protocol                 = "tcp"
+  security_group_id        = module.app_alb.sg_id
+}

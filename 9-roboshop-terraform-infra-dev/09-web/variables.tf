@@ -22,7 +22,3 @@ variable "tags" {
         Component = "web"
     }
 }
-
-variable "domain_name" {
-  default = "devopswitharun.online"
-}
