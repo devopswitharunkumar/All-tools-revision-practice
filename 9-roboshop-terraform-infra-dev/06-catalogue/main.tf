@@ -163,7 +163,7 @@ resource "aws_autoscaling_group" "catalogue-asg" {
   health_check_type         = "ELB"                     #load balancer will do health check
   
   vpc_zone_identifier       = split(",", data.aws_ssm_parameter.private_subnet_id.value)
-  target_group_arns = aws_lb_target_group.catalogue-app-alb-tg.arn
+  target_group_arns = [ aws_lb_target_group.catalogue-app-alb-tg.arn ]
 
    launch_template {
     id      = aws_launch_template.catalogue-launch-tmplt.id
