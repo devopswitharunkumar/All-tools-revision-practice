@@ -2,15 +2,15 @@ resource "aws_lb_target_group" "web-alb-tg" {
   name        = "${local.ec2_name}-${var.tags.Component}-tg"
   target_type = "instance"
   port        = 80
-  protocol    = "HTTPS"
+  protocol    = "HTTP"
   vpc_id      = data.aws_ssm_parameter.vpc_id.value
   deregistration_delay = 60
 
   # Health Check Configuration Block
   health_check {
-    path                = "/"
+    path                = "/health"
     port                = 80
-    protocol            = "HTTPS"
+    protocol            = "HTTP"
     healthy_threshold   = 2
     unhealthy_threshold = 3
     interval            = 10
