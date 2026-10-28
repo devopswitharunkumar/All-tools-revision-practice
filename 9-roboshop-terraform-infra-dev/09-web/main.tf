@@ -1,8 +1,8 @@
 resource "aws_lb_target_group" "web-alb-tg" {
-  name        = "${local.ec2_name}-${var.tags.Component}-tg"
+  name        = "${local.ec2_name}-${var.tags.Component}-tgs"
   target_type = "instance"
   port        = 80
-  protocol    = "HTTP"
+  protocol    = "HTTP"                  #web working protocol & port not ALB so we gave HTTP and 80 web
   vpc_id      = data.aws_ssm_parameter.vpc_id.value
   deregistration_delay = 60
 

@@ -1,7 +1,7 @@
 #Creating target Group for APP-ALB
 resource "aws_lb_target_group" "catalogue-app-alb-tg" {
   target_type = "instance"                      #it is default 
-  name     = "${local.ec2_name}-${var.tags.Component}"
+  name     = "${local.ec2_name}-${var.tags.Component}-tgs"
   protocol = "HTTP"
   port     = 8080
   vpc_id   = data.aws_ssm_parameter.vpc_id.value
