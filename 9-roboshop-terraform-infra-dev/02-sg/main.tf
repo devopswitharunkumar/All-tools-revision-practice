@@ -870,10 +870,11 @@ module "web_alb" {
 
 #WEB ALB should Accept connections from internet on 443 
 resource "aws_security_group_rule" "web_accept_web_alb_traffic" {
-  security_group_id        = module.web_alb.id
+  security_group_id        = module.web_alb.sg_id
   type                     = "ingress"
   from_port                = 443
   to_port                  = 443
   protocol                 = "tcp"
-  cidr_blocks = [ "0.0.0.0/0" ]
+  cidr_blocks              = [ "0.0.0.0/0" ]
 }
+
