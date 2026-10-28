@@ -2,7 +2,7 @@ resource "aws_lb" "web-alb" {
   name               = "${local.ec2_name}-${var.tags.Component}"
   internal           = false
   load_balancer_type = "application"
-  security_groups    = data.aws_ssm_parameter.web_alb_sg_id.value 
+  security_groups    = [ data.aws_ssm_parameter.web_alb_sg_id.value ]
   subnets            = split(",",data.aws_ssm_parameter.public_subnet_id.value)
 
     tags = merge(var.common_tags, var.tags, 
@@ -25,7 +25,7 @@ resource "aws_lb_listener" "https_listner" {
     fixed_response {
       content_type = "text/plain"
       message_body = "Hi, This is from WEB ALB"
-      status_code  = "200-299"      #or 200 we can give or others b/w because success means 200-299
+      status_code  = "200"      #or 200 we can give or others b/w because success means 200-299
     }
   }
 }

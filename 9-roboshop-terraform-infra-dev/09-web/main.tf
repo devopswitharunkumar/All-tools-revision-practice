@@ -4,6 +4,7 @@ resource "aws_lb_target_group" "web-alb-tg" {
   port        = 80
   protocol    = "HTTPS"
   vpc_id      = data.aws_ssm_parameter.vpc_id.value
+  deregistration_delay = 60
 
   # Health Check Configuration Block
   health_check {
@@ -14,7 +15,7 @@ resource "aws_lb_target_group" "web-alb-tg" {
     unhealthy_threshold = 3
     interval            = 10
     timeout             = 5
-    matcher             = "200-299"
+    matcher             = "200"
   }
 
 }
@@ -31,7 +32,7 @@ resource "aws_lb_listener_rule" "host_based_weighted_routing" {
 
   condition {
     host_header {
-      values = "web-${var.domain_name}"
+      values = "web-${var.env_name}.${var.domain_name}"
     }
   }
 }
