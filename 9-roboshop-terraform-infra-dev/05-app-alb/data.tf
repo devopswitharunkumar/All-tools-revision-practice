@@ -1,25 +1,3 @@
-
-#fetching ami id from aws
-data "aws_ami" "redhat-9-ami-id" {
-  most_recent      = true
-  owners           = ["973714476881"]
-
-  filter {
-    name   = "name"
-    values = ["Redhat-9-DevOps-Practice"] #if vale randomlyy changes we can give like ["Redhat-9-DevOps-*"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-  }
-}
-
 data "aws_ssm_parameter" "app_alb_sg_id" {
     name = "/${var.project_name}/${var.env_name}/app_alb_sg_id"
   
@@ -34,6 +12,3 @@ data "aws_route53_zone" "zone_id" {
     private_zone = false 
 }
 
-variable "domain_name" {
-  default = "devopswitharun.online"
-}

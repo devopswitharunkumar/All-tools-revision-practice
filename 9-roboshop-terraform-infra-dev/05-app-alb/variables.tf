@@ -22,3 +22,7 @@ variable "tags" {
         Component = "app-alb"
     }
 }
+
+variable "domain_name" {
+  default = "devopswitharun.online"
+}
