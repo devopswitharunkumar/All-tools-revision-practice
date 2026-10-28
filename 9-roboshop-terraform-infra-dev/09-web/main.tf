@@ -85,17 +85,6 @@ resource "null_resource" "web" {
     }
 }
 
-# #if u want to test above health check
-# resource "aws_security_group_rule" "web_accept_vpn_traffic" {
-#   source_security_group_id = module.vpn.sg_id
-#   type                     = "ingress"
-#   from_port                = 8080
-#   to_port                  = 8080
-#   protocol                 = "tcp"
-#   security_group_id        = module.web.sg_id
-# }
-
-
 #Stopping Instance 
 resource "aws_ec2_instance_state" "stop-instance" {
   instance_id = module.web.id
@@ -171,7 +160,7 @@ resource "aws_autoscaling_group" "web-asg" {
   instance_refresh {
     strategy = "Rolling"
     preferences {
-      min_healthy_percentage = 75
+      min_healthy_percentage = 1
     }
     triggers = ["launch_template"]
   }
@@ -200,7 +189,7 @@ resource "aws_autoscaling_policy" "asg-policy" {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
 
-    target_value = 75.0
+    target_value = 1.0
   }
   
 }
