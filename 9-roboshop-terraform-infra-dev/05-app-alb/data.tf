@@ -12,3 +12,6 @@ data "aws_route53_zone" "zone_id" {
     private_zone = false 
 }
 
+variable "domain_name" {
+  default = "devopswitharun.online"
+}

@@ -161,7 +161,7 @@ resource "aws_autoscaling_group" "web-asg" {
   instance_refresh {
     strategy = "Rolling"
     preferences {
-      min_healthy_percentage = 1
+      min_healthy_percentage = 75
     }
     triggers = ["launch_template"]
   }
@@ -190,7 +190,7 @@ resource "aws_autoscaling_policy" "asg-policy" {
       predefined_metric_type = "ASGAverageCPUUtilization"
     }
 
-    target_value = 1.0
+    target_value = 75.0
   }
   
 }
