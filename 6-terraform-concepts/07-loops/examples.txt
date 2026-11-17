@@ -1,0 +1,58 @@
+### create multiple resources using count with different configuration
+locals {
+  instances = [
+    {
+      name          = "mongodb"
+      instance_type = "t3.micro"
+    },
+    {
+      name          = "cart"
+      instance_type = "t2.micro"
+    },
+    {
+      name          = "shipping"
+      instance_type = "t3.medium"
+    }
+  ]
+}
+
+resource "aws_instance" "roboshop" {
+  count = length(local.instances)
+
+  ami           = var.ami_id
+  instance_type = local.instances[count.index].instance_type
+
+  tags = {
+    Name = local.instances[count.index].name
+  }
+}
+
+
+### create multiple resources using for_each with different configuration
+
+locals {
+  instances = {
+    mongodb = {
+      instance_type = "t3.micro"
+    }
+
+    cart = {
+      instance_type = "t2.micro"
+    }
+
+    shipping = {
+      instance_type = "t3.medium"
+    }
+  }
+}
+
+resource "aws_instance" "roboshop" {
+  for_each = local.instances
+
+  ami           = var.ami_id
+  instance_type = each.value.instance_type
+
+  tags = {
+    Name = each.key
+  }
+}
