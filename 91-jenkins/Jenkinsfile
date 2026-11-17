@@ -32,7 +32,12 @@ pipeline {
         stage("Greet") {
             steps {
                 echo "Hi Im learning ${Greeting}"
-                env         //prints all the available environmant variables
+            }
+            steps {
+                sh """
+                    echo "prints all the available environmant variables"
+                    env
+                """
             }
         }
     }
