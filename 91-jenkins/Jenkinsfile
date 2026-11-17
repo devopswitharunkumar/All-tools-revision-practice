@@ -6,25 +6,42 @@ pipeline {
     } 
 
     stages {
-        stage("Dev") {
+        stage("Building") {
             steps {
-                echo "This is Dev Stage"
+                echo "This is Building Stage"
             }
         }
-        stage("QA") {
+        stage("Test") {
             steps {
-                echo "This is QA Stage"
+                echo "This is test Stage"
             }
         }
-        stage("Pre-Prod") {
+        stage("Scan") {
             steps {
-                echo "This is Pre-Prod Stage"
+                echo "This is Scanning Stage"
             }
         }
-        stage("Prod") {
+        stage("Deploy") {
             steps {
-                echo "This is Prod Stage"
+                echo "This is Deploy Stage"
             }
+        }
+    }
+    post {
+        always {
+            echo "This action will execute always irrespective of pipeline build is failed or success or aborted"
+        }
+        success {
+            echo "This action will execute only if pipeline or stage build is successful"
+        }
+        failure {
+            echo "This action will execute only if pipeline or stage build is failed"
+        }
+        unsuccessful {
+            echo "This action will execute if pipeline or stage build is other than success for all remaining issues"
+        }
+        aborted {
+            echo "This action will execute only if the pipeline build is abort os stop manually"
         }
     }
 }
