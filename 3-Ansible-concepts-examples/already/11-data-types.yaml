@@ -1,0 +1,29 @@
+- name: Data Types playbook
+  hosts: web 
+  become: true 
+  vars:
+    name: "Arun"
+    age: 26
+    ratings: 3.5
+    Experience: 
+    - Devops: 2
+    - linux: 1
+    - Ansible: 2
+    skills:
+    - AWS 
+    - linux
+    - kubernetes
+    - Docker
+    Devops_enthusiastic: true
+  tasks:
+  - name: Name replacement 
+    ansibl.built-in.debub: 
+      msg: "Hi my name is {{name}} and age is {{age}} and my rating in company is {{ratings}}"
+  - name: Skills
+    ansibl.built-in.debug:
+      msg: "Hi My name is {{name}} and skills are {{skills}}" 
+      register: output
+  - name: Experience is 
+    ansibl.built-in.debub:
+      msg: "Hi My name is {{name}} and skills are {{skills}} and Experience is {{Experience}} and im a Devops_enthusiastic: {{Devops_enthusiastic}}" 
+    when: "{{output.stdout}}"

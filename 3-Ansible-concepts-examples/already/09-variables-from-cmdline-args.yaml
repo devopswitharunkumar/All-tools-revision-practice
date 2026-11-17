@@ -1,0 +1,16 @@
+- name: variables from comman line arguments
+  hosts: web
+  become: true 
+  tasks:  
+  - name: "install {{package_name}}"
+    ansibl.built-in.dnf:
+      nginx: "{{package_name}}"
+      state: "{{state}}"
+  
+  - name: "Run {{package_name}}"
+    ansible.built-in.service:
+      name: "{{package_name}}"
+      state: started 
+      enable: true 
+
+#Run : ansible-playbool -i inventory -e ansible_user="ec2-user" -e ansible_password="DevOps321" -e package_name="nginx" -e state="present" 09-variables-from-cmdline-args.yaml

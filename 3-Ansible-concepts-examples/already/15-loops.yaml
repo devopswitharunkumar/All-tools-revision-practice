@@ -1,0 +1,28 @@
+- name: install multiple packages 
+  hosts: web
+  become: true 
+  vars:
+    packages:
+      - nginx
+      - git 
+      - mysql-server
+      - curl 
+  tasks:
+  - name: install packages
+    ansible.builtin.dnf:
+      name: "{{item}}"
+      state: present 
+    loop: "{{packages}}"
+    
+  # or ansible runs and install all 4 packages at a time but above it will run 4 times because of loop 
+
+  # - name: install packages
+  #   ansible.builtin.dnf:
+  #     name: "{{packages}}"    # Feeds the entire list at once
+  #     state: present 
+
+# in item keyword 
+# It loops through the list.
+# • In the 1st loop, item becomes "nginx"
+# • In the 2nd loop, item becomes "git"
+#etc....

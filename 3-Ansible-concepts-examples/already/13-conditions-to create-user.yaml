@@ -1,0 +1,17 @@
+- name: create user based on conditions
+  hosts: web 
+  become: yes 
+  tasks:
+  - name: check user exists or not 
+    ansibl.built-in.shell: id roboshop
+    register: output 
+
+  - name: print exit status
+    ansibl.built-in.debub:
+      msg: "Exit status is {{output.rc}}"
+  
+  - name: create user if doesn't exists 
+    ansibl.built-in.user: 
+      name: roboshop 
+      state: present 
+    when: output.rc != 0

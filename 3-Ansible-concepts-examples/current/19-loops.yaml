@@ -1,0 +1,35 @@
+- name: loops 
+  hosts: practice
+  become: true
+  vars:
+    packages:
+    - chili
+    - argentina 
+    - asia  
+  tasks:      # list type loop 
+    #directly giveing loop values in a task is 1 way 
+  - name: install packages 
+    ansible.builtin.debug:
+      msg: " Hi this is {{item}}"
+    loop:
+    - Arun
+    - kumar 
+    - reddy
+    #another way that we can give the list of variable at play level and iterate using that refer name that is 2nd way 
+  - name: play level loop 
+    ansible.builtin.debug:
+      msg: "Hi this is {{item}}"
+    loop: "{{packages}}"
+
+# map/dictionary type loop 
+  - name: map type loop 
+    ansible.builtin.debug:
+      # msg: "My name is {{item.name}} and age is {{item.age}}"
+      # or
+      msg: |                    # |  --> to specify multi-line block 
+        My name is {{item.name}}
+        My age is {{item.age}}
+      # msg2: "My age is {{item.age}}"
+    loop:
+    - {name: 'Arun', age: 23}
+    - {name: 'kumar', age: 28}

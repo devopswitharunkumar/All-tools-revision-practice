@@ -1,0 +1,23 @@
+resource "aws_security_group" "sg_without_vars" {
+  name = "sg-hardcodening-values"
+  description = "This is SG created with hardcodening values" 
+
+  ingress = {
+    description = "Allow all for incomming traffic"
+    to_port = "0"
+    from_port = "0"
+    protocol = "-1"
+    cidr_block = ["0.0.0.0/0"]
+  }
+
+  engress = {
+    description = "Allow all for outgoing traffic"
+    to_port = "0"
+    from_port = "0"
+    protocol = "-1"
+    cidr_block = ["0.0.0.0/0"]
+  }
+  tags = {
+    name = "sg_without_variables"  
+  }
+}

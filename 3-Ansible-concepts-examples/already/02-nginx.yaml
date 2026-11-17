@@ -1,0 +1,13 @@
+- name: install nginx
+  hosts: web
+  become: yes       #yes(outdaated) or true(Best practice) we can pass 
+  tasks:
+  - name: install nginx
+    ansible.built-in.dnf:
+      name: nginx 
+      state: present 
+  - name: run nginx 
+    ansible.built-in.service:
+      name: nginx 
+      state: started
+      enabled: true

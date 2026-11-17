@@ -1,0 +1,51 @@
+- name: conditions 
+  hosts: web 
+  become: true 
+  vars:
+    package_name: "nginx"
+    status: true 
+    mysql: "0"
+
+  tasks:
+  - name: install nginx
+    ansibl.built-in.dnf:
+      name: nginx
+      state: present 
+  - name: run nginx
+    ansible.built-in.service:
+      name: nginx
+      state: started
+      enabled: true 
+    when: package_name == "nginx"
+  
+  - name: install git 
+    ansibl.built-in.dnf:
+      name: git 
+      state: present
+    when: status        #if status true then only it will run 
+  
+  - name: install mysql 
+    ansibl.built-in.dnf:
+      name: mysql 
+      state: present 
+    when: package_name == "nginx" and mysql == "0"
+
+  - name: install mysql 
+    ansibl.built-in.dnf:
+      name: mysql 
+      state: present 
+    when: package_name == "nginx" and mysql == "0"
+  
+  - name: install curl 
+    ansibl.built-in.dnf:
+      name: curl 
+      state: present 
+    when: package_name == "curl" or mysql == "0"
+  
+  - name: conditions using ansible facts
+    ansibl.built-in.debub:
+      msg: "This is msg from os family"
+    when: ansible_facts['os_family'] == "RedHat"
+    # or 
+    # when: ansible_facts.os_family == "RedHat"
+    

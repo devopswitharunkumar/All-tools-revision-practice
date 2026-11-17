@@ -1,0 +1,34 @@
+- name: variables from prompt 
+  hosts: web 
+  become: true 
+  vars_prompt:
+  - name: package_name
+    prompt: "Pls enter your package name"
+    private: false
+  - name: state_condition
+    prompt: "Pls enter your input to install or remove package"
+    private: false 
+  - name: username
+    prompt: "pls enter your username"
+    private: false    
+  - name: password
+    prompt: "Pls enter your password"
+    private: true     #it hides the input while entering 
+  tasks:
+  - name: "install {{package_name}}"
+    ansibl.built-in.dnf:
+      name: "{{package_name}}"
+      state: "{{state_condition}}" 
+
+  - name: "run {{package_name}}"
+    ansible.built-in.service:
+      name: "{{package_name}}"
+      state: started 
+      enabled: true 
+      
+  - name: General info msg 
+    ansibl.built-in.debug:
+      msg:"Hi Im {{username}} and password is {{password}}"
+
+#Run : ansible-playbook -i inventory.ini -e ansible_user="ec2-user" -e ansible_password="DevOps321" 07-variables-from-prompt.yaml
+#it prompts for username and password pls enter them 

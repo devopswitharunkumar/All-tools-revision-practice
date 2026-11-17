@@ -1,0 +1,6 @@
+package_name= "nginx"
+state="present"
+course="DevOps"
+
+name="name From variable file level"
+course="course From variable file level"

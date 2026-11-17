@@ -1,0 +1,31 @@
+- name: variables from group_vars-level
+  hosts: practice
+  become: true 
+  vars:
+    package_name: "nginx"
+  tasks:
+  - name: "Install {{package_name}}"
+    ansible.builtin.dnf:
+      name: "{{package_name}}"
+      state: present
+    register: output
+  
+  - name: print the output value
+    ansible.builtin.debug:
+      msg: "Exit status is {{output.rc}}"
+  
+  - name: print the output value
+    ansible.builtin.debug:
+      msg: "Exit status is {{output.stdout}}"
+
+  - name: print the output value
+    ansible.builtin.debug:
+      msg: "Exit status is {{output.stderr}}"
+
+  - name: "Run {{package_name}}"
+    ansible.builtin.service:
+      name: "{{package_name}}"
+      state: started 
+      enabled: true 
+    when: output.rc == 0
+  
