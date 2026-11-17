@@ -54,7 +54,7 @@ pipeline {
         }
         stage("Params") {
             steps {
-                echo "Hi Im learning ${Greeting} and ${params.Version} and ${params.Environment} and ${params.Run_tests} and ${params.normal_text}"
+                echo "Hi Im learning ${Greeting} and ${params.Version} and ${params.Run_tests} and ${params.normal_text}"
             }
         }
     }
