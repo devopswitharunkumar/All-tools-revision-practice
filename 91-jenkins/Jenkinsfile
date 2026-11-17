@@ -52,6 +52,11 @@ pipeline {
                 """
             }
         }
+        stage("Params") {
+            steps {
+                echo "Hi Im learning ${Greeting} and ${params.Version} and ${params.Environment} and ${params.Run_tests}"
+            }
+        }
     }
     post {
         always {
