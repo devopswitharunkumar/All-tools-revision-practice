@@ -30,6 +30,9 @@ pipeline {
     post {
         always {
             echo "ALWAYS - This action will execute always irrespective of pipeline build is failed or success or aborted"
+            //we can give them like this inside condition block
+                cleanWs()           //Cleans the entire Jenkins workspace
+                deleteDir()         //Deletes the current working directory.
         }
         success {
             echo "SUCCESS - This action will execute only if pipeline or stage build is successful"
@@ -59,7 +62,5 @@ pipeline {
         cleanup {
             echo "CLEANUP - This action will execute only after all the conditions evaluated & regardless of the pipeline result "
         }   
-        cleanWs()           //Cleans the entire Jenkins workspace
-        deleteDir()         //Deletes the current working directory.
     }
 }
