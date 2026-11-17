@@ -16,14 +16,14 @@ pipeline {
                 echo "This is test Stage"
             }
         }
-        stage("Deploy") {
+        stage("Scan") {
             steps {
                 echo "This is Scanning Stage"
             }
         }
         stage("Deploy") {
             steps {
-                echo "This is Deploy Stage"
+                echo "This is Deploy Stage
             }
         }
     }
