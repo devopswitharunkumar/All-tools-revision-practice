@@ -45,7 +45,7 @@ pipeline {
         }
         stage("Greet") {
             steps {
-                echo "Hi Im learning ${Greeting} and ${params.Version}"
+                echo "Hi Im learning ${Greeting} and ${params.Version} and ${params.Environment}"
                 sh """
                     echo "prints all the available environmant variables"
                     env
