@@ -4,6 +4,9 @@ pipeline {
             label 'Agent-1'
         }
     } 
+    environment {
+        Greeting = "DEVOPS"
+    }
 
     stages {
         stage("Building") {
@@ -24,6 +27,11 @@ pipeline {
         stage("Deploy") {
             steps {
                 echo "This is Deploy Stage"
+            }
+        }
+        stage("Greet") {
+            steps {
+                echo "Hi Im learning ${Greeting}"
             }
         }
     }
