@@ -32,8 +32,6 @@ pipeline {
         stage("Greet") {
             steps {
                 echo "Hi Im learning ${Greeting}"
-            }
-            steps {
                 sh """
                     echo "prints all the available environmant variables"
                     env
