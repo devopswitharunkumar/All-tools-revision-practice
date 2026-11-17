@@ -43,5 +43,23 @@ pipeline {
         aborted {
             echo "ABORTED - This action will execute only if the pipeline build is abort os stop manually"
         }
+
+        unstable {
+            echo "UNSTABLE - This action will execute only if the pipeline's current build is unstable"
+        }
+        fixed {
+            echo "FIXED - This action will execute only if the pipeline's previous build is unstable or failed but current build is successful"
+        }
+        changed {
+            echo "CHANGED - This action will execute only if the pipeline's current build is diff/changed compared to previous build"
+        }
+        regression {
+            echo "REGRESSION - This action will execute only if the pipeline's previous build was successful or stable but the current build becomes unstable or fails."
+        }
+        cleanup {
+            echo "CLEANUP - This action will execute only after all the conditions evaluated & regardless of the pipeline result "
+        }   
+        cleanWs()           //Cleans the entire Jenkins workspace
+        deleteDir()         //Deletes the current working directory.
     }
 }
