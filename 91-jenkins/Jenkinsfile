@@ -16,7 +16,7 @@ pipeline {
                 echo "This is test Stage"
             }
         }
-        stage("Scan") {
+        stage("Deploy") {
             steps {
                 echo "This is Scanning Stage"
             }
@@ -29,19 +29,19 @@ pipeline {
     }
     post {
         always {
-            echo "This action will execute always irrespective of pipeline build is failed or success or aborted"
+            echo "ALWAYS - This action will execute always irrespective of pipeline build is failed or success or aborted"
         }
         success {
-            echo "This action will execute only if pipeline or stage build is successful"
+            echo "SUCCESS - This action will execute only if pipeline or stage build is successful"
         }
         failure {
-            echo "This action will execute only if pipeline or stage build is failed"
+            echo "FAILURE - This action will execute only if pipeline or stage build is failed"
         }
         unsuccessful {
-            echo "This action will execute if pipeline or stage build is other than success for all remaining issues"
+            echo "UNSUCCESSFUL - This action will execute if pipeline or stage build is other than success for all remaining issues"
         }
         aborted {
-            echo "This action will execute only if the pipeline build is abort os stop manually"
+            echo "ABORTED - This action will execute only if the pipeline build is abort os stop manually"
         }
     }
 }
