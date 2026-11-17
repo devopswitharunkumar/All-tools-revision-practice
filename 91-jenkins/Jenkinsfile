@@ -7,6 +7,20 @@ pipeline {
     environment {
         Greeting = "DEVOPS"
     }
+    options {
+        timestamps()
+        disableConcurrentBuilds()
+        timeout(time: 30, unit: 'MINUTES')
+        retry(2)
+        quietPeriod(5)
+    }
+    parameters {
+        string(name:'Version', defaultValue:'1.0', description: 'Stringexample')
+        text(name:'normal_text', defaultValue:'example', description:'textexample')
+        booleanParam(name:'Run_tests', defaultValue: true, description: 'Booleanexample')
+        choice(name:'Environment', choices:['Dev','QA','prod'], destr)
+        password(name:'password', defaultValue:'SECRET', description:'Enter Password')
+    }
 
     stages {
         stage("Building") {
