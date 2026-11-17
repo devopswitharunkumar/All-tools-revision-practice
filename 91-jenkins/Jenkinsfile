@@ -18,7 +18,7 @@ pipeline {
         string(name:'Version', defaultValue:'1.0', description: 'Stringexample')
         text(name:'normal_text', defaultValue:'example', description:'textexample')
         booleanParam(name:'Run_tests', defaultValue: true, description: 'Booleanexample')
-        choice(name:'Environment', choices:['Dev','QA','prod'], destr)
+        choice(name:'Environment', choices:['Dev','QA','prod'], description:'choices')
         password(name:'password', defaultValue:'SECRET', description:'Enter Password')
     }
 
