@@ -57,6 +57,18 @@ pipeline {
                 echo "Hi Im learning ${Greeting} and ${params.Version} and ${params.Run_tests} and ${params.normal_text}"
             }
         }
+        stage("Params") {
+            steps {
+                input {
+                    message "should we continue ?"          //required variable 
+                    ok "Yes, we should."
+                    submitter "Arun,Kumar"
+                    parameters {
+                        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+                    }
+                }
+            }
+        }
     }
     post {
         always {
