@@ -33,7 +33,7 @@ pipeline {
         stage("Approve"){
             when {
                 expression {
-                    "params.ACTION" = 'Apply'
+                    params.ACTION = 'Apply'
                 }
             }
             input {
