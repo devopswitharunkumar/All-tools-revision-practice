@@ -14,7 +14,7 @@ pipeline {
                 script {
                     def packageJSON = readJSON file: '92-roboshop-CI-Appln-Code/catalogue/package.json'
                     packageVersion= packageJSON.version
-                    echo "Application version is $packageVersion"
+                    echo "Application version is : $packageVersion"
                 }
             } 
         }
