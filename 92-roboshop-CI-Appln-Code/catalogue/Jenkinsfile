@@ -34,5 +34,13 @@ pipeline {
                 """
             } 
         }
+        stage("Build") {
+                steps {
+                    script {
+                        ls -la
+                    }
+                }
+
+        }
     }
 }
