@@ -38,12 +38,18 @@ pipeline {
             steps {
                 sh """
                     cd 93-roboshop-CD-Appln-Code/catalogue-deploy/terraform 
-                    pwd 
-                    ls -la
                     terraform plan -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" 
                 """
             }
         }  
+        stage('Apply') {
+            steps {
+                sh """
+                    cd 93-roboshop-CD-Appln-Code/catalogue-deploy/terraform 
+                    terraform apply -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" -auto-approve
+                """
+            }
+        }
     }
     post {
         always {

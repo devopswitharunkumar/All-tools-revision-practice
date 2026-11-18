@@ -20,19 +20,36 @@
 #     url: "https://roboshop-builds.s3.amazonaws.com/{{component}}.zip"
 #     dest: "/tmp/{{component}}.zip"
 
-- name: "Downloading {{ component }} Module Zip"
-  ansible.builtin.get_url:
-    url: >-
-      {{
-        'https://shipping-data-sql-file.s3.us-east-1.amazonaws.com/shipping.zip'
-        if component == 'shipping'
-        else
-        'https://roboshop-builds.s3.amazonaws.com/' ~ component ~ '.zip'
-      }}
-    dest: "/tmp/{{ component }}.zip"
 
-- name: "unzip the downloaded {{component}} code" 
-  ansible.builtin.unarchive: 
-    src: "/tmp/{{component}}.zip"
+#TERRAFORM USAGE -- Enable this IF terraform u r running 
+# - name: "Downloading {{ component }} Module Zip"
+#   ansible.builtin.get_url:
+#     url: >-
+#       {{
+#         'https://shipping-data-sql-file.s3.us-east-1.amazonaws.com/shipping.zip'
+#         if component == 'shipping'
+#         else
+#         'https://roboshop-builds.s3.amazonaws.com/' ~ component ~ '.zip'
+#       }}
+#     dest: "/tmp/{{ component }}.zip"
+
+# - name: "unzip the downloaded {{component}} code" 
+#   ansible.builtin.unarchive: 
+#     src: "/tmp/{{component}}.zip"
+#     dest: /app
+#     remote_src: yes 
+
+
+# CD PROCESS USAGE -- ENABLE THIS IF UR USING THIS FOLDER IN JENKINS 
+- name: Download Appln Artifact Code From Nexus
+  ansible.builtin.get_url:
+    url: "{{NEXUS_URL}}/{{component}}/{{group_id}}/{{component}}/{{app_version}}/{{component}}-{{app_version}}.zip"
+    dest: "/tmp/{{component}}-{{app_version}}.zip"
+    url_username: admin
+    url_password: admin123
+
+- name: Unarchive the Downloaded Zip File From Nexus
+  ansible.builtin.unarchive:
+    src: "/tmp/{{component}}-{{app_version}}.zip"
     dest: /app
-    remote_src: yes 
+    remote_src: yes

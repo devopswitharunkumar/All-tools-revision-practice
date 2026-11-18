@@ -82,7 +82,7 @@ resource "null_resource" "catalogue" {
     provisioner "remote-exec" {
         inline = [ 
             "chmod +x /home/ec2-user/bootstrap.sh",
-            "sudo sh /home/ec2-user/bootstrap.sh catalogue dev"
+            "sudo sh /home/ec2-user/bootstrap.sh catalogue dev ${var.app_version}"
          ]
     }
 }

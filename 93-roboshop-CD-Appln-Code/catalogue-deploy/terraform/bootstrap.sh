@@ -4,6 +4,7 @@ set -e
 
 component=$1
 environment=$2
+app_version=$3
 
 dnf install -y python3 python3-pip python3-boto3 python3-botocore git ansible
 cd /home/ec2-user/
@@ -24,4 +25,5 @@ ansible-pull -U https://github.com/devopswitharunkumar/All-tools-revision-practi
   -i "9-roboshop-terraform-infra-dev/roboshop-ansible-using-roles-tf/${environment}/inventory.ini" \
   -e component=$component \
   -e env=$environment \
+  -e app_version=$app_version \         #this line id for CD process
   9-roboshop-terraform-infra-dev/roboshop-ansible-using-roles-tf/main-tf.yaml

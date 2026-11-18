@@ -19,3 +19,7 @@ CART_HOST: cart.app-dev.devopswitharun.online
 SHIPPING_HOST: shipping.app-dev.devopswitharun.online
 PAYMENT_HOST: payment.app-dev.devopswitharun.online
 DISPATCH_HOST: dispatch.app-dev.devopswitharun.online
+
+#CD PROCESS VARIABLES 
+NEXUS_URL: http://172.31.36.95:8081/repository
+group_id: com/roboshop
