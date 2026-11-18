@@ -18,5 +18,17 @@ pipeline {
                 }
             } 
         }
+        stage("Install dependencies"){
+            steps {
+                sh """
+                    sudo dnf module disable nodejs -y
+                    sudo dnf module enable nodejs:18 -y 
+                    sudo dnf install nodejs -y 
+                    cd 92-roboshop-CI-Appln-Code/catalogue/
+                    echo "for npm to work we need to install nodejs first that y above we did"
+                    npm install 
+                """
+            } 
+        }
     }
 }
