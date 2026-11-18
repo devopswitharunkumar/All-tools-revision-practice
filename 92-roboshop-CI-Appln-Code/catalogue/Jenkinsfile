@@ -103,8 +103,9 @@ pipeline {
                         string(name:'version', value: "${packageVersion}", description: 'Artifact Version is'),
                         string(name:'Environment', defaultValue: "dev", description: 'Environment is')
                     ]
+                    build job: "ROBOSHOP_INFRA_CD_DEPLOY/catalogue_deploy", 
+                                wait: true, parameters: buildParams
                 }
-                build job: "ROBOSHOP_INFRA_CD_DEPLOY/catalogue_deploy", wait: true, parameters: buildParams
             }
         }
     }
