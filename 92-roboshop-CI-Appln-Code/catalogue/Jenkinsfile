@@ -12,7 +12,7 @@ pipeline {
         stage("Get Current Version"){
             steps {
                 script {
-                    def packageJSON = readJSON file: 'package.json'
+                    def packageJSON = readJSON file: '92-roboshop-CI-Appln-Code/catalogue/package.json'
                     packageVersion= packageJSON.version
                     echo "Application version is $packageVersion"
                 }
