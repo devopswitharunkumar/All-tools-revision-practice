@@ -37,11 +37,30 @@ pipeline {
         stage("Build") {
                 steps {
                     sh """
+                        sudo dnf install zip -y
                         cd 92-roboshop-CI-Appln-Code/catalogue/
                         ls -la
+                        zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
+                        ls -ltr 
                     """
                 }
+        }
+        // stage("Publish Artifact") {
+        //         steps {
 
+        //         }
+        // }
+    }
+    post {
+        always {
+            echo "CI process completed"
+            deleteDir()
+        }
+        success {
+            echo "CI process completed Successfully"
+        }
+        failure {
+            echo "CI process Failed"
         }
     }
 }
