@@ -10,7 +10,7 @@ pipeline {
         ansiColor('xterm')
     }
     parameters{
-        choice(name:'ACTION', choices['Apply', 'Destroy'])
+        choice(name: 'ACTION', choices: ['Apply','Destroy'], description: 'Pick Anyone')
     }
     stages {
         stage("Init"){
