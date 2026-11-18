@@ -100,11 +100,12 @@ pipeline {
             steps {
                 script {
                     def buildParams = [
-                        string(name:'version', value: "${packageVersion}", description: 'Artifact Version is'),
-                        string(name:'Environment', defaultValue: "dev", description: 'Environment is')
+                        string(name:'Version', value: "${packageVersion}"),
+                        string(name:'Environment', value: "dev")
                     ]
                     build job: "ROBOSHOP_INFRA_CD_DEPLOY/catalogue_deploy", 
-                                wait: true, parameters: buildParams
+                                wait: true, 
+                                parameters: buildParams
                 }
             }
         }

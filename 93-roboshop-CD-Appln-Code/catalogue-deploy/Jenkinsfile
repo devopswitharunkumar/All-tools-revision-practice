@@ -20,19 +20,17 @@ pipeline {
     }
 
     stages {
-        stage('Print version & Environment') {
+        stage('Print Version & Environment') {
             steps {
-                sh """
-                    echo "Version is : ${params.Version}
-                    echo "Environment is : ${params.Environment}
-                """
+                echo "Version is : ${params.Version}"
+                echo "Environment is : ${params.Environment}"
             }
         }
         stage('Init') {
             steps {
                 sh """
                     cd 93-roboshop-CD-Appln-Code/catalogue-deploy/terraform 
-                    terraform init --backend-config={params.Environment}/backend.tf -reconfigure 
+                    terraform init -backend-config=${params.Environment}/backend.tf -reconfigure 
                 """
             }
         }
@@ -40,7 +38,7 @@ pipeline {
             steps {
                 sh """
                     cd 93-roboshop-CD-Appln-Code/catalogue-deploy/terraform 
-                    terraform Plan -var="app_version=${params.Version}" -var-file={params.Environment}/{params.Environment}.tfvars 
+                    terraform Plan -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" 
                 """
             }
         }  
