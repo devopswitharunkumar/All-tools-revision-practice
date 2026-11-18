@@ -18,7 +18,6 @@ pipeline {
         string(name:'Version', defaultValue: '', description: 'What is the Artifact Version ?')
         string(name:'Environment', defaultValue: '', description: 'What is the Environment ?')
     }
-    }
 
     stages {
         stage('Print version & Environment') {
