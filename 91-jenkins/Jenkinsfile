@@ -58,16 +58,17 @@ pipeline {
             }
         }
         stage("input-test") {
+            input {
+                message "should we continue ?"          //required variable 
+                ok "Yes, we should."
+                submitter "Arun,Kumar"
+                parameters {
+                    string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
+                }
+            } 
             steps {
-                input {
-                    message "should we continue ?"          //required variable 
-                    ok "Yes, we should."
-                    submitter "Arun,Kumar"
-                    parameters {
-                        string(name: 'PERSON', defaultValue: 'Mr Jenkins', description: 'Who should I say hello to?')
-                    }
-                }   
-            }
+                echo "${PERSON}"
+            }  
         }
     }
     post {
