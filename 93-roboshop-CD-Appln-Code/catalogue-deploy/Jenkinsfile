@@ -38,7 +38,7 @@ pipeline {
             steps {
                 sh """
                     cd 93-roboshop-CD-Appln-Code/catalogue-deploy/terraform 
-                    terraform Plan -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" 
+                    terraform plan -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" 
                 """
             }
         }  
