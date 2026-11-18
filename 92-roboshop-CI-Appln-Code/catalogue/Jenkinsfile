@@ -1,0 +1,22 @@
+pipeline {
+    agent {
+        node {
+            label 'Agent-1'
+        }
+    }
+    environment {
+        packageVersion=''
+    }
+
+    stages {
+        stage("Get Current Version"){
+            steps {
+                script {
+                    def packageJSON = readJSON file: 'package.json'
+                    packageVersion= packageJSON.version
+                    echo "Application version is $packageVersion"
+                }
+            } 
+        }
+    }
+}
