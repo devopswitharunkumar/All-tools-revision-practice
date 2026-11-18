@@ -12,6 +12,7 @@ pipeline {
     options {
         ansiColor('xterm')
         timeout(time: 30, unit: 'MINUTES')
+        disableConcurrentBuilds()
     }
 
     stages {
@@ -92,6 +93,18 @@ pipeline {
                     type: 'zip']
                 ]
                 )
+            }
+        }
+        //ROBOSHOP_INFRA_CD_DEPLOY/catalogue_deploy --> should be pipeline name in jenkins tool which needed to called 
+        stage("Trigger CD pipeline For Deploy") {
+            steps {
+                script {
+                    def buildParams = [
+                        string(name:'version', value: "${packageVersion}", description: 'Artifact Version is'),
+                        string(name:'Environment', defaultValue: 'dev', description: 'Environment is'),
+                    ]
+                }
+                build job: "ROBOSHOP_INFRA_CD_DEPLOY/catalogue_deploy", wait: true, parameters: buildParams
             }
         }
     }

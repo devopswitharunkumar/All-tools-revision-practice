@@ -1,0 +1,61 @@
+pipeline {
+    agent {
+        node {
+            label 'Agent-1'
+        }
+    }
+    // environment {
+    //     packageVersion=''
+    //     nexusURL='172.31.36.95:8081'
+    //     repositoryName='catalogue'
+    // }
+    options {
+        ansiColor('xterm')
+        timeout(time: 30, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+    parameters {
+        string(name:'Version', defaultValue: '', description: 'What is the Artifact Version ?')
+        string(name:'Environment', defaultValue: '', description: 'What is the Environment ?')
+    }
+    }
+
+    stages {
+        stage('Print version & Environment') {
+            steps {
+                sh """
+                    echo "Version is : ${params.Version}
+                    echo "Environment is : ${params.Environment}
+                """
+            }
+        }
+        stage('Init') {
+            steps {
+                sh """
+                    cd 93-roboshop-CD-Appln-Code/catalogue-deploy/terraform 
+                    terraform init --backend-config={params.Environment}/backend.tf -reconfigure 
+                """
+            }
+        }
+        stage('Plan') {
+            steps {
+                sh """
+                    cd 93-roboshop-CD-Appln-Code/catalogue-deploy/terraform 
+                    terraform Plan -var="app_version=${params.Version}" -var-file={params.Environment}/{params.Environment}.tfvars 
+                """
+            }
+        }  
+    }
+    post {
+        always {
+            echo "CI process completed-Always"
+            deleteDir()
+        }
+        success {
+            echo "CI process completed Successfully"
+        }
+        failure {
+            echo "CI process Failed"
+        }
+    }
+}
