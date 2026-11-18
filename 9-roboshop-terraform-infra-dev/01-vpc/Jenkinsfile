@@ -33,12 +33,12 @@ pipeline {
         stage("Approve"){
             when {
                 expression {
-                    params.ACTION = 'Apply'
+                    params.ACTION == 'Apply'
                 }
             }
             input {
-                message 'Do You want to Approve ?'
-                ok 'Yes we should.'
+                message "Do You want to Approve ?"
+                ok "Yes we should."
             }
             steps {
                 sh """
@@ -50,12 +50,12 @@ pipeline {
         stage("Destroy"){
             when {
                 expression {
-                    params.ACTION = 'Destroy'
+                    params.ACTION == 'Destroy'
                 }
             }
             input {
-                message 'Do You want to Approve ?'
-                ok 'Yes we shhould.'
+                message "Do You want to Approve ?"
+                ok "Yes we shhould."
             }
             steps {
                 sh """
@@ -70,10 +70,11 @@ pipeline {
             echo "Terraform VPC Pipeline successful or failed or aborted always runs"
         }
         success {
-            echo "Terraform VPC Pipeline successful"
+            echo "Terraform VPC infra Deployment Successfull"
         }
         failure {
-            echo "Terraform VPC Pipeline failed"
+            echo "Terraform VPC infra Deployment Failed"
         }
     }
 }
+
