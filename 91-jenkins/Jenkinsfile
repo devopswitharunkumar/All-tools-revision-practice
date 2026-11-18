@@ -71,6 +71,12 @@ pipeline {
             }  
         }
     }
+
+// Here:
+// - message – Approval message.
+// - ok – Button name.
+// - submitter – Users allowed to approve.
+
     post {
         always {
             echo "ALWAYS - This action will execute always irrespective of pipeline build is failed or success or aborted"
