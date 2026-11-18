@@ -113,7 +113,8 @@ pipeline {
     post {
         always {
             echo "CI process completed-Always"
-            deleteDir()  
+            deleteDir() 
+        } 
         success {
             echo "CI process completed Successfully"
         }
