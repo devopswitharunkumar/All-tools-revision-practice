@@ -49,6 +49,7 @@ pipeline {
         }
         stage("Destroy"){
             when {
+                beforeInput true
                 expression {
                     params.ACTION == 'Destroy'
                 }
