@@ -113,8 +113,7 @@ pipeline {
     post {
         always {
             echo "CI process completed-Always"
-            // deleteDir()  #here we are commenting this because it is deleting bu while triggering CD pipeline it is removing all code that y CD pipeline not able to find dev/dev.tfvars in CD pipeline showing error 
-        }
+            deleteDir()  
         success {
             echo "CI process completed Successfully"
         }
