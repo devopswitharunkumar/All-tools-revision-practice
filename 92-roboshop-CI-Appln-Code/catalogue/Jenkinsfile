@@ -6,6 +6,8 @@ pipeline {
     }
     environment {
         packageVersion=''
+        nexusURL='172.31.36.95:8081'
+        repositoryName='catalogue'
     }
     options {
         ansiColor('xterm')
@@ -45,15 +47,32 @@ pipeline {
                     """
                 }
         }
-        // stage("Publish Artifact") {
-        //         steps {
-
-        //         }
-        // }
+        stage("Publish Artifact") {
+            steps {
+                sh """
+                    cd 92-roboshop-CI-Appln-Code/catalogue/
+                """
+                nexusArtifactUploader(
+                nexusVersion: 'nexus3',
+                protocol: 'http',
+                nexusUrl: "${nexusURL}",
+                groupId: 'com.roboshop',
+                version: "${packageVersion}",
+                repository: "${repositoryName}",
+                credentialsId: 'nexus-login-credentials',       //created credentials in manage jenkins in jenkins dashboard
+                artifacts: [
+                    [artifactId: "${repositoryName}",
+                    classifier: '',
+                    file: '92-roboshop-CI-Appln-Code/catalogue/catalogue' + '.zip',
+                    type: 'zip']
+                ]
+                )
+            }
+        }
     }
     post {
         always {
-            echo "CI process completed"
+            echo "CI process completed-Always"
             deleteDir()
         }
         success {
