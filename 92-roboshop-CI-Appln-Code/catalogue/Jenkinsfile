@@ -50,6 +50,7 @@ pipeline {
                         sudo dnf module disable nodejs -y
                         sudo dnf module enable nodejs:18 -y
                         sudo dnf install nodejs -y
+                        sudo dnf install zip -y
 
                         echo "Node.js installed successfully"
                         node --version
@@ -65,7 +66,6 @@ pipeline {
         stage("Build") {
                 steps {
                     sh """
-                        sudo dnf install zip -y
                         cd 92-roboshop-CI-Appln-Code/catalogue/
                         ls -la
                         zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
