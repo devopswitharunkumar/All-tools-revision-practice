@@ -42,4 +42,15 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            echo "Terraform VPC Pipeline successful or failed or aborted always runs"
+        }
+        success {
+            echo "Terraform VPC Pipeline successful"
+        }
+        failure {
+            echo "Terraform VPC Pipeline failed"
+        }
+    }
 }
