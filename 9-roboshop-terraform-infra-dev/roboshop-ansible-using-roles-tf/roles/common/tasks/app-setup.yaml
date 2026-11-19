@@ -10,7 +10,7 @@
     path: /app
     state: absent
 
-- name: create a directory id doesn't exists 
+- name: create a directory if doesn't exists 
   ansible.builtin.file:
     path: /app
     state: directory 
