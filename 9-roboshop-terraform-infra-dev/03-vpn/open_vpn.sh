@@ -162,7 +162,7 @@ systemctl enable openvpn-server@server
 
 systemctl restart openvpn-server@server || true
 
-iptables -C OPENVPN_INSTALL_FORWARD -i tun+ -s 10.8.0.0/24 -d 10.0.21.94/32 -p tcp --dport 22 -j ACCEPT 2>/dev/null || iptables -I OPENVPN_INSTALL_FORWARD 1 -i tun+ -s 10.8.0.0/24 -d 10.0.21.94/32 -p tcp --dport 22 -j ACCEPT
+iptables -C OPENVPN_INSTALL_FORWARD -i tun+ -s 10.8.0.0/24 -d 10.0.0.0/16 -p tcp --dport 22 -j ACCEPT 2>/dev/null || iptables -I OPENVPN_INSTALL_FORWARD 1 -i tun+ -s 10.8.0.0/24 -d 10.0.0.0/16 -p tcp --dport 22 -j ACCEPT
 
 echo "Checking OpenVPN status..."
 
@@ -280,7 +280,7 @@ systemctl enable openvpn-server@server
 
 systemctl restart openvpn-server@server || true
 
-iptables -C OPENVPN_INSTALL_FORWARD -i tun+ -s 10.8.0.0/24 -d 10.0.21.94/32 -p tcp --dport 22 -j ACCEPT 2>/dev/null || iptables -I OPENVPN_INSTALL_FORWARD 1 -i tun+ -s 10.8.0.0/24 -d 10.0.21.94/32 -p tcp --dport 22 -j ACCEPT
+iptables -C OPENVPN_INSTALL_FORWARD -i tun+ -s 10.8.0.0/24 -d 10.0.0.0/16 -p tcp --dport 22 -j ACCEPT 2>/dev/null || iptables -I OPENVPN_INSTALL_FORWARD 1 -i tun+ -s 10.8.0.0/24 -d 10.0.0.0/16 -p tcp --dport 22 -j ACCEPT
 
 systemctl status openvpn-server@server --no-pager || true
 
