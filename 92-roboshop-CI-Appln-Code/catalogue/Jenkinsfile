@@ -124,7 +124,7 @@ pipeline {
         stage("Trigger CD pipeline For Deploy") {
             when {
                 expression {
-                    params.Deploy == true  //or  params.Deploy
+                    params.Deploy  //or  params.Deploy == true 
                 }
             }
             steps {
