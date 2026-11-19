@@ -77,7 +77,6 @@ pipeline {
                     -Dproject.settings=$WORKSPACE/92-roboshop-CI-Appln-Code/catalogue/sonar-project.properties
                 """
             }
-            D:\All_tools_concepts_practice\92-roboshop-CI-Appln-Code\catalogue
         }
         //-Dproject.settings ==> Tells scanner which project properties file to read
         stage("Build") {
