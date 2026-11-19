@@ -15,7 +15,7 @@ pipeline {
         disableConcurrentBuilds()
     }
     parameters {
-        booleanParam(name:'Deploy', defaultValue: false, description: "By default deploy is false")
+        booleanParam(name:'Deploy', defaultValue: true, description: "By default deploy is false while Developing CI")
     }
     stages {
         stage("Get Current Version"){
@@ -126,6 +126,7 @@ pipeline {
                 expression {
                     params.Deploy  //or  params.Deploy == true 
                 }
+                echo "Deploy value is : ${params.Deploy}"
             }
             steps {
                 script {
