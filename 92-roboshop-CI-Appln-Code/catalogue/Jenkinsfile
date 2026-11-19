@@ -72,13 +72,22 @@ pipeline {
         }
         stage('Sonar Scanning') {
             steps {
-                sh """
-                    sonar-scanner \
-                    -Dproject.settings=$WORKSPACE/92-roboshop-CI-Appln-Code/catalogue/sonar-project.properties
-                """
+                withSonarQubeEnv('SonarQubeURL') {                      //SonarQubeURL -- this name should match the name configured in jenakins -- manage jenkins -- system -- SonarQube Servers -- name 
+                    sh """
+                        sonar-scanner \
+                        -Dproject.settings=$WORKSPACE/92-roboshop-CI-Appln-Code/catalogue/sonar-project.properties
+                    """
+                        //-Dproject.settings ==> Tells scanner which project properties file to read
+                }
             }
         }
-        //-Dproject.settings ==> Tells scanner which project properties file to read
+        stage('Quality Gate') {
+            steps {
+                timeout(time: 15, unit: 'MINUTES') {
+                    waitForQualityGate abortPipeline: true
+                }
+            }
+        }
         stage("Build") {
                 steps {
                     sh """
