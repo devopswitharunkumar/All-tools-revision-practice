@@ -23,7 +23,29 @@ fi
 
 ansible-pull -U https://github.com/devopswitharunkumar/All-tools-revision-practice.git \
   -i "9-roboshop-terraform-infra-dev/roboshop-ansible-using-roles-tf/${environment}/inventory.ini" \
-  -e component=$component \
-  -e env=$environment \
-  -e app_version=$app_version \         #this line id for CD process
+  -e "component=$component" \
+  -e "env=$environment" \
+  -e "app_version=$app_version" \
   9-roboshop-terraform-infra-dev/roboshop-ansible-using-roles-tf/main-tf.yaml
+
+
+
+
+# REPO_URL="https://github.com/devopswitharunkumar/All-tools-revision-practice.git"
+# REPO_DIR="/home/ec2-user/ansible-pull"
+# PROJECT_DIR="9-roboshop-terraform-infra-dev/roboshop-ansible-using-roles-tf"
+
+# ansible-pull \
+#     -U "$REPO_URL" \
+#     -d "$REPO_DIR" \
+#     -i "$REPO_DIR/$PROJECT_DIR/${environment}/inventory.ini" \
+#     -e "component=$component" \
+#     -e "env=$environment" \
+#     -e "app_version=$app_version" \
+#     "$REPO_DIR/$PROJECT_DIR/main-tf.yaml"
+
+# -U: Git repository URL.
+# -d: Local repository checkout directory.
+# -i: Inventory file.
+# -e: Extra variables.
+# Last argument: Playbook to execute.
