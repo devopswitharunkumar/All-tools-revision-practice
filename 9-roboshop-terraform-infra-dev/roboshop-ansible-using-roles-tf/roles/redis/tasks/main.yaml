@@ -1,22 +1,8 @@
 
-# - name: install redis remi release 
-#   ansible.builtin.dnf: 
-#     name: https://rpms.remirepo.net/enterprise/remi-release-9.rpm
-#     state: present 
-#     disable_gpg_check: true
-
-
-
-- name: Download redis remi release
-  ansible.builtin.get_url:
-    url: http://rpms.remirepo.net/enterprise/remi-release-9.rpm
-    dest: /tmp/remi-release-9.rpm
-    mode: '0644'
-
-- name: Install redis remi release
-  ansible.builtin.dnf:
-    name: /tmp/remi-release-9.rpm
-    state: present
+- name: install redis remi release 
+  ansible.builtin.dnf: 
+    name: https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+    state: present 
     disable_gpg_check: true
 
 - name: enable redis version 
