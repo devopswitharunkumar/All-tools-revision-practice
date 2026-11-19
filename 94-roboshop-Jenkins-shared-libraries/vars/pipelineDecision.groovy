@@ -10,9 +10,9 @@ def decidePipeline(Map configMap) {
             javaVM(configMap)
             break
         
-        // case 'nodejsEKS':
-        //     nodejsEKS(configMap)
-        //     break
+        case 'nodejsEKS':
+            nodejsEKS(configMap)
+            break
         default:
             error "Application is not recognised"
     }
