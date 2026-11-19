@@ -73,15 +73,13 @@ pipeline {
         stage('Sonar Scanning') {
             steps {
                 sh """
-                    sonar-scanner 
+                    sonar-scanner \
+                    -Dproject.settings=$WORKSPACE/92-roboshop-CI-Appln-Code/catalogue/sonar-project.properties
                 """
             }
+            D:\All_tools_concepts_practice\92-roboshop-CI-Appln-Code\catalogue
         }
-        stage("Sonar Scan"){
-            steps {
-                echo "Unit tests run here"
-            }
-        }
+        //-Dproject.settings ==> Tells scanner which project properties file to read
         stage("Build") {
                 steps {
                     sh """
