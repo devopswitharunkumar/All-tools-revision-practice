@@ -126,10 +126,11 @@ pipeline {
                 expression {
                     params.Deploy  //or  params.Deploy == true 
                 }
-                echo "Deploy value is : ${params.Deploy}"
             }
             steps {
                 script {
+                    echo "Deploy value is: ${params.Deploy}"
+                    
                     def buildParams = [
                         string(name:'Version', value: "${packageVersion}"),
                         string(name:'Environment', value: "dev")
