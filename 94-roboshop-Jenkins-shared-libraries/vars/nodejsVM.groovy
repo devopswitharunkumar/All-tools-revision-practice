@@ -133,7 +133,7 @@ def call(Map configMap){
                             string(name:'Version', value: "${packageVersion}"),
                             string(name:'Environment', value: "dev")
                         ]
-                        build job: "ROBOSHOP_INFRA_CD_DEPLOY/${configMap.component}_deploy", 
+                        build job: "../${configMap.component}-deploy", 
                                     wait: true, 
                                     parameters: buildParams
                     }
