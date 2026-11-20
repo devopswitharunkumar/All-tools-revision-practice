@@ -2,7 +2,7 @@ module "user" {
     source = "git::https://github.com/devopswitharunkumar/All-tools-revision-practice.git//9-roboshop-terraform-infra-dev/terraform-roboshop-app?ref=main"
     vpc_id = data.aws_ssm_parameter.vpc_id.value
     tags = var.tags.Component
-    component_sg_id = data.aws_ssm_parameter.user_sg_id.value
+    component_sg_id = data.aws_ssm_parameter.catalogue_sg_id.value
     private_subnet_id = split(",", data.aws_ssm_parameter.private_subnet_id.value)
     iam_instance_profile = var.iam_instance_profile
 
