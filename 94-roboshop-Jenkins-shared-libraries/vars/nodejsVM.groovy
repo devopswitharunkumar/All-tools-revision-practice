@@ -43,25 +43,22 @@ def call(Map configMap){
             stage("Install dependencies") {         //check whether version 18 is there or not if not download if present skip those commands 
                 steps {
                     sh """
-                        NODE_VERSION=$(node --version 2>/dev/null || echo "not-installed")
+                        NODE_VERSION=\$(node --version 2>/dev/null || echo "not-installed")
 
-                        if [[ "$NODE_VERSION" == "v18."* ]]; then
-                            echo "Node.js 18 is already installed: $NODE_VERSION"
+                        if [[ "\$NODE_VERSION" == v18.* ]]; then
+                            echo "Node.js 18 is already installed: \$NODE_VERSION"
                         else
-                            echo "Node.js 18 is not installed. Installing now..."
+                            echo "Installing Node.js 18..."
 
                             sudo dnf module disable nodejs -y
                             sudo dnf module enable nodejs:18 -y
                             sudo dnf install nodejs -y
                             sudo dnf install zip -y
 
-                            echo "Node.js installed successfully"
                             node --version
                         fi
 
                         cd 92-roboshop-CI-Appln-Code/${configMap.component}/
-
-                        echo "Installing npm dependencies..."
                         npm install
                     """
                 }
