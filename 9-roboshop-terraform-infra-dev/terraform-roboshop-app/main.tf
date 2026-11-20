@@ -83,11 +83,15 @@ resource "null_resource" "component" {
     provisioner "remote-exec" {
         inline = [ 
             "chmod +x /home/ec2-user/bootstrap.sh",
-            "sudo sh /home/ec2-user/bootstrap.sh ${var.tags.Component} ${var.env_name}"
+            "sudo sh /home/ec2-user/bootstrap.sh ${var.tags.Component} ${var.env_name} ${app_version}"
          ]
     }
 }
 
+# //app_version ---> used in Jenkins Practicing time for Application like catalogue,user etc deployment 
+# // for terraform practicing no need of app_vers u can remove 
+# "sudo sh /home/ec2-user/bootstrap.sh ${var.tags.Component} ${var.env_name}"                        #for terraform practice
+# "sudo sh /home/ec2-user/bootstrap.sh ${var.tags.Component} ${var.env_name} ${var.app_version}"    #for Jenkins CD practice
 
 
 #Stopping Instance 

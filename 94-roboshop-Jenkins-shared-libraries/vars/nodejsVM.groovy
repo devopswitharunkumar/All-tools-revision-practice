@@ -42,7 +42,7 @@ def call(Map configMap){
             // }
             stage("Install dependencies") {         //check whether version 18 is there or not if not download if present skip those commands 
                 steps {
-                    sh '''
+                    sh """
                         NODE_VERSION=$(node --version 2>/dev/null || echo "not-installed")
 
                         if [[ "$NODE_VERSION" == "v18."* ]]; then
@@ -63,7 +63,7 @@ def call(Map configMap){
 
                         echo "Installing npm dependencies..."
                         npm install
-                    '''
+                    """
                 }
             }
             stage("Unit Testing"){
