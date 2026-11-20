@@ -42,7 +42,7 @@ app.get('/health', (req, res) => {
 //Developer added new feature here and version updated to 1.2.0
 app.get('/healthcheck', (req, res) => {
     var stat1 = {
-        app: 'OK',
+        app: 'OKK',
         mongo: mongoConnected
     };
     res.json(stat1);
