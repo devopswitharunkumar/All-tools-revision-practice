@@ -41,5 +41,6 @@ variable "rule_priority" {
 }
 
 variable "app_version" {
-  
+  type    = string
+  default = ""
 }

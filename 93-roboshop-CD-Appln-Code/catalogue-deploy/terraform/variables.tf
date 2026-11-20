@@ -24,7 +24,8 @@ variable "tags" {
 }
 
 variable "app_version" {
-  
+  type    = string
+  default = ""
 }
 
 variable "rule_priority" {
