@@ -32,5 +32,5 @@ variable "domain_name" {
 }
 
 variable "rule_priority" {
-  default = 20
+  default = 50
 }
