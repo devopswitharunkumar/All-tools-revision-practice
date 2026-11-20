@@ -7,8 +7,8 @@ def call(Map configMap){
         }
         environment {
             packageVersion=''
-            nexusURL='172.31.36.95:8081'
-            repositoryName='catalogue'
+            // nexusURL='172.31.36.95:8081'
+            // repositoryName="catalogue"
         }
         options {
             ansiColor('xterm')
@@ -22,7 +22,7 @@ def call(Map configMap){
             stage("Get Current Version"){
                 steps {
                     script {
-                        def packageJSON = readJSON file: '92-roboshop-CI-Appln-Code/catalogue/package.json'
+                        def packageJSON = readJSON file: "92-roboshop-CI-Appln-Code/${configMap.component}/package.json"
                         packageVersion= packageJSON.version
                         echo "Application version is : $packageVersion"
                     }
@@ -59,7 +59,7 @@ def call(Map configMap){
                             node --version
                         fi
 
-                        cd 92-roboshop-CI-Appln-Code/catalogue/
+                        cd 92-roboshop-CI-Appln-Code/${configMap.component}/
 
                         echo "Installing npm dependencies..."
                         npm install
@@ -76,7 +76,7 @@ def call(Map configMap){
                     withSonarQubeEnv('SonarQubeURL') {                      //SonarQubeURL -- this name should match the name configured in jenakins -- manage jenkins -- system -- SonarQube Servers -- name 
                         sh """
                             sonar-scanner \
-                            -Dproject.settings=$WORKSPACE/92-roboshop-CI-Appln-Code/catalogue/sonar-project.properties
+                            -Dproject.settings=$WORKSPACE/92-roboshop-CI-Appln-Code/${configMap.component}/sonar-project.properties
                         """
                             //-Dproject.settings ==> Tells scanner which project properties file to read
                     }
@@ -92,9 +92,9 @@ def call(Map configMap){
             stage("Build") {
                     steps {
                         sh """
-                            cd 92-roboshop-CI-Appln-Code/catalogue/
+                            cd 92-roboshop-CI-Appln-Code/${configMap.component}/
                             ls -la
-                            zip -q -r catalogue.zip ./* -x ".git" -x "*.zip"
+                            zip -q -r ${configMap.component}.zip ./* -x ".git" -x "*.zip"
                             ls -ltr 
                         """
                     }
@@ -102,26 +102,26 @@ def call(Map configMap){
             stage("Publish Artifact") {
                 steps {
                     sh """
-                        cd 92-roboshop-CI-Appln-Code/catalogue/
+                        cd 92-roboshop-CI-Appln-Code/${configMap.component}/
                     """
                     nexusArtifactUploader(
                     nexusVersion: 'nexus3',
                     protocol: 'http',
-                    nexusUrl: "${nexusURL}",
+                    nexusUrl: pipelineGlobals.nexusURL(),
                     groupId: 'com.roboshop',
                     version: "${packageVersion}",
-                    repository: "${repositoryName}",
+                    repository: "${configMap.component}",
                     credentialsId: 'nexus-login-credentials',       //created credentials in manage jenkins in jenkins dashboard
                     artifacts: [
-                        [artifactId: "${repositoryName}",
+                        [artifactId: "${configMap.component}",
                         classifier: '',
-                        file: '92-roboshop-CI-Appln-Code/catalogue/catalogue' + '.zip',
+                        file: "92-roboshop-CI-Appln-Code/${configMap.component}/${configMap.component}.zip",
                         type: 'zip']
                     ]
                     )
                 }
             }
-            //ROBOSHOP_INFRA_CD_DEPLOY/catalogue_deploy --> should be pipeline name in jenkins tool which needed to called 
+            //ROBOSHOP_INFRA_CD_DEPLOY/${configMap.component}_deploy --> should be pipeline name in jenkins tool which needed to called 
             stage("Trigger CD pipeline For Deploy") {
                 when {
                     expression {
@@ -136,7 +136,7 @@ def call(Map configMap){
                             string(name:'Version', value: "${packageVersion}"),
                             string(name:'Environment', value: "dev")
                         ]
-                        build job: "ROBOSHOP_INFRA_CD_DEPLOY/catalogue_deploy", 
+                        build job: "ROBOSHOP_INFRA_CD_DEPLOY/${configMap.component}_deploy", 
                                     wait: true, 
                                     parameters: buildParams
                     }
