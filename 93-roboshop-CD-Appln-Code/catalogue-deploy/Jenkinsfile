@@ -32,7 +32,7 @@ pipeline {
             steps {
                 sh """
                     cd 93-roboshop-CD-Appln-Code/catalogue-deploy/terraform 
-                    terraform init -backend-config=${params.Environment}/backend.tf -reconfigure 
+                    terraform init -upgrade -backend-config=${params.Environment}/backend.tf -reconfigure 
                 """
             }
         }
