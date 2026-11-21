@@ -63,7 +63,7 @@ def call(Map configMap) {
 
                         echo "Downloading Maven dependencies..."
 
-                        mvn dependency:resolve
+                        mvn -q dependency:resolve
                     """
                 }
             }
@@ -77,6 +77,9 @@ def call(Map configMap) {
                         cd 92-roboshop-CI-Appln-Code/${configMap.component}/
 
                         echo "Running Java unit tests... for that use --> mvn test"
+
+                         echo "Compiling Java source code...because we dont have test classes"
+                         mvn -B -ntp compile
                     """
                 }
             }
