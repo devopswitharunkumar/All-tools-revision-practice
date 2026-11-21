@@ -160,29 +160,29 @@ def call(Map configMap) {
                 }
             }
 
-            // stage("Trigger CD Pipeline For Deploy") {
-            //     when {
-            //         expression {
-            //             params.Deploy
-            //         }
-            //     }
+            stage("Trigger CD Pipeline For Deploy") {
+                when {
+                    expression {
+                        params.Deploy
+                    }
+                }
 
-            //     steps {
-            //         script {
-            //             echo "Deploy value is: ${params.Deploy}"
+                steps {
+                    script {
+                        echo "Deploy value is: ${params.Deploy}"
 
-            //             def buildParams = [
-            //                 string(name: 'Version', value: "${packageVersion}"),
-            //                 string(name: 'Environment', value: 'dev'),
-            //                 booleanParam(name: 'Create', value: true)
-            //             ]
+                        def buildParams = [
+                            string(name: 'Version', value: "${packageVersion}"),
+                            string(name: 'Environment', value: 'dev'),
+                            booleanParam(name: 'Create', value: true)
+                        ]
 
-            //             build job: "../${configMap.component}-deploy",
-            //                 wait: true,
-            //                 parameters: buildParams
-            //         }
-            //     }
-            // }
+                        build job: "../${configMap.component}-deploy",
+                            wait: true,
+                            parameters: buildParams
+                    }
+                }
+            }
         }
 
         post {
