@@ -1,0 +1,68 @@
+//In Agent instance sg we need to add VPN sg grp for catalogue,cart,user etc...
+
+pipeline {
+    agent {
+        node {
+            label 'Agent-1'
+        }
+    }
+    // environment {
+    //     packageVersion=''
+    //     nexusURL='172.31.36.95:8081'
+    //     repositoryName='user'
+    // }
+    options {
+        ansiColor('xterm')
+        timeout(time: 30, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+    parameters {
+        string(name:'Version', defaultValue: '', description: 'What is the Artifact Version ?')
+        string(name:'Environment', defaultValue: '', description: 'What is the Environment ?')
+    }
+
+    stages {
+        stage('Print Version & Environment') {
+            steps {
+                echo "Version is : ${params.Version}"
+                echo "Environment is : ${params.Environment}"
+            }
+        }
+        stage('Init') {
+            steps {
+                sh """
+                    cd 93-roboshop-CD-Appln-Code/user-deploy/terraform 
+                    terraform init -upgrade -backend-config=${params.Environment}/backend.tf -reconfigure 
+                """
+            }
+        }
+        stage('Plan') {
+            steps {
+                sh """
+                    cd 93-roboshop-CD-Appln-Code/user-deploy/terraform 
+                    terraform plan -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" 
+                """
+            }
+        }  
+        stage('Apply') {
+            steps {
+                sh """
+                    cd 93-roboshop-CD-Appln-Code/user-deploy/terraform 
+                    terraform apply -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" -auto-approve
+                """
+            }
+        }
+    }
+    post {
+        always {
+            echo "All stages of CD process completed-Always"
+            
+        }
+        success {
+            echo "All stages of CD process completed Successfully"
+        }
+        failure {
+            echo "CD process Failed"
+        }
+    }
+}
