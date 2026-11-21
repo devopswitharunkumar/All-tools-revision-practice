@@ -68,13 +68,13 @@ pipeline {
     }
     post {
         always {
-            echo "Terraform VPC Pipeline successful or failed or aborted always runs"
+            echo "Terraform Pipeline Creation successful or failed or aborted always runs For DEVELOPMENT Environment"
         }
         success {
-            echo "Terraform VPC infra Deployment Successfull"
+            echo "Terraform infra Creation for DEVELOPMENT Environment deployment Successfull"
         }
         failure {
-            echo "Terraform VPC infra Deployment Failed"
+            echo "Terraform infra Creation for DEVELOPMENT Environment deployment Failed"
         }
     }
 }
