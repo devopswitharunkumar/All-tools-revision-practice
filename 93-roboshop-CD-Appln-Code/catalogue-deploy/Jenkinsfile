@@ -20,7 +20,7 @@ pipeline {
         string(name:'Version', defaultValue: '', description: 'What is the Artifact Version ?')
         string(name:'Environment', defaultValue: '', description: 'What is the Environment ?')
         booleanParam(name:'Create', defaultValue: 'false', description: 'Create ?')
-        booleanParam(name:'Deploy', defaultValue: 'false', description: 'Destroy ?')
+        booleanParam(name:'Destroy', defaultValue: 'false', description: 'Destroy ?')
     }
 
     stages {
@@ -39,6 +39,11 @@ pipeline {
             }
         }
         stage('Plan') {
+            when {
+                expression {
+                    params.Create
+                }
+            }
             steps {
                 sh """
                     cd 93-roboshop-CD-Appln-Code/catalogue-deploy/terraform 

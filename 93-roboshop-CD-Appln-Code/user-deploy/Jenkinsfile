@@ -19,6 +19,8 @@ pipeline {
     parameters {
         string(name:'Version', defaultValue: '', description: 'What is the Artifact Version ?')
         string(name:'Environment', defaultValue: '', description: 'What is the Environment ?')
+        booleanParam(name:'Create', defaultValue: 'false', description: 'Create ?')
+        booleanParam(name:'Destroy', defaultValue: 'false', description: 'Destroy ?')
     }
 
     stages {
@@ -37,6 +39,11 @@ pipeline {
             }
         }
         stage('Plan') {
+            when {
+                expression {
+                    params.Create
+                }
+            }
             steps {
                 sh """
                     cd 93-roboshop-CD-Appln-Code/user-deploy/terraform 
@@ -45,10 +52,28 @@ pipeline {
             }
         }  
         stage('Apply') {
+            when {
+                expression {
+                    params.Create
+                }
+            }
             steps {
                 sh """
                     cd 93-roboshop-CD-Appln-Code/user-deploy/terraform 
                     terraform apply -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" -auto-approve
+                """
+            }
+        }
+        stage('Destroy') {
+            when {
+                expression {
+                    params.Destroy
+                }
+            }
+            steps {
+                sh """
+                    cd 93-roboshop-CD-Appln-Code/user-deploy/terraform 
+                    terraform destroy -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" -auto-approve
                 """
             }
         }
