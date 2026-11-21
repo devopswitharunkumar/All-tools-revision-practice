@@ -43,13 +43,13 @@
 # CD PROCESS USAGE -- ENABLE THIS IF UR USING THIS FOLDER IN JENKINS 
 - name: Download Appln Artifact Code From Nexus
   ansible.builtin.get_url:
-    url: "{{NEXUS_URL}}/{{component}}/{{group_id}}/{{component}}/{{app_version}}/{{component}}-{{app_version}}.zip"
-    dest: "/tmp/{{component}}-{{app_version}}.zip"
+    url: "{{NEXUS_URL}}/{{component}}/{{group_id}}/{{component}}/{{app_version}}/{{component}}-{{app_version}}.{{packaging}}"
+    dest: "/tmp/{{component}}-{{app_version}}.{{packaging}}"
     url_username: admin
     url_password: admin123
 
-- name: Unarchive the Downloaded Zip File From Nexus
+- name: Unarchive the Downloaded Zip/other package Files From Nexus
   ansible.builtin.unarchive:
-    src: "/tmp/{{component}}-{{app_version}}.zip"
+    src: "/tmp/{{component}}-{{app_version}}.{{packaging}}"
     dest: /app
     remote_src: yes
