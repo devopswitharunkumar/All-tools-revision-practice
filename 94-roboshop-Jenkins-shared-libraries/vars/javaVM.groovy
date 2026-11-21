@@ -152,8 +152,8 @@ def call(Map configMap) {
                             [
                                 artifactId: "${configMap.component}",
                                 classifier: '',
-                                file: "92-roboshop-CI-Appln-Code/${configMap.component}/${configMap.component}.zip",
-                                type: 'zip'
+                                file: "92-roboshop-CI-Appln-Code/${configMap.component}/${configMap.component}.jar",
+                                type: 'jar'
                             ]
                         ]
                     )
