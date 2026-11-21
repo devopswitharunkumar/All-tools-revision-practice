@@ -62,18 +62,21 @@ def call(Map configMap) {
                         cd 92-roboshop-CI-Appln-Code/${configMap.component}/
 
                         echo "Downloading Maven dependencies..."
+
                         mvn dependency:resolve
                     """
                 }
             }
+
+            // mvn dependency:resolve          #tells Maven to read your pom.xml
+            // mvn -version                 #displays the installed Apache Maven version along with your active Java and OS environment details
 
             stage("Unit Testing") {
                 steps {
                     sh """
                         cd 92-roboshop-CI-Appln-Code/${configMap.component}/
 
-                        echo "Running Java unit tests..."
-                        mvn test
+                        echo "Running Java unit tests... for that use --> mvn test"
                     """
                 }
             }
@@ -106,19 +109,31 @@ def call(Map configMap) {
 
                         echo "Building Java application..."
 
-                        mvn package -DskipTests
+                        mvn package -DskipTests     
 
-                        echo "Generated JAR files:"
+                        echo "Generated JAR files: target folder"
                         ls -lh target/*.jar
 
-                        echo "Creating ZIP package..."
+                        echo "Moving JAR file to component directory..."
 
-                        zip -j -q ${configMap.component}.zip target/*.jar
+                        mv target/${configMap.component}-${packageVersion}.jar ${configMap.component}.jar
 
-                        ls -lh ${configMap.component}.zip
+                        echo "Generated artifact:"
+                        ls -lh ${configMap.component}.jar
                     """
                 }
             }
+
+            // -DskipTests    --> it skips the test cases because we dont have test taces currently if u have that u can use mvn package 
+
+// echo "Renaming application JAR..."
+                    // mv target/${configMap.component}-${packageVersion}.jar target/${configMap.component}.jar
+
+                //   echo "Creating ZIP package..."
+
+                        // zip -j -q ${configMap.component}.zip target/${configMap.component}.jar      
+
+                        // ls -lh ${configMap.component}.zip
 
             stage("Publish Artifact") {
                 steps {
@@ -142,29 +157,29 @@ def call(Map configMap) {
                 }
             }
 
-            stage("Trigger CD Pipeline For Deploy") {
-                when {
-                    expression {
-                        params.Deploy
-                    }
-                }
+            // stage("Trigger CD Pipeline For Deploy") {
+            //     when {
+            //         expression {
+            //             params.Deploy
+            //         }
+            //     }
 
-                steps {
-                    script {
-                        echo "Deploy value is: ${params.Deploy}"
+            //     steps {
+            //         script {
+            //             echo "Deploy value is: ${params.Deploy}"
 
-                        def buildParams = [
-                            string(name: 'Version', value: "${packageVersion}"),
-                            string(name: 'Environment', value: 'dev'),
-                            booleanParam(name: 'Create', value: true)
-                        ]
+            //             def buildParams = [
+            //                 string(name: 'Version', value: "${packageVersion}"),
+            //                 string(name: 'Environment', value: 'dev'),
+            //                 booleanParam(name: 'Create', value: true)
+            //             ]
 
-                        build job: "../${configMap.component}-deploy",
-                            wait: true,
-                            parameters: buildParams
-                    }
-                }
-            }
+            //             build job: "../${configMap.component}-deploy",
+            //                 wait: true,
+            //                 parameters: buildParams
+            //         }
+            //     }
+            // }
         }
 
         post {
