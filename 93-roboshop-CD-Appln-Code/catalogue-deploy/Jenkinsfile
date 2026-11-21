@@ -55,14 +55,14 @@ pipeline {
     }
     post {
         always {
-            echo "CI process completed-Always"
+            echo "All stages of CD process completed-Always"
             
         }
         success {
-            echo "CI process completed Successfully"
+            echo "All stages of CD process completed Successfully"
         }
         failure {
-            echo "CI process Failed"
+            echo "CD process Failed"
         }
     }
 }

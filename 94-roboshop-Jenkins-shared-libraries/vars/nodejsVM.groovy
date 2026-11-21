@@ -142,11 +142,11 @@ def call(Map configMap){
         }
         post {
             always {
-                echo "CI process completed-Always"
+                echo "All stages of CI process completed-Always"
                 // deleteDir() 
             } 
             success {
-                echo "CI process completed Successfully"
+                echo "All stages of CI process completed Successfully"
             }
             failure {
                 echo "CI process Failed"
