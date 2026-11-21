@@ -5,7 +5,7 @@
 
 def configMap = [
     application: "nodejsVM",
-    component: "catalogue"
+    component: "user"
 ]
 
 
