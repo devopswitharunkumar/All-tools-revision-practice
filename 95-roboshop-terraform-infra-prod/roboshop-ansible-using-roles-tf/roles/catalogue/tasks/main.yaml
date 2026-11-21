@@ -1,0 +1,19 @@
+- name: Import a common role for app setup
+  ansible.builtin.import_role:
+    name: common      #role name
+    tasks_from: app-setup.yaml     #or app-setup
+
+- name: Import a common role for nodejs setup
+  ansible.builtin.import_role:
+    name: common      #role name
+    tasks_from: nodejs.yaml     #or nodejs
+
+- name: Import a common role for app setup
+  ansible.builtin.import_role:
+    name: common      #role name
+    tasks_from: mongo-client.yaml     #or mongo-client
+
+- name: Import a common role for app setup
+  ansible.builtin.import_role:
+    name: common      #role name
+    tasks_from: systemd-services.yaml     #or systemd-services

@@ -1,0 +1,13 @@
+  - name: install python 
+    ansible.builtin.package:
+      name: "{{item}}" 
+      state: present
+    loop: 
+    - python3
+    - gcc
+    - python3-devel
+
+  - name: install python dependencies
+    ansible.builtin.command: pip3.9 install -r requirements.txt
+    args:
+      chdir: /app

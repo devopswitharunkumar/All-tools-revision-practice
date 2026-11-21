@@ -1,0 +1,50 @@
+
+# - name: install redis remi release 
+#   ansible.builtin.dnf: 
+#     name: https://rpms.remirepo.net/enterprise/remi-release-9.rpm
+#     state: present 
+#     disable_gpg_check: true
+
+# - name: enable redis version 
+#   ansible.builtin.command: dnf module enable redis:remi-6.2 -y
+
+# - name: install redis
+#   ansible.builtin.package:
+#     name: redis 
+#     state: present 
+
+# - name: replace remote access 
+#   ansible.builtin.replace:
+#     path: /etc/redis/redis.conf 
+#     regexp: '127.0.0.1' 
+#     replace: '0.0.0.0'
+
+# - name: Enable and start redis
+#   ansible.builtin.service:
+#     name: redis
+#     state: restarted
+#     enabled: yes
+
+- name: Enable Redis module
+  ansible.builtin.command:
+    cmd: dnf module enable redis:7 -y
+  register: redis_module
+  changed_when: "'Nothing to do' not in redis_module.stdout"
+
+- name: Install Redis
+  ansible.builtin.dnf:
+    name: redis
+    state: present
+
+- name: Configure Redis remote access
+  ansible.builtin.replace:
+    path: /etc/redis/redis.conf
+    regexp: '^bind 127\.0\.0\.1'
+    replace: 'bind 0.0.0.0'
+  notify: Restart Redis
+
+- name: Enable and start Redis
+  ansible.builtin.service:
+    name: redis
+    state: started
+    enabled: true

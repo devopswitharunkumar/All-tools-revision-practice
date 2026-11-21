@@ -1,0 +1,10 @@
+MONGODB_HOST: mongodb.devopswitharun.online
+REDIS_HOST: redis.devopswitharun.online
+RABBITMQ_HOST: rabbitmq.devopswitharun.online
+MYSQL_HOST: mysql.devopswitharun.online
+CATALOGUE_HOST: catalogue.devopswitharun.online
+USER_HOST: user.devopswitharun.online
+CART_HOST: cart.devopswitharun.online
+SHIPPING_HOST: shipping.devopswitharun.online
+PAYMENT_HOST: payment.devopswitharun.online
+DISPATCH_HOST: dispatch.devopswitharun.online

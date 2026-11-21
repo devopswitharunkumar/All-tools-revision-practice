@@ -1,0 +1,81 @@
+pipeline {
+    agent {
+        node {
+            label 'Agent-1'
+        }
+    }
+    options {
+        timeout(time:30, unit:'MINUTES')
+        disableConcurrentBuilds()
+        ansiColor('xterm')
+    }
+    parameters{
+        choice(name: 'ACTION', choices: ['Apply','Destroy'], description: 'Pick Anyone')
+    }
+    stages {
+        stage("Init"){
+            steps {
+                sh """
+                    cd 9-roboshop-terraform-infra-dev/01-vpc/
+                    terraform init -reconfigure
+                """
+            }
+            
+        }
+        stage("Plan"){
+            steps {
+                sh """
+                    cd 9-roboshop-terraform-infra-dev/01-vpc/
+                    terraform plan
+                """
+            }
+        }
+        stage("Approve"){
+            when {
+                expression {
+                    params.ACTION == 'Apply'
+                }
+            }
+            input {
+                message "Do You want to Approve ?"
+                ok "Yes we should."
+            }
+            steps {
+                sh """
+                    cd 9-roboshop-terraform-infra-dev/01-vpc/
+                    terraform apply -auto-approve
+                """
+            }
+        }
+        stage("Destroy"){
+            when {
+                beforeInput true
+                expression {
+                    params.ACTION == 'Destroy'
+                }
+            }
+            input {
+                message "Do You want to Approve ?"
+                ok "Yes we shhould."
+            }
+            steps {
+                sh """
+                    cd 9-roboshop-terraform-infra-dev/01-vpc/
+                    terraform destroy -auto-approve
+                """
+            }
+        }
+    }
+    post {
+        always {
+            echo "Terraform VPC Pipeline successful or failed or aborted always runs"
+        }
+        success {
+            echo "Terraform VPC infra Deployment Successfull"
+        }
+        failure {
+            echo "Terraform VPC infra Deployment Failed"
+        }
+    }
+}
+
