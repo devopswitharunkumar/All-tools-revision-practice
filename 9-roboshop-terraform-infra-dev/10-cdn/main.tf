@@ -58,7 +58,7 @@ resource "aws_cloudfront_distribution" "alb_distribution" {
     target_origin_id         = "web-${var.env_name}.${var.domain_name}"      #data.aws_ssm_parameter.app_alb_id.value
     compress                 = true
     viewer_protocol_policy   = "https-only"
-    cache_policy_id          = data.aws_cloudfront_cache_policy.no_cache_optimized.value 
+    cache_policy_id          = data.aws_cloudfront_cache_policy.no_cache_optimized.id 
   }
 
 
