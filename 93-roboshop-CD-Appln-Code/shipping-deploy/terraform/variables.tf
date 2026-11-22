@@ -35,3 +35,8 @@ variable "rule_priority" {
 variable "iam_instance_profile" {
     default = "EC2RoleForShellScript"
 }
+
+variable "packaging" {
+  description = "Application artifact packaging format"
+  type        = string
+}

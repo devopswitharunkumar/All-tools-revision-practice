@@ -44,3 +44,9 @@ variable "app_version" {
   type    = string
   default = ""
 }
+
+variable "packaging" {
+  description = "Application artifact packaging format"
+  type        = string
+  default     = "zip"
+}

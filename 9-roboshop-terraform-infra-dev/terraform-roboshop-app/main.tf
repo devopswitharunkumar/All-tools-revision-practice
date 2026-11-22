@@ -83,7 +83,7 @@ resource "null_resource" "component" {
     provisioner "remote-exec" {
         inline = [ 
             "chmod +x /home/ec2-user/bootstrap.sh",
-            "sudo sh /home/ec2-user/bootstrap.sh ${var.tags.Component} ${var.env_name} ${var.app_version}"
+            "sudo sh /home/ec2-user/bootstrap.sh ${var.tags.Component} ${var.env_name} ${var.app_version} ${var.packaging}"
          ]
     }
 }

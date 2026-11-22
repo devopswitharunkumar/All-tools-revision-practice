@@ -14,4 +14,5 @@ module "shipping" {
     app_alb_listner_rule = data.aws_ssm_parameter.app_alb_listner_rule.value
     rule_priority = var.rule_priority
     app_version = var.app_version
+    packaging = var.packaging
 }
