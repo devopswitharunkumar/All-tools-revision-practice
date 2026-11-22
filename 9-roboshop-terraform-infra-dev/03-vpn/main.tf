@@ -10,7 +10,13 @@ module "vpn" {
 
     create_security_group = false #to not create default sg egress
 
-    user_data = file("open_vpn.sh")
+   // user_data = file("open_vpn.sh")
+
+
+   //passing vpc cidr to openvpn 
+   user_data = templatefile("${path.module}/open_vpn.sh", {
+        vpc_cidr = data.aws_ssm_parameter.roboshop_vpc_cidr_block.value
+    })
 
 
     tags = merge(var.common_tags, 

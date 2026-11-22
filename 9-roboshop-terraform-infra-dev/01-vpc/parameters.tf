@@ -25,3 +25,9 @@ resource "aws_ssm_parameter" "database_subnet_id" {
 output "database_subnet_ids" {
   value = module.roboshop_vpc.database_subnet_id 
 }
+
+resource "aws_ssm_parameter" "roboshop_vpc_cidr_block" {
+  name  = "/${var.project_name}/${var.env_name}/vpc_cidr_block"
+  type  = "String"
+  value = module.roboshop_vpc.vpc_cidr_block
+}

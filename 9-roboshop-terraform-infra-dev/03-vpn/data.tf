@@ -32,3 +32,7 @@ data "aws_subnet" "default_st_from_default_vpc" {
 data "aws_ssm_parameter" "vpn_sg_id" {
   name = "/${var.project_name}/${var.env_name}/vpn_sg_id" 
 }
+
+data "aws_ssm_parameter" "roboshop_vpc_cidr_block" {
+  name = "/${var.project_name}/${var.env_name}/vpc_cidr_block"
+}

@@ -162,7 +162,27 @@ systemctl enable openvpn-server@server
 
 systemctl restart openvpn-server@server || true
 
-iptables -C OPENVPN_INSTALL_FORWARD -i tun+ -s 10.8.0.0/24 -d 10.0.0.0/16 -p tcp --dport 22 -j ACCEPT 2>/dev/null || iptables -I OPENVPN_INSTALL_FORWARD 1 -i tun+ -s 10.8.0.0/24 -d 10.0.0.0/16 -p tcp --dport 22 -j ACCEPT
+############################################################
+# Configure VPN Forwarding Rules
+############################################################
+
+VPC_CIDR="${vpc_cidr}"
+
+# Allow SSH traffic
+iptables -C OPENVPN_INSTALL_FORWARD -i tun+ \
+-s 10.8.0.0/24 -d "$VPC_CIDR" \
+-p tcp --dport 22 -j ACCEPT 2>/dev/null || \
+iptables -I OPENVPN_INSTALL_FORWARD 1 -i tun+ \
+-s 10.8.0.0/24 -d "$VPC_CIDR" \
+-p tcp --dport 22 -j ACCEPT
+
+# Allow HTTP traffic
+iptables -C OPENVPN_INSTALL_FORWARD -i tun+ \
+-s 10.8.0.0/24 -d "$VPC_CIDR" \
+-p tcp --dport 80 -j ACCEPT 2>/dev/null || \
+iptables -I OPENVPN_INSTALL_FORWARD 1 -i tun+ \
+-s 10.8.0.0/24 -d "$VPC_CIDR" \
+-p tcp --dport 80 -j ACCEPT
 
 echo "Checking OpenVPN status..."
 
@@ -280,13 +300,27 @@ systemctl enable openvpn-server@server
 
 systemctl restart openvpn-server@server || true
 
-iptables -C OPENVPN_INSTALL_FORWARD -i tun+ -s 10.8.0.0/24 -d 10.0.0.0/16 -p tcp --dport 22 -j ACCEPT 2>/dev/null || iptables -I OPENVPN_INSTALL_FORWARD 1 -i tun+ -s 10.8.0.0/24 -d 10.0.0.0/16 -p tcp --dport 22 -j ACCEPT
+############################################################
+# Configure VPN Forwarding Rules
+############################################################
 
-iptables -C OPENVPN_INSTALL_FORWARD -i tun+ -s 10.8.0.0/24 -d 10.0.0.0/16 -p tcp --dport 80 -j ACCEPT 2>/dev/null || iptables -I OPENVPN_INSTALL_FORWARD 2 -i tun+ -s 10.8.0.0/24 -d 10.0.0.0/16 -p tcp --dport 80 -j ACCEPT
+VPC_CIDR="${vpc_cidr}"
 
-iptables -C OPENVPN_INSTALL_FORWARD -i tun+ -s 10.8.0.0/24 -d 10.1.0.0/16 -p tcp --dport 80 -j ACCEPT 2>/dev/null || iptables -I OPENVPN_INSTALL_FORWARD 2 -i tun+ -s 10.8.0.0/24 -d 10.1.0.0/16 -p tcp --dport 80 -j ACCEPT
+# Allow SSH traffic
+iptables -C OPENVPN_INSTALL_FORWARD -i tun+ \
+-s 10.8.0.0/24 -d "$VPC_CIDR" \
+-p tcp --dport 22 -j ACCEPT 2>/dev/null || \
+iptables -I OPENVPN_INSTALL_FORWARD 1 -i tun+ \
+-s 10.8.0.0/24 -d "$VPC_CIDR" \
+-p tcp --dport 22 -j ACCEPT
 
-iptables -C OPENVPN_INSTALL_FORWARD -i tun+ -s 10.8.0.0/24 -d 10.1.0.0/16 -p tcp --dport 22 -j ACCEPT 2>/dev/null || iptables -I OPENVPN_INSTALL_FORWARD 1 -i tun+ -s 10.8.0.0/24 -d 10.1.0.0/16 -p tcp --dport 22 -j ACCEPT
+# Allow HTTP traffic
+iptables -C OPENVPN_INSTALL_FORWARD -i tun+ \
+-s 10.8.0.0/24 -d "$VPC_CIDR" \
+-p tcp --dport 80 -j ACCEPT 2>/dev/null || \
+iptables -I OPENVPN_INSTALL_FORWARD 1 -i tun+ \
+-s 10.8.0.0/24 -d "$VPC_CIDR" \
+-p tcp --dport 80 -j ACCEPT
 
 systemctl status openvpn-server@server --no-pager || true
 
