@@ -19,8 +19,9 @@ pipeline {
     parameters {
         string(name:'Version', defaultValue: '', description: 'What is the Artifact Version ?')
         string(name:'Environment', defaultValue: '', description: 'What is the Environment ?')
-        booleanParam(name:'Create', defaultValue: true, description: 'Create ?')
-        booleanParam(name:'Destroy', defaultValue: false, description: 'Destroy ?')
+        // booleanParam(name:'Create', defaultValue: true, description: 'Create ?')
+        // booleanParam(name:'Destroy', defaultValue: false, description: 'Destroy ?')
+        choice(name: 'action', choices: ['Apply', 'Destroy'], description: 'Select Terraform action')
     }
 
     stages {
@@ -42,7 +43,7 @@ pipeline {
             when {
                 expression {
                     // params.Create == true
-                    params.Create && !params.Destroy
+                    params.action == 'Apply'
                 }
             }
             steps {
@@ -56,7 +57,7 @@ pipeline {
             when {
                 expression {
                     // params.Create == true
-                    params.Create && !params.Destroy
+                    params.action == 'Apply'
                 }
             }
             steps {
@@ -71,7 +72,7 @@ pipeline {
             when {
                 expression {
                     // params.Destroy == true
-                    params.Destroy && !params.Create
+                    params.action == 'Destroy'
                 }
             }
             steps {
