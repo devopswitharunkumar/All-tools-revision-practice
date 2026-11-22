@@ -174,7 +174,8 @@ def call(Map configMap) {
                         def buildParams = [
                             string(name: 'Version', value: "${packageVersion}"),
                             string(name: 'Environment', value: 'dev'),
-                            booleanParam(name: 'Create', value: true)
+                            // booleanParam(name: 'Create', value: true)
+                            string(name: 'action', value: 'Apply')
                         ]
 
                         build job: "../${configMap.component}-deploy",
