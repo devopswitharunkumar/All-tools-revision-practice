@@ -79,6 +79,7 @@ def call(Map configMap){
                         fi
                     """
                 }
+            }
             stage('Sonar Scanning') {
                 steps {
                     withSonarQubeEnv('SonarQubeURL') {                      //SonarQubeURL -- this name should match the name configured in jenakins -- manage jenkins -- system -- SonarQube Servers -- name 
@@ -171,4 +172,4 @@ def call(Map configMap){
             }
         }
     }
-}
+} 
