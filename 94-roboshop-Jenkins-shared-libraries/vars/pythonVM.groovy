@@ -28,7 +28,7 @@ def call(Map configMap){
             stage("Get Current Version") {
                 steps {
                     script {
-                        env.PACKAGE_VERSION = "${env.BUILD_NUMBER}"
+                        env.PACKAGE_VERSION = env.BUILD_NUMBER.toString()
 
                         // Use Jenkins build number as Python artifact version
                         echo "Jenkins Build Number: ${env.BUILD_NUMBER}"
@@ -132,7 +132,7 @@ def call(Map configMap){
                     protocol: 'http',
                     nexusUrl: pipelineGlobals.nexusURL(),
                     groupId: 'com.roboshop',
-                    version: "${env.packageVersion}",
+                    version: "${env.PACKAGE_VERSION}",
                     repository: "${configMap.component}",
                     credentialsId: 'nexus-login-credentials',       //created credentials in manage jenkins in jenkins dashboard
                     artifacts: [
