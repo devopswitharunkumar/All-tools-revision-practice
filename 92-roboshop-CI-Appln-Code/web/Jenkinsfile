@@ -1,0 +1,17 @@
+//grovy 
+@Library('roboshop-Jenkins-shared-libraries')_
+
+//responsibility to pass what type of application and component is this to pipeline decision 
+
+def configMap = [
+    application: "pythonVM",
+    component: "payment"
+]
+
+
+if ( ! env.BRANCH_NAME.equalsIgnoreCase('main')) {
+    pipelineDecision.decidePipeline(configMap)
+}
+else {
+    echo "This is PRODUCTION, Deal With CR Process"
+}
