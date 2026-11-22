@@ -6,11 +6,6 @@ def call(Map configMap) {
                 label 'Agent-1'
             }
         }
-
-        environment {
-            PACKAGE_VERSION = ''
-        }
-
         options {
             ansiColor('xterm')
             timeout(time: 30, unit: 'MINUTES')
@@ -25,7 +20,7 @@ def call(Map configMap) {
             stage("Get Current Version") {
                 steps {
                     script {
-                        env.PACKAGE_VERSION = "${BUILD_NUMBER}"
+                        env.PACKAGE_VERSION = env.BUILD_NUMBER.toString()
 
                         echo "Jenkins Build Number: ${env.BUILD_NUMBER}"
                         echo "Web Application Version: ${env.PACKAGE_VERSION}"
