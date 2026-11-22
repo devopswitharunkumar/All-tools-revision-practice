@@ -3,7 +3,7 @@
 resource "aws_cloudfront_distribution" "alb_distribution" {
   enabled         = true
   is_ipv6_enabled = false
-  aliases         = ["web-${var.domain_name}.${var.domain_name}"]
+  aliases         = ["web-${var.tags.Component}.${var.domain_name}"]
 
   origin {
     domain_name = "web-${var.env_name}.${var.domain_name}"          #we can give APP ALB dns name or web-dev.devopswitharun.online because in that record we have APP_ALB dns name only both are same 
