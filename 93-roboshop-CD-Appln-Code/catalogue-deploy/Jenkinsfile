@@ -41,7 +41,8 @@ pipeline {
         stage('Plan') {
             when {
                 expression {
-                    params.Create == true
+                    // params.Create == true
+                    params.Create && !params.Destroy
                 }
             }
             steps {
@@ -54,7 +55,8 @@ pipeline {
         stage('Apply') {
             when {
                 expression {
-                    params.Create == true
+                    // params.Create == true
+                    params.Create && !params.Destroy
                 }
             }
             steps {
@@ -68,7 +70,8 @@ pipeline {
         stage('Destroy') {
             when {
                 expression {
-                    params.Destroy == true
+                    // params.Destroy == true
+                    params.Destroy && !params.Create
                 }
             }
             steps {
