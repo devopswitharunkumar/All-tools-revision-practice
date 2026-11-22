@@ -154,6 +154,12 @@ def call(Map configMap) {
                                 classifier: '',
                                 file: "92-roboshop-CI-Appln-Code/${configMap.component}/${configMap.component}.jar",
                                 type: 'jar'
+                            ],
+                            [
+                                artifactId: "${configMap.component}-schema",
+                                classifier: '',
+                                file: "92-roboshop-CI-Appln-Code/${configMap.component}/schema/shipping.sql",
+                                type: 'sql'
                             ]
                         ]
                     )

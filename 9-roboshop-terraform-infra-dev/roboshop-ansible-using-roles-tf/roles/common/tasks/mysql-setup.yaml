@@ -11,6 +11,15 @@
   ansible.builtin.debug:
     msg: "schema output: {{schema}}"
 
-- name: load cities data
-  ansible.builtin.shell: "mysql -h {{MYSQL_HOST}} -p{{mysql_password}}  < /app/schema/shipping.sql"
-  when: schema.stdout != "1"
+#for TERRAFORM USAGE 
+# - name: load cities data
+#   ansible.builtin.shell: "mysql -h {{MYSQL_HOST}} -p{{mysql_password}}  < /app/schema/shipping.sql"
+#   when: schema.stdout != "1"
+
+
+#FOR JENKINS CD PROCESS 
+- name: Load cities data
+  ansible.builtin.shell: >
+    mysql -h {{ MYSQL_HOST }} -uroot -p'{{ mysql_password }}' < /app/schema/shipping.sql
+  when: schema.stdout | trim == "0"
+

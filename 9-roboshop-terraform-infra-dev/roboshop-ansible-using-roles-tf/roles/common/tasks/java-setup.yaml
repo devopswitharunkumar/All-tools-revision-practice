@@ -17,7 +17,8 @@
 #     chdir: /app
 
 
-#For CD process --> this step is fine already build and installed and pushed jar to nexus and downloading jar from nexus that file is sufficient fo run java application 
+#For CD process shipping --> this step is fine already build and installed and pushed jar to nexus and downloading jar from nexus that file is sufficient fo run java application 
+
 
 - name: Copy JAR artifact
   ansible.builtin.copy:
@@ -25,3 +26,23 @@
     dest: "/app/"
     remote_src: yes
   when: packaging == "jar"
+
+- name: Download Shipping SQL from Nexus
+  ansible.builtin.get_url:
+    url: "{{ NEXUS_URL }}/{{ component }}/{{ group_id }}/{{ component }}-schema/{{ app_version }}/{{ component }}-schema-{{ app_version }}.sql"
+    dest: "/tmp/{{ component }}-schema-{{ app_version }}.sql"
+    url_username: admin
+    url_password: admin123
+
+#for downloading shippingsql it isonly for Jenkins CD process along with jar we download shipping.sql 
+- name: Create schema directory
+  ansible.builtin.file:
+    path: /app/schema
+    state: directory
+
+- name: Copy Shipping SQL
+  ansible.builtin.copy:
+    src: "/tmp/{{ component }}-schema-{{ app_version }}.sql"
+    dest: "/app/schema/shipping.sql"
+    remote_src: yes
+
