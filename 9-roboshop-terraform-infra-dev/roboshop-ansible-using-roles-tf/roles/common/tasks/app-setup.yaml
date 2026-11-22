@@ -59,6 +59,6 @@
 - name: Copy JAR artifact
   ansible.builtin.copy:
     src: "/tmp/{{ component }}-{{ app_version }}.jar"
-    dest: "/app/{{ component }}.jar"
+    dest: "/app/"
     remote_src: yes
   when: packaging == "jar"
