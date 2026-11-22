@@ -53,7 +53,7 @@
     src: "/tmp/{{component}}-{{app_version}}.{{packaging}}"
     dest: /app
     remote_src: yes
-    when: packaging == "zip"
+  when: packaging == "zip"
 
 #this is specifically for shipping module Jenkins process 
 - name: Copy JAR artifact
