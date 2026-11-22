@@ -39,6 +39,7 @@ def call(Map configMap){
                         if ! command -v python3.9 >/dev/null 2>&1; then
                             echo "Installing Python 3..."
                             sudo dnf install python3.9 -y
+                        fi
 
                         echo "Checking GCC..."
 
@@ -55,9 +56,13 @@ def call(Map configMap){
 
                         cd 92-roboshop-CI-Appln-Code/${configMap.component}/
 
+                        python3.9 -m venv .venv
+
+                        source .venv/bin/activate
+
                         echo "Installing Python application dependencies..."
 
-                        pip3.9 install -r -q requirements.txt
+                        python -m pip install -q -r requirements.txt
                     """
                 }
             }
@@ -72,7 +77,7 @@ def call(Map configMap){
                         if [ -d tests ]; then
                             echo "Running Python unit tests..."
 
-                            python -m pip install pytest
+                            python -m pip install -q pytest
                             python -m pytest tests/
                         else
                             echo "No test cases found. Skipping unit tests."
@@ -105,8 +110,8 @@ def call(Map configMap){
 
                             echo "Preparing Python application package..."
                             ls -la
-                            zip -q -r ${configMap.component}.zip ./* -x ".git" -x "*.zip" -x ".venv/*" -x ".scannerwork/*" -x "__pycache__/*" -x "*.pyc"
-                            
+                            zip -q -r ${configMap.component}.zip . -x ".git/*" "*.zip" ".venv/*" ".scannerwork/*" "__pycache__/*" "*.pyc"                            
+
                             echo "Generated artifact:"
                             ls -lh ${configMap.component}.zip
                         """
@@ -122,7 +127,7 @@ def call(Map configMap){
                     protocol: 'http',
                     nexusUrl: pipelineGlobals.nexusURL(),
                     groupId: 'com.roboshop',
-                    version: "${packageVersion}",
+                    version: "${env.packageVersion}",
                     repository: "${configMap.component}",
                     credentialsId: 'nexus-login-credentials',       //created credentials in manage jenkins in jenkins dashboard
                     artifacts: [
@@ -146,7 +151,7 @@ def call(Map configMap){
                         echo "Deploy value is: ${params.Deploy}"
                         
                         def buildParams = [
-                            string(name:'Version', value: "${packageVersion}"),
+                            string(name:'Version', value: "${env.packageVersion}"),
                             string(name:'Environment', value: "dev"),
                             // string(name: 'Create', value: '${params.Deploy}')
                             string(name: 'action', value: 'Apply')
