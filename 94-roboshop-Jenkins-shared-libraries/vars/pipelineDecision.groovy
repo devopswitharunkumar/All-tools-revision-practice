@@ -12,6 +12,9 @@ def decidePipeline(Map configMap) {
         case 'pythonVM':
             pythonVM(configMap)
             break
+        case 'pythonVM':
+            webVM(configMap)
+            break
         default:
             error "Application is not recognised"
     }
