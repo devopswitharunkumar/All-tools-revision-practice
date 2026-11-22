@@ -49,7 +49,7 @@ def call(Map configMap){
 
                         echo "Checking Python development packages..."
 
-                        sudo dnf install python39-devel -y
+                        sudo dnf install python3-devel -y
 
                         python3.9 --version
                         pip3.9 --version
