@@ -55,6 +55,17 @@
     remote_src: yes
   when: packaging == "zip"
 
+- name: Verify files after extraction
+  ansible.builtin.command: ls -la /app
+  register: app_files
+
+- ansible.builtin.debug:
+    var: app_files.stdout_lines
+
+- name: Verify pom.xml
+  ansible.builtin.command: ls -l /app/pom.xml
+  when: packaging == "zip"
+
 #this is specifically for shipping module Jenkins process 
 - name: Copy JAR artifact
   ansible.builtin.copy:
@@ -62,3 +73,6 @@
     dest: "/app/"
     remote_src: yes
   when: packaging == "jar"
+
+- name: Verify poms.xml
+  ansible.builtin.command: ls -l /app/

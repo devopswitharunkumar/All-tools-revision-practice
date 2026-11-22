@@ -2,13 +2,22 @@
   ansible.builtin.package:
     name: maven
     state: present
+  
+- name: Verify files after Maven build
+  ansible.builtin.command: ls -la /app
 
 - name: install dependencies 
   ansible.builtin.command: mvn clean package 
   args:
     chdir: /app 
 
+- name: Verify files after Maven1 build
+  ansible.builtin.command: ls -la /app
+
 - name: moving target file
   ansible.builtin.command: "mv target/{{component}}-{{shipping_version}}.jar {{component}}.jar"
   args:   
     chdir: /app
+
+- name: Verify final JAR
+  ansible.builtin.command: ls -lh /app/
