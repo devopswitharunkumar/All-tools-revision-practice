@@ -1,23 +1,27 @@
-- name: install maven for shipping module 
-  ansible.builtin.package:
-    name: maven
-    state: present
-  
-- name: Verify files after Maven build
-  ansible.builtin.command: ls -la /app
+#for terraform process these steps install dependencies based on pom.xml and create a jar 
+#so no we dont need all 3 because we builded in jenkins CI process and downloading jar in app-setup.yaml file that file will alone is fine to run java application 
 
-- name: install dependencies 
-  ansible.builtin.command: mvn clean package 
-  args:
-    chdir: /app 
+# - name: install maven for shipping module 
+#   ansible.builtin.package:
+#     name: maven
+#     state: present
 
-- name: Verify files after Maven1 build
-  ansible.builtin.command: ls -la /app
+# - name: install dependencies 
+#   ansible.builtin.command: mvn clean package 
+#   args:
+#     chdir: /app 
 
-- name: moving target file
-  ansible.builtin.command: "mv target/{{component}}-{{shipping_version}}.jar {{component}}.jar"
-  args:   
-    chdir: /app
+# - name: moving target file
+#   ansible.builtin.command: "mv target/{{component}}-{{shipping_version}}.jar {{component}}.jar"
+#   args:   
+#     chdir: /app
 
-- name: Verify final JAR
-  ansible.builtin.command: ls -lh /app/
+
+#For CD process --> this step is fine already build and installed and pushed jar to nexus and downloading jar from nexus that file is sufficient fo run java application 
+
+- name: Copy JAR artifact
+  ansible.builtin.copy:
+    src: "/tmp/{{ component }}-{{ app_version }}.jar"
+    dest: "/app/"
+    remote_src: yes
+  when: packaging == "jar"
