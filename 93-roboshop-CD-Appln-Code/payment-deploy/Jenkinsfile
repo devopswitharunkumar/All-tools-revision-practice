@@ -1,0 +1,94 @@
+//In Agent instance sg we need to add VPN sg grp for payment,cart,user etc...
+
+pipeline {
+    agent {
+        node {
+            label 'Agent-1'
+        }
+    }
+    // environment {
+    //     packageVersion=''
+    //     nexusURL='172.31.36.95:8081'
+    //     repositoryName='payment'
+    // }
+    options {
+        ansiColor('xterm')
+        timeout(time: 30, unit: 'MINUTES')
+        disableConcurrentBuilds()
+    }
+    parameters {
+        string(name:'Version', defaultValue: '', description: 'What is the Artifact Version ?')
+        string(name:'Environment', defaultValue: '', description: 'What is the Environment ?')
+        booleanParam(name:'Create', defaultValue: 'true', description: 'Create ?')
+        booleanParam(name:'Destroy', defaultValue: 'false', description: 'Destroy ?')
+    }
+
+    stages {
+        stage('Print Version & Environment') {
+            steps {
+                echo "Version is : ${params.Version}"
+                echo "Environment is : ${params.Environment}"
+            }
+        }
+        stage('Init') {
+            steps {
+                sh """
+                    cd 93-roboshop-CD-Appln-Code/payment-deploy/terraform 
+                    terraform init -upgrade -backend-config=${params.Environment}/backend.tf -reconfigure 
+                """
+            }
+        }
+        stage('Plan') {
+            when {
+                expression {
+                    params.Create
+                }
+            }
+            steps {
+                sh """
+                    cd 93-roboshop-CD-Appln-Code/payment-deploy/terraform 
+                    terraform plan -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" 
+                """
+            }
+        }  
+        stage('Apply') {
+            when {
+                expression {
+                    params.Create
+                }
+            }
+            steps {
+                sh """
+                    cd 93-roboshop-CD-Appln-Code/payment-deploy/terraform 
+                    terraform apply -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" -auto-approve
+                """
+            }
+        }
+
+        stage('Destroy') {
+            when {
+                expression {
+                    params.Destroy
+                }
+            }
+            steps {
+                sh """
+                    cd 93-roboshop-CD-Appln-Code/payment-deploy/terraform 
+                    terraform destroy -var="app_version=${params.Version}" -var-file="${params.Environment}/${params.Environment}.tfvars" -auto-approve
+                """
+            }
+        }
+    }
+    post {
+        always {
+            echo "All stages of CD process completed-Always"
+            
+        }
+        success {
+            echo "All stages of CD process completed Successfully"
+        }
+        failure {
+            echo "CD process Failed"
+        }
+    }
+}
