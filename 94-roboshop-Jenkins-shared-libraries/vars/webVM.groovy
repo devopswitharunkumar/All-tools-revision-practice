@@ -25,7 +25,7 @@ def call(Map configMap) {
             stage("Get Current Version") {
                 steps {
                     script {
-                        env.PACKAGE_VERSION = env.BUILD_NUMBER.toString()
+                        env.PACKAGE_VERSION = "${BUILD_NUMBER}"
 
                         echo "Jenkins Build Number: ${env.BUILD_NUMBER}"
                         echo "Web Application Version: ${env.PACKAGE_VERSION}"
