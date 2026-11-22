@@ -29,7 +29,7 @@ variable "app_version" {
 }
 
 variable "rule_priority" {
-    default = 20
+    default = 70
 }
 
 variable "iam_instance_profile" {
