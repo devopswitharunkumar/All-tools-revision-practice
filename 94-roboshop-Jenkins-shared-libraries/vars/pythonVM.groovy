@@ -19,18 +19,23 @@ def call(Map configMap){
             disableConcurrentBuilds()
         }
         parameters {
-            booleanParam(name:'Deploy', defaultValue: true, description: "By default deploy is false while Developing CI")
-        }
+                // string(name: 'Version', defaultValue: '', description: 'What is the Artifact Version?')
+                // string(name: 'Environment', defaultValue: 'dev', description: 'What is the Environment?')
+                // choice(name: 'action', choices: ['Apply', 'Destroy'], description: 'Select Terraform action')
+                booleanParam(name:'Deploy', defaultValue: true, description: "By default deploy is false while Developing CI")
+            }
         stages {
-            stage("Get Current Version"){
+            stage("Get Current Version") {
                 steps {
                     script {
+                        env.PACKAGE_VERSION = "${env.BUILD_NUMBER}"
+
                         // Use Jenkins build number as Python artifact version
-                        env.packageVersion = env.BUILD_NUMBER
-                        echo "Payment Application version is : ${env.packageVersion}"
+                        echo "Jenkins Build Number: ${env.BUILD_NUMBER}"
+                        echo "Payment Application Version: ${env.PACKAGE_VERSION}"
                     }
-                } 
-            }   
+                }
+            }  
             stage("Install dependencies") {         //check whether version 18 is there or not if not download if present skip those commands 
                 steps {
                     sh """
@@ -151,7 +156,7 @@ def call(Map configMap){
                         echo "Deploy value is: ${params.Deploy}"
                         
                         def buildParams = [
-                            string(name:'Version', value: "${env.packageVersion}"),
+                            string(name:'Version', value: "${env.PACKAGE_VERSION}"),
                             string(name:'Environment', value: "dev"),
                             // string(name: 'Create', value: '${params.Deploy}')
                             string(name: 'action', value: 'Apply')
