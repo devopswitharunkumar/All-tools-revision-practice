@@ -112,7 +112,7 @@ def call(Map configMap) {
 
                         echo "Building Java application..."
 
-                        mvn package -DskipTests     
+                        mvn clean package -DskipTests
 
                         echo "Generated JAR files: target folder"
                         ls -lh target/*.jar

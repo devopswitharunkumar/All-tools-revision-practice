@@ -20,10 +20,26 @@
 #For CD process shipping --> this step is fine already build and installed and pushed jar to nexus and downloading jar from nexus that file is sufficient fo run java application 
 
 
+- name: Install Java 17 on Shipping EC2
+  ansible.builtin.dnf:
+    name: java-17-openjdk-headless
+    state: present
+    update_cache: yes
+  become: true
+
+- name: Verify Java installation
+  ansible.builtin.command: java -version
+  register: java_version
+  changed_when: false
+
+- name: Display Java version
+  ansible.builtin.debug:
+    var: java_version.stderr
+
 - name: Copy JAR artifact
   ansible.builtin.copy:
     src: "/tmp/{{ component }}-{{ app_version }}.jar"
-    dest: "/app/"
+    dest: "/app/{{ component }}.jar"
     remote_src: yes
   when: packaging == "jar"
 
@@ -33,12 +49,14 @@
     dest: "/tmp/{{ component }}-schema-{{ app_version }}.sql"
     url_username: admin
     url_password: admin123
+  no_log: true
 
 #for downloading shippingsql it isonly for Jenkins CD process along with jar we download shipping.sql 
 - name: Create schema directory
   ansible.builtin.file:
     path: /app/schema
     state: directory
+    mode: '0755'
 
 - name: Copy Shipping SQL
   ansible.builtin.copy:
