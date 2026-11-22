@@ -55,7 +55,7 @@
     remote_src: yes
     when: packaging == "zip"
 
-#this is specifically for shipping Jenkins process 
+#this is specifically for shipping module Jenkins process 
 - name: Copy JAR artifact
   ansible.builtin.copy:
     src: "/tmp/{{ component }}-{{ app_version }}.jar"
