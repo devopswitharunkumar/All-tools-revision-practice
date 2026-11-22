@@ -4,7 +4,7 @@
 //responsibility to pass what type of application and component is this to pipeline decision 
 
 def configMap = [
-    application: "WebVM",
+    application: "webVM",
     component: "web"
 ]
 
