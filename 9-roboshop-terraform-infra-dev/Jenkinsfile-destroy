@@ -15,8 +15,7 @@ pipeline {
                 sh """
                     cd 9-roboshop-terraform-infra-dev/10-cdn/
                     terraform init -reconfigure
-                    terraform plan
-                    terraform apply -auto-approve
+                    terraform destroy -auto-approve
                 """
             }
         }
@@ -25,8 +24,7 @@ pipeline {
                 sh """
                     cd 9-roboshop-terraform-infra-dev/08-web-alb/
                     terraform init -reconfigure
-                    terraform plan
-                    terraform apply -auto-approve
+                    terraform destroy -auto-approve
                 """
             }
         }
@@ -35,8 +33,7 @@ pipeline {
                 sh """
                     cd 9-roboshop-terraform-infra-dev/07-acm-certificate/
                     terraform init -reconfigure
-                    terraform plan
-                    terraform apply -auto-approve
+                    terraform destroy -auto-approve
                 """
             }
         }
