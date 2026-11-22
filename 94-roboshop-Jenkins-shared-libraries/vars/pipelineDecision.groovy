@@ -9,9 +9,8 @@ def decidePipeline(Map configMap) {
         case 'javaVM':
             javaVM(configMap)
             break
-        
-        case 'nodejsEKS':
-            nodejsEKS(configMap)
+        case 'pythonVM':
+            pythonVM(configMap)
             break
         default:
             error "Application is not recognised"
