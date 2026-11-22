@@ -12,7 +12,7 @@ def decidePipeline(Map configMap) {
         case 'pythonVM':
             pythonVM(configMap)
             break
-        case 'pythonVM':
+        case 'webVM':
             webVM(configMap)
             break
         default:
