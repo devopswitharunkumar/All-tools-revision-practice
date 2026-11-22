@@ -122,7 +122,7 @@ def call(Map configMap){
             stage("Trigger CD pipeline For Deploy") {
                 when {
                     expression {
-                        params.Deploy  //or  params.Deploy == true 
+                        params.Deploy == true   //or  params.Deploy 
                     }
                 }
                 steps {
@@ -132,7 +132,8 @@ def call(Map configMap){
                         def buildParams = [
                             string(name:'Version', value: "${packageVersion}"),
                             string(name:'Environment', value: "dev"),
-                            string(name: 'Create', value: '${params.Deploy}')
+                            // string(name: 'Create', value: '${params.Deploy}')
+                            string(name: 'action', value: 'Apply')
                         ]
                         build job: "../${configMap.component}-deploy", 
                                     wait: true, 
