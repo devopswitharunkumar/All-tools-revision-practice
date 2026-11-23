@@ -3,14 +3,14 @@ resource "aws_lb_target_group" "component-app-alb-tg" {
   target_type = "instance"                      #it is default 
   name     = "${local.ec2_name}-${var.tags.Component}-tgs"
   protocol = "HTTP"
-  port     = 8080
+  port     = var.port
   vpc_id   = var.vpc_id 
 
   deregistration_delay = 60 
 
   health_check {
     path                = "/health"
-    port                = 8080
+    port                = var.port
     protocol            = "HTTP"
     healthy_threshold   = 2
     unhealthy_threshold = 3
@@ -31,11 +31,24 @@ resource "aws_lb_listener_rule" "component_listner_rule" {
     target_group_arn = aws_lb_target_group.component-app-alb-tg.arn
   }
 
-  condition {
-    host_header {
-      values = ["${var.tags.Component}.app-${var.env_name}.${var.domain_name}"]
+#before web JEnkins CD process 
+  # condition {
+  #   host_header {
+  #     values = ["${var.tags.Component}.app-${var.env_name}.${var.domain_name}"]
+  #   }
+  # }
+    condition {
+      host_header {
+        values = [
+          format(
+            var.host_header_pattern,
+            var.tags.Component,
+            var.env_name,
+            var.domain_name
+          )
+        ]
+      }
     }
-  }
 }
 
 

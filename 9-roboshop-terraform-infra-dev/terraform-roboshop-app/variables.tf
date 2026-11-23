@@ -50,3 +50,12 @@ variable "packaging" {
   type        = string
   default     = "zip"
 }
+
+variable "port" {
+    default = 8080
+}
+
+variable "host_header_pattern" {
+  description = "Host header pattern for ALB listener rule"
+  type        = string
+}
