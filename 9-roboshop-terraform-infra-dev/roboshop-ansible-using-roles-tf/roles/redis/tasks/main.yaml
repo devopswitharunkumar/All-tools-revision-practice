@@ -43,6 +43,14 @@
     replace: 'bind 0.0.0.0'
   notify: Restart Redis
 
+#only of CD process of redis Jenkins pipeline 
+- name: Disable Redis protected mode
+  ansible.builtin.replace:
+    path: /etc/redis/redis.conf
+    regexp: '^protected-mode yes'
+    replace: 'protected-mode no'
+  notify: Restart Redis
+
 - name: Enable and start Redis
   ansible.builtin.service:
     name: redis
