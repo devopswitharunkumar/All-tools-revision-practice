@@ -41,6 +41,7 @@ pipeline {
                 """
             }
         }
+        //In this gap add vpn sg to agent & connect to vpn 
         stage("Wait_For_VPN") {
             steps {
                 echo "Waiting 5 minutes for VPN setup..."
