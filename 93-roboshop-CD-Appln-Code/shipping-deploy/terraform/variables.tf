@@ -40,3 +40,9 @@ variable "packaging" {
   description = "Application artifact packaging format"
   type        = string
 }
+
+variable "host_header_pattern" {
+  description = "Host header pattern"
+  type        = string
+  default     = "%s.app-%s.%s"
+}

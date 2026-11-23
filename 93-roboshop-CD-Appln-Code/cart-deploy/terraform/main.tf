@@ -14,4 +14,5 @@ module "cart" {
     app_alb_listner_rule = data.aws_ssm_parameter.app_alb_listner_rule.value
     rule_priority = var.rule_priority
     app_version = var.app_version
+    host_header_pattern = var.host_header_pattern
 }

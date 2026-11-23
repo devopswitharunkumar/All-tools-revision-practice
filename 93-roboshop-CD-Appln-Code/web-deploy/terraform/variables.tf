@@ -29,9 +29,19 @@ variable "app_version" {
 }
 
 variable "rule_priority" {
-    default = 70
+    default = 80
 }
 
 variable "iam_instance_profile" {
     default = "EC2RoleForShellScript"
+}
+
+variable "port" {
+  
+}
+
+variable "host_header_pattern" {
+  description = "Host header pattern"
+  type        = string
+  default     = "%s-%s.%s"
 }

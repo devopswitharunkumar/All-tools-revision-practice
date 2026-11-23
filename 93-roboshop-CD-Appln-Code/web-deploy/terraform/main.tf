@@ -11,7 +11,10 @@ module "web" {
     domain_name = var.domain_name
     common_tags = var.common_tags
     ami_id = data.aws_ami.redhat-9-ami-id.id
-    app_alb_listner_rule = data.aws_ssm_parameter.app_alb_listner_rule.value
+    app_alb_listner_rule = data.aws_ssm_parameter.web_alb_listner_rule.value
     rule_priority = var.rule_priority
     app_version = var.app_version
+    port = var.port
+    host_header_pattern = var.host_header_pattern
+
 }

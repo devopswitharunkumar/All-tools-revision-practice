@@ -4,3 +4,4 @@ common_tags = {
     Terraform = true 
     Environment = "prod"
 }
+port = 80

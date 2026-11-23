@@ -15,4 +15,5 @@ module "shipping" {
     rule_priority = var.rule_priority
     app_version = var.app_version
     packaging = var.packaging
+    host_header_pattern = var.host_header_pattern
 }

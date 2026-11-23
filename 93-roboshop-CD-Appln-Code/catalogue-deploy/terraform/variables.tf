@@ -35,3 +35,9 @@ variable "rule_priority" {
 variable "iam_instance_profile" {
     default = "EC2RoleForShellScript"
 }
+
+variable "host_header_pattern" {
+  description = "Host header pattern"
+  type        = string
+  default     = "%s.app-%s.%s"
+}

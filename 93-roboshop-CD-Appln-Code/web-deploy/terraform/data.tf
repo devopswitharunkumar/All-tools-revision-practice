@@ -50,3 +50,7 @@ data "aws_ssm_parameter" "web_sg_id" {
 data "aws_ssm_parameter" "app_alb_listner_rule" {
     name = "/${var.project_name}/${var.env_name}/app_alb_listner_rule"
 }
+
+data "aws_ssm_parameter" "web_alb_listner_rule" {
+    name = "/${var.project_name}/${var.env_name}/web_alb_listner_rule"
+}
