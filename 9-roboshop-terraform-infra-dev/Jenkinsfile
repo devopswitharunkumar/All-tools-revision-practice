@@ -41,6 +41,12 @@ pipeline {
                 """
             }
         }
+        stage("Wait_For_VPN") {
+            steps {
+                echo "Waiting 5 minutes for VPN setup..."
+                sleep(time: 5, unit: 'MINUTES')
+            }
+        }
         stage('Databases_And_APP_ALB') {
             parallel {
                 stage("DB"){
