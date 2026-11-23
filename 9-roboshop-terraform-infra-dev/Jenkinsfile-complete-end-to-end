@@ -73,36 +73,36 @@ pipeline {
             }
         }
 
-        stage("ACM_CERTIFICATE"){
-            steps {
-                sh """
-                    cd 9-roboshop-terraform-infra-dev/07-acm-certificate/
-                    terraform init -reconfigure
-                    terraform plan
-                    terraform apply -auto-approve
-                """
-            }
-        }
-        stage("WEB_ALB"){
-            steps {
-                sh """
-                    cd 9-roboshop-terraform-infra-dev/08-web-alb/
-                    terraform init -reconfigure
-                    terraform plan
-                    terraform apply -auto-approve
-                """
-            }
-        }
-        stage("CDN"){
-            steps {
-                sh """
-                    cd 9-roboshop-terraform-infra-dev/10-cdn/
-                    terraform init -reconfigure
-                    terraform plan
-                    terraform apply -auto-approve
-                """
-            }
-        }       
+        // stage("ACM_CERTIFICATE"){
+        //     steps {
+        //         sh """
+        //             cd 9-roboshop-terraform-infra-dev/07-acm-certificate/
+        //             terraform init -reconfigure
+        //             terraform plan
+        //             terraform apply -auto-approve
+        //         """
+        //     }
+        // }
+        // stage("WEB_ALB"){
+        //     steps {
+        //         sh """
+        //             cd 9-roboshop-terraform-infra-dev/08-web-alb/
+        //             terraform init -reconfigure
+        //             terraform plan
+        //             terraform apply -auto-approve
+        //         """
+        //     }
+        // }
+        // stage("CDN"){
+        //     steps {
+        //         sh """
+        //             cd 9-roboshop-terraform-infra-dev/10-cdn/
+        //             terraform init -reconfigure
+        //             terraform plan
+        //             terraform apply -auto-approve
+        //         """
+        //     }
+        // }       
     }
     post {
         always {
