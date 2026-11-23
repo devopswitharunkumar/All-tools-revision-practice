@@ -73,36 +73,71 @@ pipeline {
             }
         }
 
-        // stage("ACM_CERTIFICATE"){
-        //     steps {
-        //         sh """
-        //             cd 9-roboshop-terraform-infra-dev/07-acm-certificate/
-        //             terraform init -reconfigure
-        //             terraform plan
-        //             terraform apply -auto-approve
-        //         """
-        //     }
-        // }
-        // stage("WEB_ALB"){
-        //     steps {
-        //         sh """
-        //             cd 9-roboshop-terraform-infra-dev/08-web-alb/
-        //             terraform init -reconfigure
-        //             terraform plan
-        //             terraform apply -auto-approve
-        //         """
-        //     }
-        // }
-        // stage("CDN"){
-        //     steps {
-        //         sh """
-        //             cd 9-roboshop-terraform-infra-dev/10-cdn/
-        //             terraform init -reconfigure
-        //             terraform plan
-        //             terraform apply -auto-approve
-        //         """
-        //     }
-        // }       
+        stage("ACM_CERTIFICATE"){
+            steps {
+                sh """
+                    cd 9-roboshop-terraform-infra-dev/07-acm-certificate/
+                    terraform init -reconfigure
+                    terraform plan
+                    terraform apply -auto-approve
+                """
+            }
+        }
+        stage("WEB_ALB"){
+            steps {
+                sh """
+                    cd 9-roboshop-terraform-infra-dev/08-web-alb/
+                    terraform init -reconfigure
+                    terraform plan
+                    terraform apply -auto-approve
+                """
+            }
+        }
+        stage('Web-CI') {
+            steps {
+                build job: 'ROBOSHOP_APPLN_INFRA/web-CI/feature-web-1',
+                        wait: true,
+                        propagate: true
+            }
+        }
+        stage("CDN"){
+            steps {
+                sh """
+                    cd 9-roboshop-terraform-infra-dev/10-cdn/
+                    terraform init -reconfigure
+                    terraform plan
+                    terraform apply -auto-approve
+                """
+            }
+        }    
+        stage('User-CI') {
+            steps {
+                build job: 'ROBOSHOP_APPLN_INFRA/user-CI/feature-user-1',
+                        wait: true,
+                        propagate: true
+            }
+        }
+        stage('Cart-CI') {
+            steps {
+                build job: 'ROBOSHOP_APPLN_INFRA/cart-CI/feature-user-1',
+                        wait: true,
+                        propagate: true
+            }
+        }
+        stage('Shipping-CI') {
+            steps {
+                build job: 'ROBOSHOP_APPLN_INFRA/shipping-CI/feature-shipping-1',
+                        wait: true,
+                        propagate: true
+            }
+        }
+        stage('Payment-CI') {
+            steps {
+                build job: 'ROBOSHOP_APPLN_INFRA/payment-CI/feature-payment-1',
+                        wait: true,
+                        propagate: true
+            }
+        }
     }
     post {
         always {

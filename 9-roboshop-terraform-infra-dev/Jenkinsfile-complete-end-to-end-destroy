@@ -1,0 +1,196 @@
+pipeline {
+    agent {
+        node {
+            label 'Agent-1'
+        }
+    }
+    parameters {
+        string(
+            name: 'Version',
+            defaultValue: '',
+            description: 'What is the Artifact Version?'
+        )
+
+        string(
+            name: 'Environment',
+            defaultValue: '',
+            description: 'What is the Environment?'
+        )
+    }
+    options {
+        ansiColor('xterm')
+        timeout(time:30, unit:'MINUTES')
+        disableConcurrentBuilds()
+    }
+    stages {
+        // stage('Payment-Destroy') {
+        //     steps {
+        //         build job: 'ROBOSHOP_APPLN_INFRA/payment-deploy',
+        //             wait: true,
+        //             propagate: true,
+        //             parameters: [
+        //                 string(name: 'Version', value: params.Version),
+        //                 string(name: 'Environment', value: params.Environment),
+        //                 string(name: 'action', value: 'Destroy')
+        //             ]
+        //     }
+        // }
+        // stage('Shipping-Destroy') {
+        //     steps {
+        //         build job: 'ROBOSHOP_APPLN_INFRA/shipping-deploy',
+        //             wait: true,
+        //             propagate: true,
+        //             parameters: [
+        //                 string(name: 'Version', value: params.Version),
+        //                 string(name: 'Environment', value: params.Environment),
+        //                 string(name: 'action', value: 'Destroy')
+        //             ]
+        //     }
+        // }
+        // stage('Cart-Destroy') {
+        //     steps {
+        //         build job: 'ROBOSHOP_APPLN_INFRA/cart-deploy',
+        //             wait: true,
+        //             propagate: true,
+        //             parameters: [
+        //                 string(name: 'Version', value: params.Version),
+        //                 string(name: 'Environment', value: params.Environment),
+        //                 string(name: 'action', value: 'Destroy')
+        //             ]
+        //     }
+        // }
+        // stage('User-Destroy') {
+        //     steps {
+        //         build job: 'ROBOSHOP_APPLN_INFRA/user-deploy',
+        //             wait: true,
+        //             propagate: true,
+        //             parameters: [
+        //                 string(name: 'Version', value: params.Version),
+        //                 string(name: 'Environment', value: params.Environment),
+        //                 string(name: 'action', value: 'Destroy')
+        //             ]
+        //     }
+        // }
+        // stage("CDN"){
+        //     steps {
+        //         sh """
+        //             cd 9-roboshop-terraform-infra-dev/10-cdn/
+        //             terraform init -reconfigure
+        //             terraform plan
+        //             terraform destroy -auto-approve
+        //         """
+        //     }
+        // } 
+        // stage('Web-Destroy') {
+        //     steps {
+        //         build job: 'ROBOSHOP_APPLN_INFRA/web-deploy',
+        //             wait: true,
+        //             propagate: true,
+        //             parameters: [
+        //                 string(name: 'Version', value: params.Version),
+        //                 string(name: 'Environment', value: params.Environment),
+        //                 string(name: 'action', value: 'Destroy')
+        //             ]
+        //     }
+        // }
+        // stage("WEB_ALB"){
+        //     steps {
+        //         sh """
+        //             cd 9-roboshop-terraform-infra-dev/08-web-alb/
+        //             terraform init -reconfigure
+        //             terraform plan
+        //             terraform destroy -auto-approve
+        //         """
+        //     }
+        // }
+        // stage("ACM_CERTIFICATE"){
+        //     steps {
+        //         sh """
+        //             cd 9-roboshop-terraform-infra-dev/07-acm-certificate/
+        //             terraform init -reconfigure
+        //             terraform plan
+        //             terraform destroy -auto-approve
+        //         """
+        //     }
+        // }
+        stage('Catalogue-Destroy') {
+            steps {
+                build job: 'ROBOSHOP_APPLN_INFRA/catalogue-deploy',
+                    wait: true,
+                    propagate: true,
+                    parameters: [
+                        string(name: 'Version', value: params.Version),
+                        string(name: 'Environment', value: params.Environment),
+                        string(name: 'action', value: 'Destroy')
+                    ]
+            }
+        }
+        stage('Databases_And_APP_ALB') {
+            parallel {
+                stage("DB"){
+                    steps {
+                        sh """
+                            cd 9-roboshop-terraform-infra-dev/04-databases/
+                            terraform init -reconfigure
+                            terraform plan
+                            terraform destroy -auto-approve
+                        """
+                    }
+                }
+                stage("APP_ALB"){
+                    steps {
+                        sh """
+                            cd 9-roboshop-terraform-infra-dev/05-app-alb/
+                            terraform init -reconfigure
+                            terraform plan
+                            terraform destroy -auto-approve
+                        """
+                    }
+                }
+            }
+        } 
+        stage("VPN"){
+            steps {
+                sh """
+                    cd 9-roboshop-terraform-infra-dev/03-vpn/
+                    terraform init -reconfigure
+                    terraform plan
+                    terraform destroy -auto-approve
+                """
+            }
+        }  
+        stage("SG"){
+            steps {
+                sh """
+                    cd 9-roboshop-terraform-infra-dev/02-sg/
+                    terraform init -reconfigure
+                    terraform plan
+                    terraform destroy -auto-approve
+                """
+            }
+        }
+        stage("VPC"){
+            steps {
+                sh """
+                    cd 9-roboshop-terraform-infra-dev/01-vpc/
+                    terraform init -reconfigure
+                    terraform plan
+                    terraform destroy -auto-approve
+                """
+            } 
+        }
+    }
+    
+    post {
+        always {
+            echo "Terraform Pipeline Creation successful or failed or aborted always runs For DEVELOPMENT Environment"
+        }
+        success {
+            echo "Terraform infra Creation for DEVELOPMENT Environment deployment Successfull"
+        }
+        failure {
+            echo "Terraform infra Creation for DEVELOPMENT Environment deployment Failed"
+        }
+    }
+}
+
