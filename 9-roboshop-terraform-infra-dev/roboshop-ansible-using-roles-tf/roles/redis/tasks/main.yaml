@@ -43,7 +43,8 @@
     replace: 'bind 0.0.0.0'
   notify: Restart Redis
 
-#only of CD process of redis Jenkins pipeline 
+#only of CD process of redis Jenkins pipeline instead of changing to no we can try another process of using 
+# requirepass YourStrongUniquePassword ---> u can refer this in same conf file below protected-mode yes 
 - name: Disable Redis protected mode
   ansible.builtin.replace:
     path: /etc/redis/redis.conf
