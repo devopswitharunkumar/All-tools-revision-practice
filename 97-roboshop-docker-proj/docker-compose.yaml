@@ -2,7 +2,7 @@
 #u mentioned default --> it will create roboshop network and set as default network & in this case no need to mention in --> service level as networks: -roboshop like this 
 
 networks:
-  default:        #bydefault ot creates bridge so no need to mention type of network
+  default:        #by default ot creates bridge so no need to mention type of network & no need to mention networks section in each service it will by default apply because we mentioned default in this defination 
     name: roboshop
     driver: bridge    #to mention type of network
 
