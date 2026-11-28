@@ -45,7 +45,7 @@ services:
     - redis 
     - mongodb  
 
-  cart:                 #normally this will be set as container name if u dont mention using  container_name
+  cart:                 #normally this will be set as container name like 97-roboshop-docker-proj-cart-v1 (Format : folder_name-component_name-version) if u dont mention using container_name
     build: ./cart
     image: cart:v1 
     container_name: cart
@@ -53,7 +53,16 @@ services:
     - redis 
     - catalogue  
 
-
+  mysql:                 #normally this will be set as container name if u dont mention using  container_name
+    build: ./mysql
+    image: mysql:v1 
+    container_name: mysql
+    environment:
+      - DB_HOST=mysql
+      - MYSQL_PASSWORD=RoboShop@1
+      - MYSQL_ROOT_PASSWORD=RoboShop@1
+      - MYSQL_USER=shipping
+      - MYSQL_DATABASE=cities
 
 
 
