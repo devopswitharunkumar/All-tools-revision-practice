@@ -29,6 +29,10 @@ services:
     - "80:80"
     depends_on:
     - catalogue
+    - user 
+    - cart 
+    - shipping
+    - payment
 
 # for user and cart we need redis db so first redis the cart and user 
 
@@ -80,7 +84,14 @@ services:
     - RABBITMQ_DEFAULT_USER=roboshop
     - RABBITMQ_DEFAULT_PASS=roboshop123
 
-
+  payment:
+    build: ./build
+    image: payment:v1 
+    container_name: payment
+    depends_on: 
+    - cart
+    - user
+    - rabbitmq
 
 
 
