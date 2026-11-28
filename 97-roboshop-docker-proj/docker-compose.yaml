@@ -29,9 +29,29 @@ services:
     - "80:80"
     depends_on:
     - catalogue
-  
 
+# for user and cart we need redis db so first redis the cart and user 
 
+  redis:        #we can give only this line also no issue 
+    build: ./redis
+    image: redis
+    container_name: redis
+
+  user:
+    build: ./user
+    image: user:v1 
+    container_name: user
+    depends_on:
+    - redis 
+    - mongodb  
+
+  cart:                 #normally this will be set as container name if u dont mention using  container_name
+    build: ./cart
+    image: cart:v1 
+    container_name: cart
+    depends_on:
+    - redis 
+    - catalogue  
 
 
 
