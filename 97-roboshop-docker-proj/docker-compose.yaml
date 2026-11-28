@@ -63,6 +63,14 @@ services:
       - MYSQL_ROOT_PASSWORD=RoboShop@1
       - MYSQL_USER=shipping
       - MYSQL_DATABASE=cities
+  
+  shipping:
+    build: ./shipping
+    image: shipping:v1 
+    container_name: shipping
+    depends_on:
+    - mysql
+    - cart
 
 
 
