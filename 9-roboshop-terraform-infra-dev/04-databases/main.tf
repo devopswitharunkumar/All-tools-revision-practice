@@ -1,3 +1,13 @@
+
+#In this wait time do changes like 
+# 1. Add roboshop-dev-vpn SG ---> in --> Select Agent EC2 --> select Actions --> security --> change Security rules --> Add VPN SG --> save 
+# 2. Login into VPN EC2 through Superputty --> sudo su - --> ls -l --> copy arunvpn.ovpn --> content --> save in a file in local --> add that file in --> openvpn connect --> upload 
+
+resource "time_sleep" "wait_5_minutes" {
+  create_duration = "5m"
+}
+
+
 #database related Ec2 creation
 module "mongodb" {
     source = "terraform-aws-modules/ec2-instance/aws"
@@ -10,6 +20,7 @@ module "mongodb" {
     subnet_id = local.database_subnet_ids      #retreive like string
 
     create_security_group = false
+    depends_on = [time_sleep.wait_5_minutes]
 
     tags = merge(var.common_tags, 
     {
@@ -21,6 +32,7 @@ module "mongodb" {
 }
 
 resource "null_resource" "mongodb" {
+      depends_on = [module.mongodb]
     triggers = {
       instance_id = module.mongodb.id
     }
@@ -57,6 +69,7 @@ module "redis" {
     subnet_id = local.database_subnet_ids      #retreive like string
 
     create_security_group = false
+    depends_on = [time_sleep.wait_5_minutes]
 
 
     tags = merge(var.common_tags, 
@@ -69,6 +82,7 @@ module "redis" {
 }
 
 resource "null_resource" "redis" {
+    depends_on = [module.redis]
     triggers = {
       instance_id = module.redis.id
     }
@@ -107,6 +121,8 @@ module "mysql" {
     iam_instance_profile = "EC2RoleForShellScript"
     create_security_group = false
 
+    depends_on = [time_sleep.wait_5_minutes]
+
 
     tags = merge(var.common_tags, 
     {
@@ -118,6 +134,7 @@ module "mysql" {
 }
 
 resource "null_resource" "mysql" {
+    depends_on = [module.mysql]
     triggers = {
       instance_id = module.mysql.id
     }
@@ -156,6 +173,8 @@ module "rabbitmq" {
     iam_instance_profile = "EC2RoleForShellScript"
     create_security_group = false
 
+    depends_on = [time_sleep.wait_5_minutes]
+
 
     tags = merge(var.common_tags, 
     {
@@ -167,6 +186,7 @@ module "rabbitmq" {
 }
 
 resource "null_resource" "rabbitmq" {
+    depends_on = [module.rabbitmq]
     triggers = {
       instance_id = module.rabbitmq.id
     }

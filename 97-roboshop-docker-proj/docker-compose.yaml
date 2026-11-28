@@ -72,6 +72,8 @@ services:
     build: ./shipping
     image: shipping:v1 
     container_name: shipping
+    environment:
+    - CART_ENDPOINT=cart:8080
     depends_on:
     - mysql
     - cart
