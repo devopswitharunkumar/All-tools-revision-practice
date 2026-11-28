@@ -39,14 +39,6 @@ app.get('/health', (req, res) => {
     };
     res.json(stat);
 });
-//Developer added new feature here and version updated to 1.2.0
-app.get('/healthcheck', (req, res) => {
-    var stat1 = {
-        app: 'OK',
-        mongo: mongoConnected
-    };
-    res.json(stat1);
-});
 
 // all products
 app.get('/products', (req, res) => {
@@ -62,8 +54,6 @@ app.get('/products', (req, res) => {
         res.status(500).send('database not avaiable');
     }
 });
-
-//new features added to catalogue application and updated the version 1.0.1
 
 // product by SKU
 app.get('/product/:sku', (req, res) => {
