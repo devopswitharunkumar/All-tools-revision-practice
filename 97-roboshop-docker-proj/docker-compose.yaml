@@ -1,0 +1,51 @@
+#it will create roboshop network automatically when docker compose up and destroy automatically when docker compose down
+#u mentioned default --> it will create roboshop network and set as default network & in this case no need to mention in --> service level as networks: -roboshop like this 
+# networks:
+#   default:        #bydefault ot creates bridge so no need to mention type of network
+#     name: roboshop
+#     driver: bridge    #to mention type of network
+
+networks:
+  roboshop:       #bydefault ot creates bridge so no need to mention type of network
+    driver: bridge    #to mention type of network
+
+services:
+  mongodb:
+    build: ./mongodb
+    image: mongodb:v1
+    container_name: mongodb
+    networks:
+      - roboshop
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+# if u created a network roboshop already in docker using manual command u can mention like below 
+# networks:
+#   roboshop:
+#     external: true  
+
+#it will create roboshop network automatically when docker compose up and destroy automatically when docker compose down
+#u not mentioned default --> it will create roboshop network and not set as default network & in this case we need to mention in --> service level as networks: -roboshop like this 
+
+# networks:
+#   roboshop:       #bydefault ot creates bridge so no need to mention type of network
+#     driver: bridge    #to mention type of network
+
+# like this 
+#   mongodb:
+#     build: 97-roboshop-docker-proj/mongodb
+#     image: mongodb:v1
+#     container_name: mongodb
+#     networks:
+#       - roboshop
