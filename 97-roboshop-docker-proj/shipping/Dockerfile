@@ -6,7 +6,7 @@ FROM maven:3.9.16-eclipse-temurin-17 AS build_stage
 WORKDIR /app
 COPY pom.xml .
 COPY src ./src
-RUN mvn dependency:resolven 
+RUN mvn dependency:resolve
 RUN mvn clean package -DskipTests
 
 
