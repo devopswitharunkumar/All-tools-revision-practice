@@ -3,10 +3,13 @@ resource "aws_instance" "docker" {
   instance_type = var.instance_type
   vpc_security_group_ids = [ aws_security_group.allow_docker.id ]
 
-  user_data = file("docker-installation.sh")
+  user_data = templatefile("${path.module}/docker-installation.sh.tftpl", {
+        partition_number = 4
+        extend_size = 30
+  })
 
   root_block_device {
-        volume_size           = 30      # Size of the volume in GiB
+        volume_size           = 50      # Size of the volume in GiB
         volume_type           = "gp3"   # General Purpose SSD (gp3 is recommended)
         tags = {
             Name = "docker"

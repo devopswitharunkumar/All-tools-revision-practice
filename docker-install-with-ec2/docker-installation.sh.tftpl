@@ -1,0 +1,25 @@
+#! /bin/bash
+
+# Exit immediately if any command fails
+set -e
+
+growpart /dev/nvme0n1 ${partition_number}
+lvextend -r -L +${extend_size}G /dev/mapper/RootVG-varVol
+xfs_growfs /var
+
+sudo dnf -y install dnf-plugins-core
+sudo dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
+sudo dnf install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+
+sudo systemctl start docker
+sudo systemctl enable docker
+usermod -aG docker ec2-user
+
+echo "Docker installation completed successfully!"
+
+echo "Docker Compose installation started"
+curl -L "https://github.com/docker/compose/releases/download/v5.8.0/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose    
+sudo chmod +x /usr/local/bin/docker-compose
+echo "Docker compose version is "
+docker-compose --version
+echo "Docker Compose installation completed successfully!"

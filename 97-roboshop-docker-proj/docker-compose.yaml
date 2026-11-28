@@ -6,8 +6,9 @@
 #     driver: bridge    #to mention type of network
 
 networks:
-  roboshop:       #bydefault ot creates bridge so no need to mention type of network
-    driver: bridge    #to mention type of network
+  roboshop:
+    name: roboshop      #if u dont give name: roboshop when u run it will create the netwok name as 97-roboshop-docker-proj_roboshop with prefix of project name so u dont wan t that if u give name it will remove prefix and create just roboshop as network name  
+    driver: bridge    #to mention type of network && #bydefault it creates bridge so no need or u can mention type of network only for bridge other networks u need to mention this 
 
 services:
   mongodb:
