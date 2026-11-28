@@ -14,6 +14,10 @@ RUN mvn clean package -DskipTests
 FROM eclipse-temurin:17-jre-alpine
 EXPOSE 8080
 WORKDIR /app
+ENV CART_ENDPOINT=cart:8080
+RUN addgroup -S roboshop && adduser -S -G roboshop roboshop && \
+    chown -R roboshop:roboshop /app
 COPY --from=build_stage /app/target/shipping-1.0.jar shipping.jar 
 ENTRYPOINT [ "java", "-jar" ]
+USER roboshop
 CMD [ "shipping.jar" ]
