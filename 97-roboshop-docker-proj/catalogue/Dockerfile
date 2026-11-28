@@ -1,7 +1,7 @@
 FROM node:18
 EXPOSE 8080
 WORKDIR /app
-ENV mongo=true \
+ENV MONGO=true \
     MONGO_URL="mongodb://mongodb:27017/catalogue"
 COPY package.json .
 COPY server.js .            
