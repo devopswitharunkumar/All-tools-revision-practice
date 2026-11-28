@@ -1,4 +1,4 @@
-FROM nodejs:18
+FROM node:18
 EXPOSE 8080
 WORKDIR /app
 ENV MONGO=true \
